@@ -6,9 +6,9 @@ import DataTable from '@/components/DataTable.vue';
 
 <template>
     <v-app>
+
         <TheHeader/>
-        
-        <h1>Admin View</h1>
+
         <DataTableProvider>
             <DataTable/>
         </DataTableProvider>
@@ -16,6 +16,4 @@ import DataTable from '@/components/DataTable.vue';
         <TheFooter/>
 
     </v-app>
-
-
 </template>

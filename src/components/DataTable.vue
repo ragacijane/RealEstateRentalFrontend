@@ -1,10 +1,78 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import DataTableRowExpanded from './DataTableRowExpanded.vue';
+import DataTableRowEditCreate from './DataTableRowEditCreate.vue';
+import { headersList } from '@/services/constant';
+import { getEmptyItem } from '@/services/utils';
+import { get } from '@/services/apiServices';
+import type { OwnerItem } from '@/services/types';
 
 export default defineComponent({
     name: 'DataTAble',
-    components:{},
-    setup(){},
+    components:{
+      DataTableRowEditCreate,
+      DataTableRowExpanded,
+    },
+    setup(){
+      var dialog=false;
+      var defaultItem=getEmptyItem();
+      var properties = ref<OwnerItem[]>([]);
+      
+      onMounted(async () => {
+        try {
+          const response = await get<OwnerItem[]>("http://localhost:8081/ownersandproperties");
+          properties.value = response?.data || []; // Assuming response.data contains the array of OwnerItem
+        } catch (error) {
+          console.error("Error fetching properties:", error);
+        }
+      });     
+
+      return{
+        dialog,
+        defaultItem,
+        headers: headersList,
+        properties,
+      }
+    },
+    watch: {
+    dialog(val) {
+      val || this.close();
+    },
+  },
+  methods:{
+    editItem(item: any) {
+      this.defaultItem = JSON.parse(JSON.stringify(item));
+      this.dialog = true;
+    },
+    handleClose(data: any) {
+      let temp = data;
+      console.log("close pressed");
+      console.log(temp.item);
+      this.close();
+    },
+    handleSave(data: any) {
+      let temp = data;
+      console.log("save pressed");
+      console.log(temp.item);
+      this.close();
+    },
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.defaultItem = Object.assign({}, getEmptyItem());
+      });
+    },
+    changeStatusActive(item: any) {
+      item.property.active == 0
+        ? (item.property.active = 1)
+        : (item.property.active = 0);
+    },
+    changeStatusVisible(item: any) {
+      item.property.visible == 0
+        ? (item.property.visible = 1)
+        : (item.property.visible = 0);
+    },
+  }
 })
 </script>
 
@@ -12,7 +80,7 @@ export default defineComponent({
     <div v-if="properties">
       <v-data-table
         :headers="headers"
-        :items="data"
+        :items="properties"
         show-expand
         hover
         item-value="property.idProperty"
@@ -20,7 +88,7 @@ export default defineComponent({
         <!-- EXPAND    -->
         <template v-slot:expanded-row="{ item }">
           <td :colspan="headers.length">
-            <ExpandedRow :propertyItem="item" />
+            <DataTableRowExpanded :propertyItem="item" />
           </td>
         </template>
         <!-- Category -->
@@ -101,7 +169,7 @@ export default defineComponent({
                   Novi oglas
                 </v-btn>
               </template>
-              <EditProperty
+              <DataTableRowEditCreate
                 :defaultItem="defaultItem"
                 @close-pressed="handleClose"
                 @save-pressed="handleSave"
@@ -109,10 +177,6 @@ export default defineComponent({
             </v-dialog>
           </v-toolbar>
         </template>
-        <!-- NO DATA 
-        <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize"> Reset </v-btn>
-        </template>-->
       </v-data-table>
     </div>
   </template>

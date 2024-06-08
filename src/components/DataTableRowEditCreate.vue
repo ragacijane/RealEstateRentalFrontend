@@ -1,16 +1,19 @@
 <script lang="ts">
 import { useDataContext } from '@/contexts/DataContext';
 import type { OwnerItem } from '@/services/types';
+import { uploadImages } from '@/services/utils';
 import { defineComponent, ref, type PropType } from 'vue';
 
 export default defineComponent({
     name: "DataTableRowEditCreate",
+    
     props: {
     defaultItem: {
       type: Object as PropType<OwnerItem>,
       required: true,
     },
   },
+
   setup(props,{emit}){
     const { allTags, allEquips, allTypes, allBoroughs, allStructures } = useDataContext();
     var step = 0;
@@ -26,7 +29,6 @@ export default defineComponent({
     const uploadedImages = ref<File[]>([]);
 
     const selected = ref<number[]>([]); 
-
 
     const close = () => {
       emit("close-pressed", {
@@ -65,25 +67,14 @@ export default defineComponent({
       });
     };
 
-    const uploadImages = async () => {
-      try {
-        let formData = new FormData();
-        for (let image of uploadedImages.value) {
-          formData.append("images", image);
-        }
-
-        let url = `http://localhost:8081/upload/${editedItem.value}`;
-        const response = await fetch(url, {
-          method: "POST",
-          body: formData,
-        });
-
-        const responseData = await response.json();
-        console.log("Upload response:", responseData);
-      } catch (error) {
-        console.error("Error uploading images:", error);
+    const saveImages=()=>{
+      const formData = new FormData();
+      for (let image of uploadedImages.value) {
+        formData.append("images", image);
       }
-    };
+        uploadImages(editedItem.value.property.idProperty,formData);
+    }
+    
 
     const downloadImages = async () => {
       // Implementation for downloading images can be added here
@@ -109,7 +100,7 @@ export default defineComponent({
       next,
       prev,
       handleImageInput,
-      uploadImages,
+      saveImages,
       downloadImages,
     }
   },
@@ -376,7 +367,7 @@ export default defineComponent({
                 </v-row>
                 <v-spacer></v-spacer>
                 <v-file-input multiple @change="handleImageInput"></v-file-input>
-                <v-btn @click="uploadImages">Upload Images</v-btn>
+                <v-btn @click="saveImages">Upload Images</v-btn>
               </v-card-text>
               <v-card-action>
                 <v-row

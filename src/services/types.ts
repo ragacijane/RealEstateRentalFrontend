@@ -38,6 +38,8 @@ export interface Borough {
     rooms: number;
     squareFootage: number;
     heating: string;
+    active: number;
+    visible: number;
     title: string;
     description: string;
   }
