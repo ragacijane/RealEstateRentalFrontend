@@ -3,7 +3,7 @@ export interface Borough {
     boroughName: string;
   }
   
-  export interface Type {
+  export interface Types {
     idType: number;
     typeName: string;
   }
@@ -13,6 +13,11 @@ export interface Borough {
     structureType: string;
   }
   
+  export interface Tag{
+    idTag: number;
+    tagName: string;
+  }
+
   export interface Equipment {
     id: number;
     equipmentType: string;
@@ -24,7 +29,7 @@ export interface Borough {
     category: number;
     borough: Borough;
     price: number;
-    type: Type;
+    type: Types;
     deposit: number;
     structure: Structure;
     floor: number;

@@ -1,3 +1,20 @@
+<script lang="ts">
+import type { OwnerItem } from '@/services/types';
+import { defineComponent, type PropType } from 'vue';
+export default defineComponent({
+    name: "DataTableRowExpanded",
+    props: {
+    propertyItem: {
+      type: Object as PropType<OwnerItem>,
+      required: true
+    }
+  },
+    setup() {
+    },
+})
+</script>
+  
+
 <template>
     <div v-if="propertyItem && propertyItem.idOwner">
       <v-container>
@@ -92,19 +109,3 @@
       </v-container>
     </div>
 </template>
-<script lang="ts">
-import type { OwnerItem } from '@/services/types';
-import { defineComponent, type PropType } from 'vue';
-export default defineComponent({
-    name: "DataTableRowExpanded",
-    props: {
-    propertyItem: {
-      type: Object as PropType<OwnerItem>,
-      required: true
-    }
-  },
-    setup() {
-    },
-})
-</script>
-  

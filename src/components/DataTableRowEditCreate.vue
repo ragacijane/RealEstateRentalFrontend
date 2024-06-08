@@ -1,6 +1,7 @@
 <script lang="ts">
+import { useDataContext } from '@/contexts/DataContext';
 import type { OwnerItem } from '@/services/types';
-import { defineComponent, type PropType } from 'vue';
+import { defineComponent, ref, type PropType } from 'vue';
 
 export default defineComponent({
     name: "DataTableRowEditCreate",
@@ -9,6 +10,108 @@ export default defineComponent({
       type: Object as PropType<OwnerItem>,
       required: true,
     },
+  },
+  setup(props,{emit}){
+    const { allTags, allEquips, allTypes, allBoroughs, allStructures } = useDataContext();
+    var step = 0;
+    const allCategories= ["Iznajmljivanje", "Prodaja"]
+    const yesOrNo= [
+      { id: 0, value: "NE" },
+      { id: 1, value: "DA" },
+    ]
+    var index=-1;
+    const editedItem = ref(props.defaultItem);
+    const selectedImages = ref<File[]>([]);
+    const shownImages = ref<{ name: string, url: string }[]>([]);
+    const uploadedImages = ref<File[]>([]);
+
+    const selected = ref<number[]>([]); 
+
+
+    const close = () => {
+      emit("close-pressed", {
+        item: props.defaultItem,
+        index: index,
+      });
+    };
+
+    const save = () => {
+      emit("save-pressed", {
+        item: props.defaultItem,
+        index: index,
+      });
+    };
+
+    const next = () => {
+      step += 1;
+    };
+
+    const prev = () => {
+      step -= 1;
+    };
+
+    const handleImageInput = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      if (!target.files) return;
+
+      selectedImages.value = Array.from(target.files);
+      selectedImages.value.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          shownImages.value.push({ name: file.name, url: reader.result as string });
+        };
+        uploadedImages.value.push(file);
+        reader.readAsDataURL(file);
+      });
+    };
+
+    const uploadImages = async () => {
+      try {
+        let formData = new FormData();
+        for (let image of uploadedImages.value) {
+          formData.append("images", image);
+        }
+
+        let url = `http://localhost:8081/upload/${editedItem.value}`;
+        const response = await fetch(url, {
+          method: "POST",
+          body: formData,
+        });
+
+        const responseData = await response.json();
+        console.log("Upload response:", responseData);
+      } catch (error) {
+        console.error("Error uploading images:", error);
+      }
+    };
+
+    const downloadImages = async () => {
+      // Implementation for downloading images can be added here
+    };
+
+    return{
+      allTags,
+      allEquips,
+      allTypes,
+      allBoroughs,
+      allStructures,
+      editedItem,
+      step,
+      allCategories,
+      yesOrNo,
+      selectedImages,
+      shownImages,
+      uploadedImages,
+      selected,
+      //functions
+      close,
+      save,
+      next,
+      prev,
+      handleImageInput,
+      uploadImages,
+      downloadImages,
+    }
   },
 })
 </script>
@@ -41,7 +144,7 @@ export default defineComponent({
                     ><v-select
                       v-model="editedItem.property.category"
                       label="Kategorija"
-                      :items="listOfAllCategories"
+                      :items="allCategories"
                       item-title="value"
                       item-value="id"
                     ></v-select>
@@ -50,7 +153,7 @@ export default defineComponent({
                     <v-select
                       v-model="editedItem.property.borough.boroughName"
                       label="Opština"
-                      :items="listOfAllBoroughs"
+                      :items="allBoroughs"
                       item-title="boroughName"
                       item-value="id"
                     ></v-select>
@@ -71,7 +174,7 @@ export default defineComponent({
                     <v-select
                       v-model="editedItem.property.type.typeName"
                       label="Tip"
-                      :items="listOfAllTypes"
+                      :items="allTypes"
                       item-title="typeName"
                       item-value="idType"
                     ></v-select>
@@ -108,7 +211,7 @@ export default defineComponent({
                     <v-select
                       v-model="editedItem.property.structure.structureType"
                       label="Struktura"
-                      :items="listOfAllStructures"
+                      :items="allStructures"
                       item-title="structureType"
                       item-value="idStructure"
                     ></v-select>
@@ -136,7 +239,7 @@ export default defineComponent({
                     <v-select
                       v-model="editedItem.property.equipment.equipmentType"
                       label="Nameštenost"
-                      :items="listOfAllEquips"
+                      :items="allEquips"
                       item-title="equipmentType"
                       item-value="id"
                     >
@@ -208,13 +311,13 @@ export default defineComponent({
           <v-stepper-window-item value="2">
             <v-card>
               <v-card-text>
-                <div v-if="listOfAllTags">
+                <div v-if="allTags">
                   <v-row>
                     <v-col
                       cols="12"
                       md="2"
                       sm="3"
-                      v-for="tag in listOfAllTags"
+                      v-for="tag in allTags"
                       :key="tag.idTag"
                       ><v-checkbox
                         :label="tag.tagName"

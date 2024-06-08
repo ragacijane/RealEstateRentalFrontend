@@ -9,7 +9,9 @@ import DataTable from '@/components/DataTable.vue';
         <TheHeader/>
         
         <h1>Admin View</h1>
-        <DataTable/>
+        <DataTableProvider>
+            <DataTable/>
+        </DataTableProvider>
 
         <TheFooter/>
 
