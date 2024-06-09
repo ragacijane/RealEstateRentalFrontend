@@ -55,9 +55,10 @@ export default defineComponent({
       }
       else{
         const newItem = createProperty(ownerItemBody)
-        this.properties.push(newItem)
-        if(data.newImages)
-          uploadImages(newItem,data.formData)
+        if(newItem){
+          this.properties.push(newItem)
+          if(data.newImages)
+            uploadImages(newItem.ownerId,data.formData)}
       }
 
       this.setAllProperties(this.properties)
