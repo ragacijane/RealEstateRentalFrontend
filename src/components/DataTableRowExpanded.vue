@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { OwnerItem } from '@/services/types';
+import type { OwnerItem } from '@/typesAndUtils/types';
 import { defineComponent, type PropType } from 'vue';
 export default defineComponent({
     name: "DataTableRowExpanded",

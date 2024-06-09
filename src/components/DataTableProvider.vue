@@ -1,11 +1,4 @@
-<!-- src/components/DataProvider.vue -->
-<template>
-    <div>
-      <slot></slot>
-    </div>
-  </template>
-  
-  <script lang="ts">
+<script lang="ts">
   import { defineComponent, onMounted } from 'vue';
   import { fetchTags, fetchEquipment, fetchTypes, fetchBoroughs, fetchStructures } from '@/services/dataService';
 import { provideDataContext } from '@/contexts/DataContext';
@@ -42,4 +35,11 @@ import { provideDataContext } from '@/contexts/DataContext';
     },
   });
   </script>
+  
+  <template>
+    <div>
+      <slot></slot>
+    </div>
+  </template>
+  
   

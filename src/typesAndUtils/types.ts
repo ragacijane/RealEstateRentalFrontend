@@ -1,3 +1,34 @@
+export interface FetchedPictures{
+  name: string;
+}
+
+export interface OwnerItemBodyRequest{
+    name: string;
+    phone: string;
+    street: string;
+    number: string;
+    email: string;
+    contract: string;
+    moreInfo: string;
+    category: number;
+    boroughId: number;
+    price: number;
+    typeId: number;
+    deposit: number;
+    structureId: number;
+    floor: number;
+    bathrooms: number;
+    equipmentId: number;
+    rooms: number;
+    squareFootage: number;
+    heating: string;
+    active: number;
+    visible: number;
+    title: string;
+    description: string | null;
+    selectedTags: number[]
+}
+
 export interface Borough {
     id: number;
     boroughName: string;
@@ -25,7 +56,7 @@ export interface Borough {
   
   // Define the Property interface with nested structures
   export interface Property {
-    idProperty: number;
+    idProperty: number ;
     category: number;
     borough: Borough;
     price: number;
@@ -41,7 +72,7 @@ export interface Borough {
     active: number;
     visible: number;
     title: string;
-    description: string;
+    description: string | null;
   }
   
   // Define the PropertyItem interface with the Property interface included

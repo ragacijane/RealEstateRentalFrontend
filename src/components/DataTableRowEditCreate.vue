@@ -1,7 +1,7 @@
 <script lang="ts">
+import { allCategories, yesOrNo } from '@/constants/constant';
 import { useDataContext } from '@/contexts/DataContext';
-import type { OwnerItem } from '@/services/types';
-import { uploadImages } from '@/services/utils';
+import type { OwnerItem } from '@/typesAndUtils/types';
 import { defineComponent, ref, type PropType } from 'vue';
 
 export default defineComponent({
@@ -17,30 +17,31 @@ export default defineComponent({
   setup(props,{emit}){
     const { allTags, allEquips, allTypes, allBoroughs, allStructures } = useDataContext();
     var step = 0;
-    const allCategories= ["Iznajmljivanje", "Prodaja"]
-    const yesOrNo= [
-      { id: 0, value: "NE" },
-      { id: 1, value: "DA" },
-    ]
     var index=-1;
+    const selectedTags = ref<number[]>([]);
     const editedItem = ref(props.defaultItem);
     const selectedImages = ref<File[]>([]);
     const shownImages = ref<{ name: string, url: string }[]>([]);
     const uploadedImages = ref<File[]>([]);
-
-    const selected = ref<number[]>([]); 
+    const formData = new FormData();
+    const newImages= ref<boolean>(false);
 
     const close = () => {
-      emit("close-pressed", {
-        item: props.defaultItem,
-        index: index,
-      });
+      index=-1;
+      newImages.value=false;
+      emit("close-pressed");
     };
 
     const save = () => {
+      index=editedItem.value.idOwner;
+      //check required fields
       emit("save-pressed", {
-        item: props.defaultItem,
+        item: editedItem,
         index: index,
+        formData: formData,
+        selectedTags: selectedTags,
+        newImages: newImages,
+        uploadedImages: uploadedImages
       });
     };
 
@@ -68,11 +69,10 @@ export default defineComponent({
     };
 
     const saveImages=()=>{
-      const formData = new FormData();
       for (let image of uploadedImages.value) {
         formData.append("images", image);
       }
-        uploadImages(editedItem.value.property.idProperty,formData);
+      newImages.value=true;
     }
     
 
@@ -86,14 +86,14 @@ export default defineComponent({
       allTypes,
       allBoroughs,
       allStructures,
+      allCategories,
+      selectedTags,
       editedItem,
       step,
-      allCategories,
       yesOrNo,
       selectedImages,
       shownImages,
       uploadedImages,
-      selected,
       //functions
       close,
       save,
@@ -312,7 +312,7 @@ export default defineComponent({
                       :key="tag.idTag"
                       ><v-checkbox
                         :label="tag.tagName"
-                        v-model="selected"
+                        v-model="selectedTags"
                         :value="tag.idTag"
                         color="primary"
                       ></v-checkbox

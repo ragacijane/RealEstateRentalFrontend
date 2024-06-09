@@ -1,7 +1,7 @@
 // src/services/dataService.ts
-import { get } from './apiServices';
-import { BACKEND_URL } from './constant';
-import type { Tag, Equipment, Types, Borough, Structure } from './types';
+import { get } from './apiService';
+import { BACKEND_URL } from '../constants/constant';
+import { type Tag, type Equipment, type Types, type Borough, type Structure,type FetchedPictures } from '../typesAndUtils/types';
 
 
 export async function fetchTags(): Promise<Tag[]> {
@@ -38,6 +38,14 @@ export async function fetchBoroughs(): Promise<Borough[]> {
 
 export async function fetchStructures(): Promise<Structure[]> {
   const response = await get<Structure[]>(`${BACKEND_URL}/getStructures`);
+  if (response.error) {
+    throw new Error(response.error);
+  }
+  return response.data ?? [];
+}
+
+export async function fetchImages(){
+  const response = await get<FetchedPictures[]>(`${BACKEND_URL}/getImages`);
   if (response.error) {
     throw new Error(response.error);
   }

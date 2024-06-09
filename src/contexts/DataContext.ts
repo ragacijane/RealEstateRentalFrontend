@@ -1,4 +1,4 @@
-import type { Borough, Equipment, Structure, Tag, Types } from '@/services/types';
+import type { Borough, Equipment, Structure, Tag, Types } from '@/typesAndUtils/types';
 import type { InjectionKey } from 'vue';
 import { reactive, provide, inject } from 'vue';
 
@@ -51,7 +51,7 @@ export function provideDataContext() {
 export function useDataContext(): DataContextType {
   const context = inject(DataContextKey);
   if (!context) {
-    throw new Error('useDataContext must be used within a provider.');
+    throw new Error('DataContext must be used within a provider.');
   }
   return context;
 }

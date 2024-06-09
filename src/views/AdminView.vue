@@ -2,6 +2,8 @@
 import TheHeader from '@/components/TheHeader.vue';
 import TheFooter from '@/components/TheFooter.vue';
 import DataTable from '@/components/DataTable.vue';
+import AdminProvider from '@/components/AdminProvider.vue';
+import DataTableProvider from '@/components/DataTableProvider.vue';
 </script>
 
 <template>
@@ -10,7 +12,13 @@ import DataTable from '@/components/DataTable.vue';
         <TheHeader/>
 
         <DataTableProvider>
-            <DataTable/>
+
+            <AdminProvider>
+
+                <DataTable/>
+                
+            </AdminProvider>
+
         </DataTableProvider>
 
         <TheFooter/>

@@ -1,10 +1,19 @@
 export const BACKEND_URL = "http://localhost:8081";
+
+export const allCategories= ["Iznajmljivanje", "Prodaja"]
+
+export const yesOrNo= [
+      { id: 0, value: "NE" },
+      { id: 1, value: "DA" },
+    ]
+
 interface TableHeader{
-  tittle: any,
+  title: any,
   key: any,
-  align: any,
-  sortable: any
+  align?: any,
+  sortable?: any
 }
+
 export const headersList: Array<TableHeader>=  [
       {
         title: "",

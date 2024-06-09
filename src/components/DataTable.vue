@@ -2,10 +2,10 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import DataTableRowExpanded from './DataTableRowExpanded.vue';
 import DataTableRowEditCreate from './DataTableRowEditCreate.vue';
-import { headersList } from '@/services/constant';
-import { getEmptyItem } from '@/services/utils';
-import { get } from '@/services/apiServices';
-import type { OwnerItem } from '@/services/types';
+import { headersList } from '@/constants/constant';
+import { createOwnerItemBodyRequest, getEmptyItem } from '@/typesAndUtils/utils';
+import { useAdminContext } from '@/contexts/adminContext';
+import { createProperty, updateProperty, uploadImages } from '@/services/adminService';
 
 export default defineComponent({
     name: 'DataTAble',
@@ -16,22 +16,14 @@ export default defineComponent({
     setup(){
       var dialog=false;
       var defaultItem=getEmptyItem();
-      var properties = ref<OwnerItem[]>([]);
-      
-      onMounted(async () => {
-        try {
-          const response = await get<OwnerItem[]>("http://localhost:8081/ownersandproperties");
-          properties.value = response?.data || []; // Assuming response.data contains the array of OwnerItem
-        } catch (error) {
-          console.error("Error fetching properties:", error);
-        }
-      });     
+      const {allProperties, setAllProperties} = useAdminContext();
 
       return{
         dialog,
         defaultItem,
         headers: headersList,
-        properties,
+        properties: allProperties,
+        setAllProperties,
       }
     },
     watch: {
@@ -44,16 +36,32 @@ export default defineComponent({
       this.defaultItem = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
-    handleClose(data: any) {
-      let temp = data;
+    handleClose() {
       console.log("close pressed");
-      console.log(temp.item);
       this.close();
     },
     handleSave(data: any) {
-      let temp = data;
       console.log("save pressed");
-      console.log(temp.item);
+      const ownerItemBody=createOwnerItemBodyRequest(data.item,data.selectedTags)
+
+      if(data.index){
+        const itemIndex = this.properties.findIndex((item: any) => item.idOwner === data.index);
+        if (itemIndex !== -1) {
+          this.properties[itemIndex] = data.item;
+          updateProperty(itemIndex,ownerItemBody)       
+          if(data.newImages)
+            uploadImages(data.index,data.formData);
+          }
+      }
+      else{
+        const newItem = createProperty(ownerItemBody)
+        this.properties.push(newItem)
+        if(data.newImages)
+          uploadImages(newItem,data.formData)
+      }
+
+      this.setAllProperties(this.properties)
+
       this.close();
     },
     close() {
@@ -93,14 +101,14 @@ export default defineComponent({
         </template>
         <!-- Category -->
         <template v-slot:[`item.category`]="{ item }">
-          <div v-if="!item.property.category">Iznajmljivanje</div>
+          <div v-if="!item.property?.category">Iznajmljivanje</div>
           <div v-else>Prodaja</div>
         </template>
         <!-- EDIT    -->
         <template v-slot:[`item.edit`]="{ item }">
           <v-row>
             <v-col>
-              <div v-if="item.property.active">
+              <div v-if="item.property?.active">
                 <v-icon
                   color="light-green-darken-1"
                   icon="mdi-check-circle"
@@ -118,7 +126,7 @@ export default defineComponent({
               </div>
             </v-col>
             <v-col>
-              <div v-if="item.property.visible">
+              <div v-if="item.property?.visible">
                 <v-icon
                   color="primary"
                   icon="mdi-circle"
@@ -145,19 +153,19 @@ export default defineComponent({
         <!-- Price-->
         <template v-slot:[`item.property.price`]="{ item }">
           <v-chip color="blue" class="font-weight-black">
-            {{ item.property.price }} €
+            {{ item.property?.price }} €
           </v-chip>
         </template>
         <!-- squareFootage-->
         <template v-slot:[`item.property.squareFootage`]="{ item }">
           <v-chip color="green" class="font-weight-black">
-            {{ item.property.squareFootage }} m²
+            {{ item.property?.squareFootage }} m²
           </v-chip>
         </template>
         <!-- id-->
         <template v-slot:[`item.property.idProperty`]="{ item }">
           <v-chip color="gray" class="font-weight-black">
-            {{ item.property.idProperty }}
+            {{ item.property?.idProperty }}
           </v-chip>
         </template>
         <!-- NEW ITEM -->
