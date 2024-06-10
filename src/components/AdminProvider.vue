@@ -1,33 +1,31 @@
 <script lang="ts">
-  import { provideAdminContext } from '@/contexts/adminContext';
-import { fetchProperties } from '@/services/adminService';
-import { defineComponent, onMounted } from 'vue';
-  
-  export default defineComponent({
-    name: 'AdminProvider',
-    setup() {
-      const {
-        setAllProperties
-      } = provideAdminContext();
-      
-      onMounted(async () => {
+import { provideAdminContext } from '@/contexts/adminContext'
+import { fetchProperties } from '@/services/adminService'
+import { defineComponent, onMounted } from 'vue'
+
+export default defineComponent({
+  name: 'AdminProvider',
+  setup() {
+    const { allProperties, setAllProperties } = provideAdminContext()
+
+    const fetchAndSetProperties = async () => {
+      if (allProperties.length == 0) {
         try {
-          const [allProperties] = await Promise.all([
-            fetchProperties()
-          ]);
-          setAllProperties(allProperties);
+          const allProperties = await fetchProperties()
+          setAllProperties(allProperties)
         } catch (error) {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error)
         }
-      });
-    },
-  });
-  </script>
-  
-  <template>
-    <div>
-      <slot></slot>
-    </div>
-  </template>
-  
-  
+      }
+    }
+
+    onMounted(fetchAndSetProperties)
+  }
+})
+</script>
+
+<template>
+  <div>
+    <slot></slot>
+  </div>
+</template>

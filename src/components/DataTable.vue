@@ -1,89 +1,104 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import DataTableRowExpanded from './DataTableRowExpanded.vue'
-import DataTableRowEditCreate from './DataTableRowEditCreate.vue'
-import { headersList } from '@/constants/constant'
 import { createOwnerItemBodyRequest, getEmptyItem } from '@/typesAndUtils/utils'
-import { useAdminContext } from '@/contexts/adminContext'
+import { headersList } from '@/constants/constant'
 import { createProperty, updateProperty, uploadImages } from '@/services/adminService'
+import DataTableRowEditCreate from './DataTableRowEditCreate.vue'
+import DataTableRowExpanded from './DataTableRowExpanded.vue'
+import type { OwnerItem } from '@/typesAndUtils/types'
+import { useAdminStore } from '@/store/adminStore'
 
 export default defineComponent({
-  name: 'DataTAble',
+  name: 'DataTable',
   components: {
     DataTableRowEditCreate,
     DataTableRowExpanded
   },
   setup() {
-    var dialog = false
-    var defaultItem = getEmptyItem()
-    const { allProperties, setAllProperties } = useAdminContext()
+    const dialog = ref<boolean>(false)
+    const defaultItem = ref<OwnerItem>(getEmptyItem())
+    const adminStore = useAdminStore()
+    const allProperties = ref<OwnerItem[]>(adminStore.allProperties)
+    const setAllProperties = adminStore.setAllProperties
+
+    onMounted(() => {
+      adminStore.fetchAndSetProperties()
+    })
+
+    const editItem = (item: any) => {
+      defaultItem.value = item
+      dialog.value = true
+    }
+
+    const handleClose = () => {
+      console.log('close pressed')
+      close()
+    }
+
+    const handleSave = async (data: any) => {
+      console.log('save pressed')
+      const ownerItemBody = createOwnerItemBodyRequest(data.item, data.selectedTags)
+
+      if (data.index) {
+        const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner === data.index)
+        if (itemIndex !== -1) {
+          allProperties.value[itemIndex] = data.item
+          updateProperty(itemIndex, ownerItemBody)
+          if (data.newImages) uploadImages(data.index, data.formData)
+        }
+      } else {
+        const newItem = await createProperty(ownerItemBody)
+        if (newItem) {
+          allProperties.value.push(newItem)
+          if (data.newImages) uploadImages(newItem.idOwner, data.formData)
+        }
+      }
+
+      setAllProperties(allProperties.value)
+
+      close()
+    }
+
+    const close = () => {
+      dialog.value = false
+      defaultItem.value = Object.assign({}, getEmptyItem())
+    }
+
+    const changeStatusActive = (item: any) => {
+      item.property.active === 0 ? (item.property.active = 1) : (item.property.active = 0)
+    }
+
+    const changeStatusVisible = (item: any) => {
+      item.property.visible === 0 ? (item.property.visible = 1) : (item.property.visible = 0)
+    }
 
     return {
       dialog,
       defaultItem,
       headers: headersList,
-      properties: allProperties,
-      setAllProperties
+      allProperties,
+      setAllProperties,
+      // functions
+      editItem,
+      handleClose,
+      handleSave,
+      changeStatusActive,
+      changeStatusVisible
     }
   },
   watch: {
     dialog(val) {
-      val || this.close()
-    }
-  },
-  methods: {
-    editItem(item: any) {
-      this.defaultItem = JSON.parse(JSON.stringify(item))
-      this.dialog = true
-    },
-    handleClose() {
-      console.log('close pressed')
-      this.close()
-    },
-    handleSave(data: any) {
-      console.log('save pressed')
-      const ownerItemBody = createOwnerItemBodyRequest(data.item, data.selectedTags)
-
-      if (data.index) {
-        const itemIndex = this.properties.findIndex((item: any) => item.idOwner === data.index)
-        if (itemIndex !== -1) {
-          this.properties[itemIndex] = data.item
-          updateProperty(itemIndex, ownerItemBody)
-          if (data.newImages) uploadImages(data.index, data.formData)
-        }
-      } else {
-        const newItem = createProperty(ownerItemBody)
-        if (newItem) {
-          this.properties.push(newItem.val)
-          if (data.newImages) uploadImages(newItem.ownerId, data.formData)
-        }
-      }
-
-      this.setAllProperties(this.properties)
-
-      this.close()
-    },
-    close() {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.defaultItem = Object.assign({}, getEmptyItem())
-      })
-    },
-    changeStatusActive(item: any) {
-      item.property.active == 0 ? (item.property.active = 1) : (item.property.active = 0)
-    },
-    changeStatusVisible(item: any) {
-      item.property.visible == 0 ? (item.property.visible = 1) : (item.property.visible = 0)
+      val || close()
     }
   }
 })
 </script>
 
 <template>
-  <div v-if="properties">
+  <div v-if="allProperties">
     <v-data-table
       :headers="headers"
-      :items="properties"
+      :items="allProperties"
       show-expand
       hover
       item-value="property.idProperty"

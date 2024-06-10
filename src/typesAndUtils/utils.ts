@@ -1,76 +1,79 @@
-import type { OwnerItem, OwnerItemBodyRequest } from "./types";
+import type { OwnerItem, OwnerItemBodyRequest } from './types'
 
-export function createOwnerItemBodyRequest(item: OwnerItem,selectedTags: number[]): OwnerItemBodyRequest {
+export function createOwnerItemBodyRequest(
+  item: OwnerItem,
+  selectedTags: number[]
+): OwnerItemBodyRequest {
   return {
     name: item.name,
+    email: item.email,
     phone: item.phone,
+    contract: item.contract,
     street: item.street,
     number: item.number,
-    email: item.email,
-    contract: item.contract,
     moreInfo: item.moreInfo,
-    category: item.property.category,
-    boroughId: item.property.borough.id,
-    price: item.property.price,
+    ///
     typeId: item.property.type.idType,
-    deposit: item.property.deposit,
     structureId: item.property.structure.idStructure,
-    floor: item.property.floor,
-    bathrooms: item.property.bathrooms,
-    equipmentId: item.property.equipment.id,
     rooms: item.property.rooms,
     squareFootage: item.property.squareFootage,
+    bathrooms: item.property.bathrooms,
     heating: item.property.heating,
+    equipmentId: item.property.equipment.id,
+    boroughId: item.property.borough.id,
+    floor: item.property.floor,
     active: item.property.active,
     visible: item.property.visible,
+    deposit: item.property.deposit,
+    price: item.property.price,
+    category: item.property.category,
     title: item.property.title,
     description: item.property.description,
     selectedTags: selectedTags
-  };
+  }
 }
-
 
 export const getEmptyItem = (): OwnerItem => {
   const emptyItem = {
     idOwner: 0,
-    name: "",
-    phone: "",
-    street: "",
-    number: "",
-    email: "",
-    contract: "",
-    moreInfo: "",
+    name: '',
+    phone: '',
+    street: '',
+    number: '',
+    email: '',
+    contract: '',
+    moreInfo: '',
     property: {
       idProperty: 0,
       category: 0,
       type: {
         idType: 0,
-        typeName: "",
+        typeName: ''
       },
       structure: {
         idStructure: 0,
-        structureType: "",
+        structureType: ''
       },
       rooms: 0,
       squareFootage: 0,
       bathrooms: 0,
-      heating: "",
+      heating: '',
       equipment: {
-        equipmentType: "",
-        id: 0,
+        equipmentType: '',
+        id: 0
       },
       borough: {
-        boroughName: "",
-        id: 0,
+        boroughName: '',
+        id: 0
       },
       floor: 0,
       active: 0,
       visible: 0,
       deposit: 0,
       price: 0,
-      title: "",
-      description: "",
-    },
-  };
-  return emptyItem;
-};
+      title: '',
+      description: ''
+    }
+  }
+  return emptyItem
+}
