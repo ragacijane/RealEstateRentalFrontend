@@ -18,11 +18,12 @@ export default defineComponent({
     const dialog = ref<boolean>(false)
     const defaultItem = ref<OwnerItem>(getEmptyItem())
     const adminStore = useAdminStore()
-    const allProperties = ref<OwnerItem[]>(adminStore.allProperties)
+    const allProperties = ref<OwnerItem[]>([])
     const setAllProperties = adminStore.setAllProperties
 
-    onMounted(() => {
-      adminStore.fetchAndSetProperties()
+    onMounted(async () => {
+      await adminStore.fetchAndSetProperties()
+      allProperties.value = adminStore.allProperties
     })
 
     const editItem = (item: any) => {

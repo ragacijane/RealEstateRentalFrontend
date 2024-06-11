@@ -3,16 +3,13 @@ import TheHeader from '@/components/TheHeader.vue'
 import TheFooter from '@/components/TheFooter.vue'
 import DataTable from '@/components/DataTable.vue'
 import AdminProvider from '@/components/AdminProvider.vue'
-import DataTableProvider from '@/components/DataTableProvider.vue'
 </script>
 
 <template>
   <v-app>
     <TheHeader />
 
-    <DataTableProvider>
-      <DataTable />
-    </DataTableProvider>
+    <DataTable />
 
     <TheFooter />
   </v-app>

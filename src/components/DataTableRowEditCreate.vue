@@ -1,8 +1,8 @@
 <script lang="ts">
 import { allCategories, yesOrNo } from '@/constants/constant'
-import { useDataContext } from '@/contexts/DataContext'
 import { fetchTagsFromProperty } from '@/services/dataService'
-import type { OwnerItem } from '@/typesAndUtils/types'
+import { useDataStore } from '@/store/dataStore'
+import type { Borough, Equipment, OwnerItem, Structure, Tag, Types } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 
 export default defineComponent({
@@ -16,7 +16,12 @@ export default defineComponent({
   },
 
   setup(props, { emit }) {
-    const { allTags, allEquips, allTypes, allBoroughs, allStructures } = useDataContext()
+    const dataStore = useDataStore()
+    const allTags = ref<Tag[]>([])
+    const allEquips = ref<Equipment[]>([])
+    const allTypes = ref<Types[]>([])
+    const allBoroughs = ref<Borough[]>([])
+    const allStructures = ref<Structure[]>([])
     const step = ref<number>(0)
     const index = ref<number>(-1)
     const selectedTags = ref<number[]>([])
@@ -30,6 +35,14 @@ export default defineComponent({
     index.value = editedItem.value.idOwner
 
     onMounted(async () => {
+      await dataStore.fetchData()
+
+      allTags.value = dataStore.allTags
+      allEquips.value = dataStore.allEquips
+      allTypes.value = dataStore.allTypes
+      allBoroughs.value = dataStore.allBoroughs
+      allStructures.value = dataStore.allStructures
+
       if (index.value > 0) {
         selectedTags.value = await fetchTagsFromProperty(index.value)
       }
