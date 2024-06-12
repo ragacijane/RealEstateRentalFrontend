@@ -144,7 +144,7 @@ export default defineComponent({
                     :items="allCategories"
                     item-title="value"
                     item-value="id"
-                  ></v-select>
+                  />
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
                   <v-select
@@ -153,7 +153,8 @@ export default defineComponent({
                     :items="allBoroughs"
                     item-title="boroughName"
                     item-value="id"
-                  ></v-select>
+                    return-object
+                  />
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
                   <v-text-field v-model="editedItem.property.price" label="Cena €"></v-text-field>
@@ -163,12 +164,13 @@ export default defineComponent({
                   <v-text-field v-model="editedItem.phone" label="Telefon"></v-text-field></v-col
                 ><v-col cols="12" md="3" sm="6">
                   <v-select
-                    v-model="editedItem.property.type.typeName"
+                    v-model="editedItem.property.type"
                     label="Tip"
                     :items="allTypes"
                     item-title="typeName"
                     item-value="idType"
-                  ></v-select>
+                    return-object
+                  />
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
                   <v-text-field v-model="editedItem.street" label="Ulica"></v-text-field>
@@ -183,7 +185,7 @@ export default defineComponent({
                     :items="yesOrNo"
                     item-title="value"
                     item-value="id"
-                  ></v-select>
+                  />
                 </v-col>
                 <!-- Treci red-->
                 <v-col cols="12" md="3" sm="6">
@@ -196,7 +198,8 @@ export default defineComponent({
                     :items="allStructures"
                     item-title="structureType"
                     item-value="idStructure"
-                  ></v-select>
+                    return-object
+                  />
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
                   <v-text-field v-model="editedItem.property.floor" label="Sprat"></v-text-field>
@@ -213,13 +216,13 @@ export default defineComponent({
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
                   <v-select
-                    v-model="editedItem.property.equipment.equipmentType"
+                    v-model="editedItem.property.equipment"
                     label="Nameštenost"
                     :items="allEquips"
                     item-title="equipmentType"
                     item-value="id"
-                  >
-                  </v-select>
+                    return-object
+                  />
                 </v-col>
                 <v-col cols="12" md="2" sm="6">
                   <v-text-field
