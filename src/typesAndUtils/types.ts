@@ -2,6 +2,21 @@ export interface FetchedPictures {
   name: string
 }
 
+export interface SearchPropertyParams {
+  ID: string | null
+  type: Types | null | undefined
+  phoneNumber: string | null | undefined
+  borough: Borough | null | undefined
+  squareFootageMin: string | null | undefined
+  squareFootageMax: string | null | undefined
+  category: string | null | undefined
+  structure: Structure | null | undefined
+  equipment: Equipment | null | undefined
+  street: string | null | undefined
+  priceMin: string | null | undefined
+  priceMax: string | null | undefined
+}
+
 export interface OwnerItemBodyRequest {
   name: string
   email: string

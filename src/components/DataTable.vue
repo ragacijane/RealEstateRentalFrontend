@@ -7,24 +7,29 @@ import DataTableRowEditCreate from './DataTableRowEditCreate.vue'
 import DataTableRowExpanded from './DataTableRowExpanded.vue'
 import type { OwnerItem } from '@/typesAndUtils/types'
 import { useAdminStore } from '@/store/adminStore'
+import DataTableSearch from './DataTableSearch.vue'
 
 export default defineComponent({
   name: 'DataTable',
   components: {
     DataTableRowEditCreate,
-    DataTableRowExpanded
+    DataTableRowExpanded,
+    DataTableSearch
   },
   setup() {
+    const adminStore = useAdminStore()
     const dialog = ref<boolean>(false)
     const defaultItem = ref<OwnerItem>(getEmptyItem())
-    const adminStore = useAdminStore()
-    const allProperties = ref<OwnerItem[]>([])
+    const filteredProperties = ref<OwnerItem[]>([])
+    const allProperties = adminStore.allProperties
     const setAllProperties = adminStore.setAllProperties
-
     onMounted(async () => {
       await adminStore.fetchAndSetProperties()
-      allProperties.value = adminStore.allProperties
+      filteredProperties.value = adminStore.allProperties
     })
+    const handleFilter = (data: any) => {
+      filteredProperties.value = data.filteredProperties
+    }
 
     const editItem = (item: any) => {
       defaultItem.value = item
@@ -41,21 +46,21 @@ export default defineComponent({
       const ownerItemBody = createOwnerItemBodyRequest(data.item, data.selectedTags)
 
       if (data.index) {
-        const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner === data.index)
+        const itemIndex = allProperties.findIndex((item: any) => item.idOwner === data.index)
         if (itemIndex !== -1) {
-          allProperties.value[itemIndex] = data.item
+          allProperties[itemIndex] = data.item
           updateProperty(itemIndex, ownerItemBody)
           if (data.newImages) uploadImages(data.index, data.formData)
         }
       } else {
         const newItem = await createProperty(ownerItemBody)
         if (newItem) {
-          allProperties.value.push(newItem)
+          allProperties.push(newItem)
           if (data.newImages) uploadImages(newItem.idOwner, data.formData)
         }
       }
 
-      setAllProperties(allProperties.value)
+      setAllProperties(allProperties)
 
       close()
     }
@@ -77,9 +82,11 @@ export default defineComponent({
       dialog,
       defaultItem,
       headers: headersList,
+      filteredProperties,
       allProperties,
       setAllProperties,
       // functions
+      handleFilter,
       editItem,
       handleClose,
       handleSave,
@@ -97,12 +104,13 @@ export default defineComponent({
 
 <template>
   <div v-if="allProperties">
+    <DataTableSearch @filter="handleFilter" />
     <v-data-table
       :headers="headers"
-      :items="allProperties"
+      :items="filteredProperties"
       show-expand
       hover
-      item-value="property.idProperty"
+      item-value="idOwner"
     >
       <!-- EXPAND    -->
       <template v-slot:expanded-row="{ item }">

@@ -2,7 +2,7 @@
 import { allCategories, yesOrNo } from '@/constants/constant'
 import { fetchTagsFromProperty } from '@/services/dataService'
 import { useDataStore } from '@/store/dataStore'
-import type { Borough, Equipment, OwnerItem, Structure, Tag, Types } from '@/typesAndUtils/types'
+import type { OwnerItem } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 
 export default defineComponent({
@@ -17,11 +17,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const dataStore = useDataStore()
-    const allTags = ref<Tag[]>([])
-    const allEquips = ref<Equipment[]>([])
-    const allTypes = ref<Types[]>([])
-    const allBoroughs = ref<Borough[]>([])
-    const allStructures = ref<Structure[]>([])
+    const { allTags, allEquips, allTypes, allBoroughs, allStructures } = dataStore
     const step = ref<number>(0)
     const index = ref<number>(-1)
     const selectedTags = ref<number[]>([])
@@ -35,14 +31,6 @@ export default defineComponent({
     index.value = editedItem.value.idOwner
 
     onMounted(async () => {
-      await dataStore.fetchData()
-
-      allTags.value = dataStore.allTags
-      allEquips.value = dataStore.allEquips
-      allTypes.value = dataStore.allTypes
-      allBoroughs.value = dataStore.allBoroughs
-      allStructures.value = dataStore.allStructures
-
       if (index.value > 0) {
         selectedTags.value = await fetchTagsFromProperty(index.value)
       }
@@ -67,6 +55,7 @@ export default defineComponent({
     }
 
     const next = () => {
+      console.log(editedItem.value)
       step.value += 1
     }
 
@@ -150,7 +139,7 @@ export default defineComponent({
                 ></v-col>
                 <v-col cols="12" md="3" sm="6"
                   ><v-select
-                    v-model="editedItem.property.category"
+                    v-model="allCategories[editedItem.property.category]"
                     label="Kategorija"
                     :items="allCategories"
                     item-title="value"
@@ -159,7 +148,7 @@ export default defineComponent({
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
                   <v-select
-                    v-model="editedItem.property.borough.boroughName"
+                    v-model="editedItem.property.borough"
                     label="Opština"
                     :items="allBoroughs"
                     item-title="boroughName"
@@ -202,7 +191,7 @@ export default defineComponent({
                 </v-col>
                 <v-col cols="12" md="3" sm="6">
                   <v-select
-                    v-model="editedItem.property.structure.structureType"
+                    v-model="editedItem.property.structure"
                     label="Struktura"
                     :items="allStructures"
                     item-title="structureType"

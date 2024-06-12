@@ -1,4 +1,22 @@
-import type { OwnerItem, OwnerItemBodyRequest } from './types'
+import type { OwnerItem, OwnerItemBodyRequest, SearchPropertyParams } from './types'
+
+export const getEmptyParams = (): SearchPropertyParams => {
+  const emptyItem = {
+    ID: null,
+    type: null,
+    phoneNumber: null,
+    borough: null,
+    squareFootageMin: null,
+    squareFootageMax: null,
+    category: null,
+    structure: null,
+    equipment: null,
+    street: null,
+    priceMin: null,
+    priceMax: null
+  }
+  return emptyItem
+}
 
 export function createOwnerItemBodyRequest(
   item: OwnerItem,
