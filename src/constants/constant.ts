@@ -21,7 +21,7 @@ export const headersList: Array<TableHeader> = [
   },
   {
     title: 'ID',
-    align: 'start',
+    align: 'center',
     key: 'property.idProperty'
   },
   {
@@ -72,7 +72,7 @@ export const headersList: Array<TableHeader> = [
   },
   {
     title: 'Opcije',
-    align: 'center',
+    align: 'start',
     key: 'edit',
     sortable: false
   }
