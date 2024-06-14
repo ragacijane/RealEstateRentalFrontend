@@ -19,13 +19,14 @@ export default defineComponent({
   setup() {
     const adminStore = useAdminStore()
     const dialog = ref<boolean>(false)
-    const defaultItem = ref<OwnerItem>(getEmptyItem())
+    const defaultItem = ref<OwnerItem>(Object.assign({}, getEmptyItem()))
     const filteredProperties = ref<OwnerItem[]>([])
-    const allProperties = adminStore.allProperties
+    const allProperties = ref<OwnerItem[]>([])
     const setAllProperties = adminStore.setAllProperties
     onMounted(async () => {
       await adminStore.fetchAndSetProperties()
       filteredProperties.value = adminStore.allProperties
+      allProperties.value = adminStore.allProperties
     })
     const handleFilter = (data: any) => {
       filteredProperties.value = data.filteredProperties
@@ -44,24 +45,24 @@ export default defineComponent({
     const handleSave = async (data: any) => {
       console.log('save pressed')
       const ownerItemBody = createOwnerItemBodyRequest(data.item, data.selectedTags)
-
+      console.log(ownerItemBody)
       if (data.index) {
-        const itemIndex = allProperties.findIndex((item: any) => item.idOwner === data.index)
+        const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner == data.index)
         if (itemIndex !== -1) {
-          allProperties[itemIndex] = data.item
-          updateProperty(itemIndex, ownerItemBody)
+          allProperties.value[itemIndex] = data.item
+          updateProperty(data.index, ownerItemBody)
           if (data.newImages) uploadImages(data.index, data.formData)
         }
       } else {
         const newItem = await createProperty(ownerItemBody)
         if (newItem) {
-          allProperties.push(newItem)
+          allProperties.value.push(newItem)
           if (data.newImages) uploadImages(newItem.idOwner, data.formData)
         }
       }
 
-      setAllProperties(allProperties)
-
+      setAllProperties(allProperties.value)
+      filteredProperties.value = adminStore.allProperties
       close()
     }
 

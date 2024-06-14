@@ -31,7 +31,7 @@ export async function post<T>(url: string, body: any): Promise<ApiResponse<T>> {
 export async function put<T>(url: string, body: any): Promise<ApiResponse<T>> {
   try {
     const response = await fetch(url, {
-      method: 'POST',
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     })

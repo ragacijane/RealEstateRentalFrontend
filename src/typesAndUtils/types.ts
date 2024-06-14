@@ -34,7 +34,7 @@ export interface OwnerItemBodyRequest {
   heating: string
   equipmentId: number
   boroughId: number
-  floor: number
+  floor: string
   active: number
   visible: number
   deposit: number
@@ -42,7 +42,7 @@ export interface OwnerItemBodyRequest {
   category: number
   title: string
   description: string | null
-  selectedTags: number[]
+  selectedTags: string
 }
 
 export interface Borough {
@@ -78,7 +78,7 @@ export interface Property {
   type: Types
   deposit: number
   structure: Structure
-  floor: number
+  floor: string
   bathrooms: number
   equipment: Equipment
   rooms: number

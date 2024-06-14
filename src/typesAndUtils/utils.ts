@@ -47,7 +47,7 @@ export function createOwnerItemBodyRequest(
     category: item.property.category,
     title: item.property.title,
     description: item.property.description,
-    selectedTags: selectedTags
+    selectedTags: selectedTags.join(',')
   }
 }
 
