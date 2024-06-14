@@ -21,16 +21,14 @@ export default defineComponent({
     const step = ref<number>(0)
     const index = ref<number>(-1)
     const selectedTags = ref<number[]>([])
-    const editedItem = ref(props.defaultItem)
+    const editedItem = ref<OwnerItem>(props.defaultItem)
     const selectedImages = ref<File[]>([])
     const shownImages = ref<{ name: string; url: string }[]>([])
     const uploadedImages = ref<File[]>([])
     const formData = new FormData()
     const newImages = ref<boolean>(false)
-
-    index.value = editedItem.value.idOwner
-
     onMounted(async () => {
+      index.value = editedItem.value.idOwner
       if (index.value > 0) {
         selectedTags.value = await fetchTagsFromProperty(index.value)
       }
@@ -45,17 +43,16 @@ export default defineComponent({
     const save = () => {
       //check required fields
       emit('save-pressed', {
-        item: editedItem,
-        index: index,
+        item: editedItem.value,
+        index: index.value,
         formData: formData,
-        selectedTags: selectedTags,
-        newImages: newImages,
-        uploadedImages: uploadedImages
+        selectedTags: selectedTags.value,
+        newImages: newImages.value,
+        uploadedImages: uploadedImages.value
       })
     }
 
     const next = () => {
-      console.log(editedItem.value)
       step.value += 1
     }
 
@@ -139,13 +136,12 @@ export default defineComponent({
                 ></v-col>
                 <v-col cols="12" md="3" sm="6"
                   ><v-select
-                    v-model="allCategories[editedItem.property.category]"
+                    v-model="editedItem.property.category"
                     label="Kategorija"
                     :items="allCategories"
                     item-title="value"
                     item-value="id"
-                  />
-                </v-col>
+                /></v-col>
                 <v-col cols="12" md="3" sm="6">
                   <v-select
                     v-model="editedItem.property.borough"
@@ -251,7 +247,7 @@ export default defineComponent({
                 </v-col>
                 <v-col cols="12" md="5" sm="12">
                   <v-textarea
-                    v-model="editedItem.property.description"
+                    v-model="editedItem.moreInfo"
                     label="Dodatne informacije"
                   ></v-textarea>
                 </v-col>

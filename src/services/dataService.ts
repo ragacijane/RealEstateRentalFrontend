@@ -11,7 +11,9 @@ import {
 } from '../typesAndUtils/types'
 
 export async function fetchTags(): Promise<Tag[]> {
-  const response = await get<Tag[]>(`${BACKEND_URL}/getTags`)
+  const url = BACKEND_URL + '/constants/getTags'
+  const response = await get<Tag[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }
@@ -19,8 +21,9 @@ export async function fetchTags(): Promise<Tag[]> {
 }
 
 export async function fetchTagsFromProperty(id: number): Promise<number[]> {
-  const url = BACKEND_URL + '/getTags/' + id
+  const url = BACKEND_URL + '/properties/getTags/' + id
   const response = await get<number[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }
@@ -28,7 +31,9 @@ export async function fetchTagsFromProperty(id: number): Promise<number[]> {
 }
 
 export async function fetchEquipment(): Promise<Equipment[]> {
-  const response = await get<Equipment[]>(`${BACKEND_URL}/getEquipments`)
+  const url = BACKEND_URL + '/constants/getEquipments'
+  const response = await get<Equipment[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }
@@ -36,7 +41,9 @@ export async function fetchEquipment(): Promise<Equipment[]> {
 }
 
 export async function fetchTypes(): Promise<Types[]> {
-  const response = await get<Types[]>(`${BACKEND_URL}/getTypes`)
+  const url = BACKEND_URL + '/constants/getTypes'
+  const response = await get<Types[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }
@@ -44,7 +51,9 @@ export async function fetchTypes(): Promise<Types[]> {
 }
 
 export async function fetchBoroughs(): Promise<Borough[]> {
-  const response = await get<Borough[]>(`${BACKEND_URL}/getBoroughs`)
+  const url = BACKEND_URL + '/constants/getBoroughs'
+  const response = await get<Borough[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }
@@ -52,15 +61,19 @@ export async function fetchBoroughs(): Promise<Borough[]> {
 }
 
 export async function fetchStructures(): Promise<Structure[]> {
-  const response = await get<Structure[]>(`${BACKEND_URL}/getStructures`)
+  const url = BACKEND_URL + '/constants/getStructures'
+  const response = await get<Structure[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }
   return response.data ?? []
 }
 
-export async function fetchImages() {
-  const response = await get<FetchedPictures[]>(`${BACKEND_URL}/getImages`)
+export async function fetchImages(id: number) {
+  const url = BACKEND_URL + '/pictures/getPictures/' + id
+  const response = await get<FetchedPictures[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }
