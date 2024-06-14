@@ -6,6 +6,7 @@ import { getEmptyItem } from '@/typesAndUtils/utils'
 export async function fetchProperties(): Promise<OwnerItem[]> {
   const url = BACKEND_URL + '/properties/getOwnsAndProps'
   const response = await get<OwnerItem[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }
