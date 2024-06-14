@@ -7,7 +7,7 @@ export default defineComponent({
   name: 'AdminProvider',
   setup() {
     const { allProperties, setAllProperties } = provideAdminContext()
-
+    // hello world
     const fetchAndSetProperties = async () => {
       if (allProperties.length == 0) {
         try {

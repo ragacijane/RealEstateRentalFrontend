@@ -8,7 +8,7 @@ import DataTableRowExpanded from './DataTableRowExpanded.vue'
 import type { OwnerItem } from '@/typesAndUtils/types'
 import { useAdminStore } from '@/store/adminStore'
 import DataTableSearch from './DataTableSearch.vue'
-//DATATABLE
+//Hello
 export default defineComponent({
   name: 'DataTable',
   components: {
@@ -19,13 +19,14 @@ export default defineComponent({
   setup() {
     const adminStore = useAdminStore()
     const dialog = ref<boolean>(false)
-    const defaultItem = ref<OwnerItem>(getEmptyItem())
+    const defaultItem = ref<OwnerItem>(Object.assign({}, getEmptyItem()))
     const filteredProperties = ref<OwnerItem[]>([])
-    const allProperties = adminStore.allProperties
+    const allProperties = ref<OwnerItem[]>([])
     const setAllProperties = adminStore.setAllProperties
     onMounted(async () => {
       await adminStore.fetchAndSetProperties()
       filteredProperties.value = adminStore.allProperties
+      allProperties.value = adminStore.allProperties
     })
     const handleFilter = (data: any) => {
       filteredProperties.value = data.filteredProperties
@@ -44,24 +45,24 @@ export default defineComponent({
     const handleSave = async (data: any) => {
       console.log('save pressed')
       const ownerItemBody = createOwnerItemBodyRequest(data.item, data.selectedTags)
-
+      console.log(ownerItemBody)
       if (data.index) {
-        const itemIndex = allProperties.findIndex((item: any) => item.idOwner === data.index)
+        const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner == data.index)
         if (itemIndex !== -1) {
-          allProperties[itemIndex] = data.item
-          updateProperty(itemIndex, ownerItemBody)
+          allProperties.value[itemIndex] = data.item
+          updateProperty(data.index, ownerItemBody)
           if (data.newImages) uploadImages(data.index, data.formData)
         }
       } else {
         const newItem = await createProperty(ownerItemBody)
         if (newItem) {
-          allProperties.push(newItem)
+          allProperties.value.push(newItem)
           if (data.newImages) uploadImages(newItem.idOwner, data.formData)
         }
       }
 
-      setAllProperties(allProperties)
-
+      setAllProperties(allProperties.value)
+      filteredProperties.value = adminStore.allProperties
       close()
     }
 
@@ -110,6 +111,7 @@ export default defineComponent({
       :items="filteredProperties"
       show-expand
       hover
+      class="my-data-table pa-4"
       item-value="idOwner"
     >
       <!-- EXPAND    -->
@@ -127,42 +129,38 @@ export default defineComponent({
       <template v-slot:[`item.edit`]="{ item }">
         <v-row>
           <v-col>
-            <div v-if="item.property?.active">
-              <v-icon
-                color="light-green-darken-1"
-                icon="mdi-check-circle"
-                size="default"
-                @click="changeStatusActive(item)"
-              ></v-icon>
-            </div>
-            <div v-else>
-              <v-icon
-                color="red-lighten-2"
-                icon="mdi-close-circle"
-                size="default"
-                @click="changeStatusActive(item)"
-              ></v-icon>
-            </div>
-          </v-col>
-          <v-col>
-            <div v-if="item.property?.visible">
-              <v-icon
-                color="primary"
-                icon="mdi-circle"
-                size="default"
-                @click="changeStatusVisible(item)"
-              ></v-icon>
-            </div>
-            <div v-else>
-              <v-icon
-                color="indigo"
-                icon="mdi-radiobox-blank"
-                size="default"
-                @click="changeStatusVisible(item)"
-              ></v-icon>
-            </div>
-          </v-col>
-          <v-col>
+            <v-icon
+              v-if="item.property?.active"
+              color="light-green-darken-1"
+              icon="mdi-check-circle"
+              size="default"
+              class="me-2"
+              @click="changeStatusActive(item)"
+            ></v-icon>
+            <v-icon
+              v-if="!item.property?.active"
+              color="red-lighten-2"
+              icon="mdi-close-circle"
+              size="default"
+              class="me-2"
+              @click="changeStatusActive(item)"
+            ></v-icon>
+            <v-icon
+              v-if="item.property?.visible"
+              color="primary"
+              icon="mdi-circle"
+              size="default"
+              class="me-2"
+              @click="changeStatusVisible(item)"
+            ></v-icon>
+            <v-icon
+              v-if="!item.property?.visible"
+              color="indigo"
+              icon="mdi-radiobox-blank"
+              size="default"
+              class="me-2"
+              @click="changeStatusVisible(item)"
+            ></v-icon>
             <v-icon class="me-2" size="default" @click="editItem(item)"> mdi-pencil </v-icon>
           </v-col>
         </v-row>
@@ -201,3 +199,33 @@ export default defineComponent({
     </v-data-table>
   </div>
 </template>
+
+<style scoped>
+:deep(.v-data-table thead th) {
+  font-weight: bold !important;
+  font-size: 16px !important;
+  padding-left: 0px !important;
+  padding-right: 1px !important;
+  /* background-color: ; */
+}
+:deep(.v-data-table tbody td) {
+  padding-left: 1px !important;
+  padding-right: 0px !important;
+}
+:deep(.v-data-table tbody tr:hover) {
+  background-color: #cdcdcd4f !important; /* Change to your desired hover color */
+}
+:deep(.v-data-table) {
+  text-overflow: ellipsis !important;
+  overflow: hidden !important; /* Hide both vertical and horizontal scrollbars */
+}
+:deep(.v-data-table thead th:nth-child(1)) {
+  text-align: end !important; /* Align second column header to the center */
+}
+:deep(.v-data-table thead td:nth-child(1)) {
+  text-align: start !important; /* Align second column header to the center */
+}
+</style>
+<!-- :deep(.v-data-table thead th:nth-child(2)) {
+  text-align: center; /* Align second column header to the center */
+} -->

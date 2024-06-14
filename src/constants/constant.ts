@@ -1,6 +1,9 @@
 export const BACKEND_URL = 'http://localhost:8081'
 
-export const allCategories = ['Iznajmljivanje', 'Prodaja']
+export const allCategories = [
+  { id: 0, value: 'Iznajmljivanje' },
+  { id: 1, value: 'Prodaja' }
+]
 
 export const yesOrNo = [
   { id: 0, value: 'NE' },
@@ -21,7 +24,7 @@ export const headersList: Array<TableHeader> = [
   },
   {
     title: 'ID',
-    align: 'start',
+    align: 'center',
     key: 'property.idProperty'
   },
   {
@@ -72,7 +75,7 @@ export const headersList: Array<TableHeader> = [
   },
   {
     title: 'Opcije',
-    align: 'center',
+    align: 'start',
     key: 'edit',
     sortable: false
   }

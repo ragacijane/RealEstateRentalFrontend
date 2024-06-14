@@ -43,9 +43,7 @@ export default defineComponent({
       allStructures.value = dataStore.allStructures
       await adminStore.fetchAndSetProperties()
       filteredProperties.value = adminStore.allProperties
-      console.log(filteredProperties.value)
     })
-    console.log(filteredProperties.value)
 
     const filter = () => {
       const paramValue = params.value
@@ -61,7 +59,7 @@ export default defineComponent({
         const tempCategory = paramValue.category
         if (tempCategory)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.category == allCategories.indexOf(tempCategory)
+            (prop) => prop.property.category == parseInt(tempCategory)
           )
 
         const tempType = paramValue.type
