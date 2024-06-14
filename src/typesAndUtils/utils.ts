@@ -84,7 +84,7 @@ export const getEmptyItem = (): OwnerItem => {
         boroughName: '',
         id: 0
       },
-      floor: 0,
+      floor: '',
       active: 0,
       visible: 0,
       deposit: 0,
