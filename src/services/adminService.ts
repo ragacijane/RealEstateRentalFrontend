@@ -4,20 +4,16 @@ import { BACKEND_URL } from '@/constants/constant'
 import { getEmptyItem } from '@/typesAndUtils/utils'
 
 export async function fetchProperties(): Promise<OwnerItem[]> {
-  const response = await get<OwnerItem[]>(`${BACKEND_URL}/ownersandproperties`)
+  const url = BACKEND_URL + '/properties/getOwnsAndProps'
+  const response = await get<OwnerItem[]>(url)
   if (response.error) {
     throw new Error(response.error)
   }
   return response.data ?? []
 }
 
-export async function uploadImages(id: number, body: any) {
-  const url = BACKEND_URL + `/uploadImages/` + id
-  const data = post(url, body)
-}
-
 export async function createProperty(body: OwnerItemBodyRequest) {
-  const url = BACKEND_URL + '/creatingProp'
+  const url = BACKEND_URL + '/property/createProperty'
   const response = await post<OwnerItem>(url, body)
   if (response.error) {
     throw new Error(response.error)
@@ -26,9 +22,14 @@ export async function createProperty(body: OwnerItemBodyRequest) {
 }
 
 export async function updateProperty(id: number, body: OwnerItemBodyRequest) {
-  const url = BACKEND_URL + '/updateProp/' + id
+  const url = BACKEND_URL + '/property/updateProperty/' + id
   const response = await post(url, body)
   if (response.error) {
     throw new Error(response.error)
   }
+}
+
+export async function uploadImages(id: number, body: any) {
+  const url = BACKEND_URL + '/pictures/uploadPictures/' + id
+  const data = post(url, body)
 }
