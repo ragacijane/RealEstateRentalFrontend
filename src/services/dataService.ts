@@ -79,3 +79,13 @@ export async function fetchImages(id: number) {
   }
   return response.data ?? []
 }
+
+export async function testfetchImages(id: number) {
+  const url = BACKEND_URL + '/pictures/test'
+  const response = await get<string[]>(url)
+  if (response.data?.length == 0) throw new Error('Array is empty!')
+  if (response.error) {
+    throw new Error(response.error)
+  }
+  return response.data ?? []
+}
