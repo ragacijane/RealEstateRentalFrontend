@@ -8,7 +8,7 @@ import DataTableRowExpanded from './DataTableRowExpanded.vue'
 import type { OwnerItem } from '@/typesAndUtils/types'
 import { useAdminStore } from '@/store/adminStore'
 import DataTableSearch from './DataTableSearch.vue'
-//Hello
+
 export default defineComponent({
   name: 'DataTable',
   components: {
