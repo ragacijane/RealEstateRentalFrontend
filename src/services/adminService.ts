@@ -1,5 +1,5 @@
-import type { OwnerItem, OwnerItemBodyRequest } from '@/typesAndUtils/types'
-import { get, post, put } from './apiService'
+import type { OwnerItem, OwnerItemBodyRequest, PicturesBody } from '@/typesAndUtils/types'
+import { get, post, postImages, put } from './apiService'
 import { BACKEND_URL } from '@/constants/constant'
 import { getEmptyItem } from '@/typesAndUtils/utils'
 
@@ -30,7 +30,9 @@ export async function updateProperty(id: number, body: OwnerItemBodyRequest) {
   }
 }
 
-export async function uploadImages(id: number, body: any) {
-  const url = BACKEND_URL + '/pictures/uploadPictures/' + id
-  const data = post(url, body)
+export async function updateImages(id: number, body: FormData) {
+  const url = BACKEND_URL + '/pictures/updatePictures/' + id
+  console.log(JSON.stringify(Object.fromEntries(body.entries())))
+  const resp = await postImages(url, body)
+  if (resp.error) console.log(resp.error)
 }

@@ -1,4 +1,42 @@
-import type { OwnerItem, OwnerItemBodyRequest, SearchPropertyParams } from './types'
+import type { OwnerItem, OwnerItemBodyRequest, PicturesBody, SearchPropertyParams } from './types'
+
+export const createFormData = (body: PicturesBody) => {
+  const formData = new FormData()
+  if (body.newImages.length > 0) {
+    body.newImages.forEach((image) => {
+      formData.append('newImages', image)
+    })
+  } else {
+    formData.append('newImages', '')
+  }
+
+  if (body.deletedPhotos.length > 0) {
+    body.deletedPhotos.forEach((photo) => {
+      formData.append('deletedPhotos', photo)
+    })
+  } else {
+    formData.append('deletedPhotos', '')
+  }
+
+  formData.append('thumbnailPhoto', body.thumbnailPhoto)
+  formData.append('isThumbInNew', body.isThumbInNew)
+  return formData
+}
+
+export const getImageNameFromPath = (str: string): string => {
+  const parts = str.split('/')
+  return parts[parts.length - 1]
+}
+
+export const getEmptyPicturesBody = (thumbnail: string): PicturesBody => {
+  const emptyItem = {
+    isThumbInNew: 'false',
+    thumbnailPhoto: thumbnail,
+    deletedPhotos: [],
+    newImages: []
+  }
+  return emptyItem
+}
 
 export const getEmptyParams = (): SearchPropertyParams => {
   const emptyItem = {
@@ -90,7 +128,8 @@ export const getEmptyItem = (): OwnerItem => {
       deposit: 0,
       price: 0,
       title: '',
-      description: ''
+      description: '',
+      thumbnail: ''
     }
   }
   return emptyItem

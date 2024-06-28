@@ -120,3 +120,74 @@ a,
     padding: 0 2rem;
   }
 }
+
+<template>
+  <main>
+    <h1>User View</h1>
+
+    <v-sheet class="mx-auto" elevation="8" max-width="800">
+      <div class="d-flex fill-height align-center justify-center">
+        <v-expand-transition>
+          <v-sheet v-if="model !== null">
+            <v-img :src="images[model]" alt="Image" class="image-item-big" />
+          </v-sheet>
+        </v-expand-transition>
+      </div>
+      <div class="d-flex align-center justify-center">
+        <input
+          type="file"
+          id="file-input"
+          style="display: none"
+          accept="image/*"
+          multiple
+          @change="handleFileInputChange"
+        />
+        <v-btn icon class="mx-2" @click="openFileInput">
+          <v-icon>mdi-camera</v-icon>
+        </v-btn>
+        <v-btn icon class="mx-2" @click="">
+          <v-icon color="primary">mdi-home</v-icon>
+        </v-btn>
+        <v-btn icon class="mx-2" @click="deletePhoto(model ?? -1)">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </div>
+
+      <v-slide-group v-model="model" class="pa-4" center-active show-arrows>
+        <v-slide-group-item
+          v-for="(image, index) in images"
+          :key="index"
+          v-slot="{ isSelected, toggle }"
+        >
+          <div class="icon-above-card" @click="toggle">
+            <v-icon v-if="index == 0" color="primary">mdi-home</v-icon>
+            <v-icon v-else></v-icon>
+            <v-card
+              color="grey-lighten-1"
+              class="ma-4"
+              height="200"
+              width="120"
+              :class="{ 'border-primary': index == 1 }"
+            >
+              <div class="d-flex fill-height align-center justify-center">
+                <v-img :src="image" alt="Image" class="image-item" />
+                <div v-if="index == 2" class="absolute-center">
+                  <v-icon color="primary">mdi-home</v-icon>
+                </div>
+              </div>
+            </v-card>
+          </div>
+        </v-slide-group-item>
+      </v-slide-group>
+    </v-sheet>
+  </main>
+</template>
+/*
+<div class="d-flex fill-height align-center justify-center">
+        <v-expand-transition>
+          <v-sheet v-if="model !== null">
+            <v-img :src="images[model]" alt="Image" class="image-item-big" />
+          </v-sheet>
+        </v-expand-transition>
+      </div>
+*/

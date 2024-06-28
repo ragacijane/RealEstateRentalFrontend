@@ -1,5 +1,15 @@
-export interface FetchedPictures {
-  name: string
+export interface HandleSaveItem {
+  item: OwnerItem
+  index: number
+  selectedTags: number[]
+  picturesFormData: FormData
+}
+
+export interface PicturesBody {
+  isThumbInNew: string
+  thumbnailPhoto: string
+  deletedPhotos: string[]
+  newImages: File[]
 }
 
 export interface SearchPropertyParams {
@@ -88,6 +98,7 @@ export interface Property {
   visible: number
   title: string
   description: string | null
+  thumbnail: string
 }
 
 export interface OwnerItem {

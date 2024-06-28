@@ -6,8 +6,7 @@ import {
   type Equipment,
   type Types,
   type Borough,
-  type Structure,
-  type FetchedPictures
+  type Structure
 } from '../typesAndUtils/types'
 
 export async function fetchTags(): Promise<Tag[]> {
@@ -70,9 +69,9 @@ export async function fetchStructures(): Promise<Structure[]> {
   return response.data ?? []
 }
 
-export async function fetchImages(id: number) {
+export async function fetttchImages(id: number) {
   const url = BACKEND_URL + '/pictures/getPictures/' + id
-  const response = await get<FetchedPictures[]>(url)
+  const response = await get<string[]>(url)
   if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
@@ -80,10 +79,9 @@ export async function fetchImages(id: number) {
   return response.data ?? []
 }
 
-export async function testfetchImages(id: number) {
-  const url = BACKEND_URL + '/pictures/test'
+export async function fetchImages(id: number) {
+  const url = BACKEND_URL + '/pictures/getPictures/' + id
   const response = await get<string[]>(url)
-  if (response.data?.length == 0) throw new Error('Array is empty!')
   if (response.error) {
     throw new Error(response.error)
   }

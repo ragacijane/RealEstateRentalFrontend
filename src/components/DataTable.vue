@@ -2,17 +2,17 @@
 import { defineComponent, onMounted, ref } from 'vue'
 import { createOwnerItemBodyRequest, getEmptyItem } from '@/typesAndUtils/utils'
 import { headersList } from '@/constants/constant'
-import { createProperty, updateProperty, uploadImages } from '@/services/adminService'
-import DataTableRowEditCreate from './DataTableRowEditCreate.vue'
+import { createProperty, updateImages, updateProperty } from '@/services/adminService'
+import DataTableRowEditComponent from './DataTableRowEditComponent.vue'
 import DataTableRowExpanded from './DataTableRowExpanded.vue'
-import type { OwnerItem } from '@/typesAndUtils/types'
+import type { HandleSaveItem, OwnerItem } from '@/typesAndUtils/types'
 import { useAdminStore } from '@/store/adminStore'
 import DataTableSearch from './DataTableSearch.vue'
 
 export default defineComponent({
   name: 'DataTable',
   components: {
-    DataTableRowEditCreate,
+    DataTableRowEditComponent,
     DataTableRowExpanded,
     DataTableSearch
   },
@@ -23,6 +23,7 @@ export default defineComponent({
     const filteredProperties = ref<OwnerItem[]>([])
     const allProperties = ref<OwnerItem[]>([])
     const setAllProperties = adminStore.setAllProperties
+
     onMounted(async () => {
       await adminStore.fetchAndSetProperties()
       filteredProperties.value = adminStore.allProperties
@@ -42,22 +43,20 @@ export default defineComponent({
       close()
     }
 
-    const handleSave = async (data: any) => {
-      console.log('save pressed')
+    const handleSave = async (data: HandleSaveItem) => {
       const ownerItemBody = createOwnerItemBodyRequest(data.item, data.selectedTags)
-      console.log(ownerItemBody)
       if (data.index) {
         const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner == data.index)
         if (itemIndex !== -1) {
           allProperties.value[itemIndex] = data.item
           updateProperty(data.index, ownerItemBody)
-          if (data.newImages) uploadImages(data.index, data.formData)
+          if (data.picturesFormData) updateImages(data.index, data.picturesFormData)
         }
       } else {
         const newItem = await createProperty(ownerItemBody)
         if (newItem) {
           allProperties.value.push(newItem)
-          if (data.newImages) uploadImages(newItem.idOwner, data.formData)
+          if (data.picturesFormData) updateImages(newItem.idOwner, data.picturesFormData)
         }
       }
 
@@ -188,7 +187,7 @@ export default defineComponent({
             <template v-slot:activator="{ props }">
               <v-btn class="mb-2" color="primary" dark v-bind="props"> Novi oglas </v-btn>
             </template>
-            <DataTableRowEditCreate
+            <DataTableRowEditComponent
               :defaultItem="defaultItem"
               @close-pressed="handleClose"
               @save-pressed="handleSave"
