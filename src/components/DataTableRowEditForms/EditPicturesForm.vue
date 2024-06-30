@@ -295,7 +295,12 @@ export default defineComponent({
   height: 100%;
   object-fit: contain;
 }
-
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
 .prev {
   left: 10px;
 }
@@ -307,12 +312,6 @@ export default defineComponent({
   right: 20px;
   transform: none;
   position: absolute;
-  z-index: 10;
-}
-.nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   z-index: 10;
 }
 .delete-icon {
