@@ -52,7 +52,7 @@ export interface OwnerItemBodyRequest {
   category: number
   title: string
   description: string | null
-  selectedTags: string
+  tagIds: string
 }
 
 export interface Borough {

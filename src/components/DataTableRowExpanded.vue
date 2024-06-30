@@ -1,7 +1,7 @@
 <script lang="ts">
 import { BACKEND_URL } from '@/constants/constant'
 import type { OwnerItem } from '@/typesAndUtils/types'
-import { defineComponent, type PropType } from 'vue'
+import { defineComponent, ref, type PropType } from 'vue'
 export default defineComponent({
   name: 'DataTableRowExpanded',
   props: {
@@ -11,6 +11,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const isZoomed = ref<boolean>(false)
     const getPicUrl = (): string => {
       const temp = props.propertyItem.property.thumbnail
       if (temp !== null && temp.length > 0) {
@@ -19,7 +20,12 @@ export default defineComponent({
         return '/noImage.jpg'
       }
     }
+    const toggleZoom = () => {
+      isZoomed.value = !isZoomed.value
+    }
     return {
+      isZoomed,
+      toggleZoom,
       getPicUrl
     }
   }
@@ -31,7 +37,7 @@ export default defineComponent({
     <v-container>
       <v-row>
         <v-col cols="1">
-          <v-img :src="getPicUrl()" width="150px"></v-img>
+          <div @dblclick="toggleZoom()"><v-img :src="getPicUrl()" width="150px"></v-img></div>
         </v-col>
         <v-col cols="11">
           <v-row dense no-gutters>
@@ -130,5 +136,42 @@ export default defineComponent({
         </v-col>
       </v-row>
     </v-container>
+    <v-dialog v-model="isZoomed" max-width="100%" height="100%"
+      ><v-card v-if="isZoomed" class="full-screen-card">
+        <v-btn icon class="nav-button close" @click="toggleZoom()">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+
+        <v-img :src="getPicUrl()" alt="Selected Image" class="full-image" /> </v-card
+    ></v-dialog>
   </div>
 </template>
+
+<style scoped>
+.full-screen-card {
+  width: 97vw;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.full-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.nav-button {
+  position: absolute;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+.close {
+  top: 10px;
+  right: 20px;
+  transform: none;
+  position: absolute;
+  z-index: 10;
+}
+</style>

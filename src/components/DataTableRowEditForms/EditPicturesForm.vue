@@ -9,11 +9,11 @@ export default defineComponent({
   name: 'EditPicturesForm',
   props: {
     propertyId: {
-      type: Object as PropType<number>,
+      type: Number as PropType<number>,
       required: true
     },
     thumbnail: {
-      type: Object as PropType<string>,
+      type: String as PropType<string>,
       required: true
     }
   },
@@ -25,6 +25,7 @@ export default defineComponent({
     const thumbnailIndex = ref<number>(-1)
     const dialog = ref<boolean>(false)
     const selectedImage = ref<string>('')
+    const deletionMode = ref<boolean>(false)
 
     onMounted(async () => {
       if (props.propertyId > 0) {
@@ -109,7 +110,7 @@ export default defineComponent({
       thumbnailIndex.value = index
       if (index > -1) {
         if (index >= oldLength.value) {
-          body.value.thumbnailPhoto = body.value.newImages[index].name
+          body.value.thumbnailPhoto = body.value.newImages[index - oldLength.value].name
           body.value.isThumbInNew = 'true'
         } else {
           body.value.thumbnailPhoto = getImageNameFromPath(images.value[index])
@@ -119,6 +120,7 @@ export default defineComponent({
         body.value.isThumbInNew = 'false'
         body.value.thumbnailPhoto = ''
       }
+      update()
     }
 
     const update = () => {
@@ -148,7 +150,9 @@ export default defineComponent({
         model.value = images.value.length - 1
       }
     }
-
+    const toggleDeletionMode = () => {
+      deletionMode.value = !deletionMode.value
+    }
     return {
       images,
       model,
@@ -156,6 +160,7 @@ export default defineComponent({
       thumbnailIndex,
       dialog,
       selectedImage,
+      deletionMode,
       //functions
       handleFileInputChange,
       openFileInput,
@@ -163,7 +168,8 @@ export default defineComponent({
       setThumbnailIndex,
       openDialog,
       nextImage,
-      prevImage
+      prevImage,
+      toggleDeletionMode
     }
   }
 })
@@ -185,11 +191,14 @@ export default defineComponent({
         <v-icon>mdi-camera</v-icon>
       </v-btn>
       <v-btn icon class="mx-2" @click="setThumbnailIndex(model ?? -1)">
-        <v-icon :color="model == thumbnailIndex && model > -1 ? 'primary' : 'default'"
-          >mdi-home</v-icon
-        >
+        <v-icon color="default">mdi-home</v-icon>
       </v-btn>
-      <v-btn icon class="mx-2" @click="deletePhoto(model ?? -1)">
+      <v-btn
+        icon
+        class="mx-2"
+        @click="toggleDeletionMode"
+        :color="deletionMode ? 'red' : 'default'"
+      >
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </div>
@@ -200,14 +209,21 @@ export default defineComponent({
         :key="index"
         v-slot="{ isSelected, select }"
       >
-        <div @click="openDialog(image, index)">
-          <v-icon></v-icon>
+        <div @dblclick="openDialog(image, index)" @click="select">
+          <div class="icon-above-card">
+            <v-icon v-if="deletionMode" @click="deletePhoto(index)" class="delete-icon"
+              >mdi-delete</v-icon
+            >
+            <v-icon v-else-if="index == thumbnailIndex" color="primary">mdi-home</v-icon>
+            <v-icon v-else></v-icon>
+          </div>
+
           <v-card
             color="grey-lighten-1"
             class="ma-4"
             height="350"
             width="270"
-            :class="{ 'border-primary': index == thumbnailIndex }"
+            :class="{ 'border-primary': isSelected }"
           >
             <div class="d-flex fill-height align-center justify-center">
               <v-img :src="image" alt="Image" class="image-item" />
@@ -279,12 +295,7 @@ export default defineComponent({
   height: 100%;
   object-fit: contain;
 }
-.nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-}
+
 .prev {
   left: 10px;
 }
@@ -297,5 +308,17 @@ export default defineComponent({
   transform: none;
   position: absolute;
   z-index: 10;
+}
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+.delete-icon {
+  transition: color 0.3s;
+}
+.delete-icon:hover {
+  color: red; /* Change this to the desired hover color */
 }
 </style>

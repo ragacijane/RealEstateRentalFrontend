@@ -25,9 +25,13 @@ export default defineComponent({
     const setAllProperties = adminStore.setAllProperties
 
     onMounted(async () => {
-      await adminStore.fetchAndSetProperties()
-      filteredProperties.value = adminStore.allProperties
-      allProperties.value = adminStore.allProperties
+      try {
+        await adminStore.fetchAndSetProperties()
+        filteredProperties.value = adminStore.allProperties
+        allProperties.value = adminStore.allProperties
+      } catch (error) {
+        console.error('Error during mounted hook:', error)
+      }
     })
     const handleFilter = (data: any) => {
       filteredProperties.value = data.filteredProperties
@@ -48,15 +52,19 @@ export default defineComponent({
       if (data.index) {
         const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner == data.index)
         if (itemIndex !== -1) {
+          if (data.picturesFormData) {
+            data.item.property.thumbnail = await updateImages(data.index, data.picturesFormData)
+          }
           allProperties.value[itemIndex] = data.item
-          updateProperty(data.index, ownerItemBody)
-          if (data.picturesFormData) updateImages(data.index, data.picturesFormData)
+          await updateProperty(data.index, ownerItemBody)
         }
       } else {
         const newItem = await createProperty(ownerItemBody)
         if (newItem) {
+          if (data.picturesFormData) {
+            newItem.property.thumbnail = await updateImages(newItem.idOwner, data.picturesFormData)
+          }
           allProperties.value.push(newItem)
-          if (data.picturesFormData) updateImages(newItem.idOwner, data.picturesFormData)
         }
       }
 

@@ -32,7 +32,12 @@ export async function updateProperty(id: number, body: OwnerItemBodyRequest) {
 
 export async function updateImages(id: number, body: FormData) {
   const url = BACKEND_URL + '/pictures/updatePictures/' + id
-  console.log(JSON.stringify(Object.fromEntries(body.entries())))
-  const resp = await postImages(url, body)
-  if (resp.error) console.log(resp.error)
+  // console.log(JSON.stringify(Object.fromEntries(body.entries())))
+  const resp = await postImages<string>(url, body)
+  if (resp.error) {
+    console.error(resp.data)
+  }
+  // console.log('Response')
+  // console.log(resp.data)
+  return resp.data ?? ''
 }

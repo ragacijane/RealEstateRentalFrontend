@@ -113,7 +113,7 @@ export default defineComponent({
             <v-card-text>
               <EditDataForm ref="editDataForm" :inputItem="editedItem" />
             </v-card-text>
-            <v-card-action>
+            <v-card-actions>
               <v-row
                 ><v-col
                   ><v-btn variant="flat" @click="prev" :disabled="true">Prethodno</v-btn></v-col
@@ -127,7 +127,7 @@ export default defineComponent({
                   ></v-col
                 ></v-row
               >
-            </v-card-action>
+            </v-card-actions>
           </v-card>
         </v-stepper-window-item>
         <!-- STEP 2 -->
@@ -147,7 +147,7 @@ export default defineComponent({
                 </v-row>
               </div>
             </v-card-text>
-            <v-card-action>
+            <v-card-actions>
               <v-row
                 ><v-col class="text-left"
                   ><v-btn variant="flat" @click="prev">Prethodno</v-btn></v-col
@@ -161,7 +161,7 @@ export default defineComponent({
                   ></v-col
                 ></v-row
               >
-            </v-card-action>
+            </v-card-actions>
           </v-card>
         </v-stepper-window-item>
         <!-- STEP 3 -->
@@ -174,7 +174,7 @@ export default defineComponent({
                 @updated-pictures="saveImages"
               />
             </v-card-text>
-            <v-card-action>
+            <v-card-actions>
               <v-row
                 ><v-col><v-btn variant="flat" @click="prev">Prethodno</v-btn></v-col>
                 <v-col class="text-center">
@@ -186,7 +186,7 @@ export default defineComponent({
                   ></v-col
                 ></v-row
               >
-            </v-card-action>
+            </v-card-actions>
           </v-card>
         </v-stepper-window-item>
       </v-stepper-window>
