@@ -1,5 +1,4 @@
 <script lang="ts">
-import { updateImages } from '@/services/adminService'
 import { fetchImages } from '@/services/dataService'
 import type { PicturesBody } from '@/typesAndUtils/types'
 import { createFormData, getEmptyPicturesBody, getImageNameFromPath } from '@/typesAndUtils/utils'
