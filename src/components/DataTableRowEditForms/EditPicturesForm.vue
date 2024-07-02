@@ -211,7 +211,7 @@ export default defineComponent({
       >
         <div
           @dblclick="(event: MouseEvent) => openDialog(image, index)"
-          @click="(event: MouseEvent) => select(index)"
+          @click="(event: MouseEvent) => select(!isSelected)"
         >
           <div class="icon-above-card">
             <v-icon v-if="deletionMode" @click="deletePhoto(index)" class="delete-icon"
