@@ -130,7 +130,7 @@ export default defineComponent({
       })
     }
 
-    const openDialog = (image: string, index: number) => {
+    const openDialog = (event: MouseEvent, image: string, index: number) => {
       model.value = index
       selectedImage.value = image
       dialog.value = true
@@ -210,7 +210,7 @@ export default defineComponent({
         :key="index"
         v-slot="{ isSelected, select }"
       >
-        <div @dblclick="openDialog(image, index)" @click="select">
+        <div @dblclick="openDialog($event, image, index)" @click="select">
           <div class="icon-above-card">
             <v-icon v-if="deletionMode" @click="deletePhoto(index)" class="delete-icon"
               >mdi-delete</v-icon
