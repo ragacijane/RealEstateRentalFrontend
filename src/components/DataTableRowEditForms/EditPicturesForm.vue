@@ -1,5 +1,4 @@
 <script lang="ts">
-import { updateImages } from '@/services/adminService'
 import { fetchImages } from '@/services/dataService'
 import type { PicturesBody } from '@/typesAndUtils/types'
 import { createFormData, getEmptyPicturesBody, getImageNameFromPath } from '@/typesAndUtils/utils'
@@ -42,6 +41,7 @@ export default defineComponent({
         model.value = thumbnailIndex.value
         oldLength.value = images.value.length
       }
+      console.log(images.value)
     })
 
     const handleFileInputChange = (event: Event) => {
@@ -209,7 +209,10 @@ export default defineComponent({
         :key="index"
         v-slot="{ isSelected, select }"
       >
-        <div @dblclick="openDialog(image, index)" @click="select">
+        <div
+          @dblclick="(event: MouseEvent) => openDialog(image, index)"
+          @click="(event: MouseEvent) => select(!isSelected)"
+        >
           <div class="icon-above-card">
             <v-icon v-if="deletionMode" @click="deletePhoto(index)" class="delete-icon"
               >mdi-delete</v-icon

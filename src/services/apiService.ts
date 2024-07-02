@@ -9,9 +9,8 @@ interface ApiResponse<T> {
 // Generic GET request function
 export async function get<T>(url: string): Promise<ApiResponse<T>> {
   try {
-    const response = await fetch(url)
-    const data = await response.json()
-    return { data, error: null }
+    const response = await axios.get(`${url}`)
+    return { data: response.data, error: null }
   } catch (error: any) {
     return { data: null, error: error.message }
   }
@@ -83,6 +82,17 @@ export async function post<T>(url: string, body: any): Promise<ApiResponse<T>> {
     return { data: response.data, error: null };
   } catch (error: any) {
     return { data: null, error: error.message };
+  }
+}
+
+
+export async function get<T>(url: string): Promise<ApiResponse<T>> {
+  try {
+    const response = await fetch(url)
+    const data = await response.json()
+    return { data, error: null }
+  } catch (error: any) {
+    return { data: null, error: error.message }
   }
 }
 */

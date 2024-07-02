@@ -19,7 +19,7 @@ export interface SearchPropertyParams {
   borough: Borough | null | undefined
   squareFootageMin: string | null | undefined
   squareFootageMax: string | null | undefined
-  category: string | null | undefined
+  category: number | null | undefined
   structure: Structure | null | undefined
   equipment: Equipment | null | undefined
   street: string | null | undefined

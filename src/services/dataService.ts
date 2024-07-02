@@ -87,3 +87,14 @@ export async function fetchImages(id: number) {
   // }
   return response.data ?? []
 }
+
+export async function fetchThumbnail(thumbnail: string) {
+  const url = `${BACKEND_URL}/pictures/getThumbnail/${thumbnail}`
+  const response = await get<string>(url)
+  if (response.error) {
+    console.error('Error fetching thumbnail:', response.error)
+    return ''
+  }
+  console.log(response.data) // Check the console for the response
+  return response.data ?? ''
+}

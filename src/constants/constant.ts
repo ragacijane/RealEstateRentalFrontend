@@ -1,5 +1,5 @@
-export const BACKEND_URL = 'http://localhost:8081'
-
+// export const BACKEND_URL = 'http://localhost:8081'
+export const BACKEND_URL = 'https://test-rental-1e845c8834a8.herokuapp.com'
 export const allCategories = [
   { id: 0, value: 'Iznajmljivanje' },
   { id: 1, value: 'Prodaja' }

@@ -1,7 +1,8 @@
 <script lang="ts">
 import { BACKEND_URL } from '@/constants/constant'
+import { fetchThumbnail } from '@/services/dataService'
 import type { OwnerItem } from '@/typesAndUtils/types'
-import { defineComponent, ref, type PropType } from 'vue'
+import { defineComponent, onMounted, ref, type PropType } from 'vue'
 export default defineComponent({
   name: 'DataTableRowExpanded',
   props: {
@@ -12,12 +13,28 @@ export default defineComponent({
   },
   setup(props) {
     const isZoomed = ref<boolean>(false)
-    const getPicUrl = (): string => {
+    const thumbURL = ref<string>('/noImage.jpg')
+
+    onMounted(async () => {
+      await getPicUrl()
+    })
+
+    const getPicUrl = async () => {
       const temp = props.propertyItem.property.thumbnail
+
       if (temp !== null && temp.length > 0) {
-        return BACKEND_URL + '/images/thumbnails/' + temp
+        try {
+          // Call your fetchThumbnail function from DataService to get the URL
+          thumbURL.value = await fetchThumbnail(temp)
+          if (!thumbURL.value) {
+            thumbURL.value = '/noImage.jpg' // Fallback to default image if URL is empty
+          }
+        } catch (error) {
+          console.error('Error fetching thumbnail:', error)
+          thumbURL.value = '/noImage.jpg' // Handle error case
+        }
       } else {
-        return '/noImage.jpg'
+        thumbURL.value = '/noImage.jpg' // Handle case where thumbnail is null or empty
       }
     }
     const toggleZoom = () => {
@@ -25,6 +42,7 @@ export default defineComponent({
     }
     return {
       isZoomed,
+      thumbURL,
       toggleZoom,
       getPicUrl
     }
@@ -37,7 +55,7 @@ export default defineComponent({
     <v-container>
       <v-row>
         <v-col cols="1">
-          <div @dblclick="toggleZoom()"><v-img :src="getPicUrl()" width="150px"></v-img></div>
+          <div @dblclick="toggleZoom()"><v-img :src="thumbURL" width="150px"></v-img></div>
         </v-col>
         <v-col cols="11">
           <v-row dense no-gutters>
@@ -142,7 +160,7 @@ export default defineComponent({
           <v-icon>mdi-close</v-icon>
         </v-btn>
 
-        <v-img :src="getPicUrl()" alt="Selected Image" class="full-image" /> </v-card
+        <v-img :src="thumbURL" alt="Selected Image" class="full-image" /> </v-card
     ></v-dialog>
   </div>
 </template>

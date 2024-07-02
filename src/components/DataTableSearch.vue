@@ -41,7 +41,7 @@ export default defineComponent({
       allTypes.value = dataStore.allTypes
       allBoroughs.value = dataStore.allBoroughs
       allStructures.value = dataStore.allStructures
-      await adminStore.fetchAndSetProperties()
+      // await adminStore.fetchAndSetProperties()
       filteredProperties.value = adminStore.allProperties
     })
 
@@ -57,10 +57,11 @@ export default defineComponent({
         filteredProperties.value = adminStore.allProperties
 
         const tempCategory = paramValue.category
-        if (tempCategory)
+        if (tempCategory != null && tempCategory != undefined) {
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.category == parseInt(tempCategory)
+            (prop) => prop.property.category == tempCategory
           )
+        }
 
         const tempType = paramValue.type
         if (tempType)
@@ -69,7 +70,6 @@ export default defineComponent({
           )
 
         const tempBorough = paramValue.borough
-        console.log(tempBorough)
         if (tempBorough)
           filteredProperties.value = filteredProperties.value.filter(
             (prop) => prop.property.borough.id == tempBorough.id
@@ -149,7 +149,7 @@ export default defineComponent({
     const setSFMax = () => {
       filter()
     }
-    const setCategory = () => {
+    const setCategory = (data: any) => {
       filter()
     }
     const setStructure = () => {
