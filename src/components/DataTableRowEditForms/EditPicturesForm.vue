@@ -42,6 +42,7 @@ export default defineComponent({
         model.value = thumbnailIndex.value
         oldLength.value = images.value.length
       }
+      console.log(images.value)
     })
 
     const handleFileInputChange = (event: Event) => {

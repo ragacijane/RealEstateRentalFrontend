@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import { createOwnerItemBodyRequest, getEmptyItem } from '@/typesAndUtils/utils'
 import { headersList } from '@/constants/constant'
 import { createProperty, updateImages, updateProperty } from '@/services/adminService'
@@ -23,16 +23,30 @@ export default defineComponent({
     const filteredProperties = ref<OwnerItem[]>([])
     const allProperties = ref<OwnerItem[]>([])
     const setAllProperties = adminStore.setAllProperties
+    const isLoading = ref<boolean>(true)
 
-    onMounted(async () => {
-      try {
-        await adminStore.fetchAndSetProperties()
-        filteredProperties.value = adminStore.allProperties
-        allProperties.value = adminStore.allProperties
-      } catch (error) {
-        console.error('Error during mounted hook:', error)
-      }
+    onMounted(() => {
+      filteredProperties.value = adminStore.allProperties
+      allProperties.value = adminStore.allProperties
+      isLoading.value = adminStore.isLoading
     })
+    watch(
+      () => adminStore.allProperties,
+      (newVal) => {
+        filteredProperties.value = newVal
+        allProperties.value = newVal
+      },
+      { immediate: true }
+    )
+
+    watch(
+      () => adminStore.isLoading,
+      (newVal) => {
+        isLoading.value = newVal
+      },
+      { immediate: true }
+    )
+
     const handleFilter = (data: any) => {
       filteredProperties.value = data.filteredProperties
     }
@@ -92,8 +106,9 @@ export default defineComponent({
       headers: headersList,
       filteredProperties,
       allProperties,
-      setAllProperties,
+      isLoading,
       // functions
+      setAllProperties,
       handleFilter,
       editItem,
       handleClose,
@@ -120,7 +135,12 @@ export default defineComponent({
       hover
       class="my-data-table pa-4"
       item-value="idOwner"
+      :loading="isLoading"
     >
+      <!-- LOADING -->
+      <template v-slot:loading>
+        <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+      </template>
       <!-- EXPAND    -->
       <template v-slot:expanded-row="{ item }">
         <td :colspan="headers.length">
