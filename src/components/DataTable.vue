@@ -84,10 +84,10 @@ export default defineComponent({
 
       setAllProperties(allProperties.value)
       filteredProperties.value = adminStore.allProperties
-      close()
+      closeDialog()
     }
 
-    const close = () => {
+    const closeDialog = () => {
       dialog.value = false
       defaultItem.value = Object.assign({}, getEmptyItem())
     }
@@ -114,12 +114,13 @@ export default defineComponent({
       handleClose,
       handleSave,
       changeStatusActive,
-      changeStatusVisible
+      changeStatusVisible,
+      closeDialog
     }
   },
   watch: {
     dialog(val) {
-      val || close()
+      val || this.closeDialog()
     }
   }
 })
