@@ -57,8 +57,7 @@ export default defineComponent({
     }
 
     const handleClose = () => {
-      console.log('close pressed')
-      close()
+      closeDialog()
     }
 
     const handleSave = async (data: HandleSaveItem) => {
