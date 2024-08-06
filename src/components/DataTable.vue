@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue'
-import { createOwnerItemBodyRequest, getEmptyItem } from '@/typesAndUtils/utils'
+import { getEmptyItem } from '@/typesAndUtils/utils'
 import { headersList } from '@/constants/constant'
 import { createProperty, updateImages, updateProperty } from '@/services/adminService'
 import DataTableRowEditComponent from './DataTableRowEditComponent.vue'
 import DataTableRowExpanded from './DataTableRowExpanded.vue'
-import type { HandleSaveItem, OwnerItem } from '@/typesAndUtils/types'
+import type { HandleSaveItem, OwnerItem, ItemBody } from '@/typesAndUtils/types'
 import { useAdminStore } from '@/store/adminStore'
 import DataTableSearch from './DataTableSearch.vue'
 
@@ -61,7 +61,7 @@ export default defineComponent({
     }
 
     const handleSave = async (data: HandleSaveItem) => {
-      const ownerItemBody = createOwnerItemBodyRequest(data.item, data.selectedTags)
+      const item: ItemBody = { item: data.item, tagIds: data.selectedTags.join(',') }
       if (data.index) {
         const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner == data.index)
         if (itemIndex !== -1) {
@@ -69,10 +69,10 @@ export default defineComponent({
             data.item.property.thumbnail = await updateImages(data.index, data.picturesFormData)
           }
           allProperties.value[itemIndex] = data.item
-          await updateProperty(data.index, ownerItemBody)
+          await updateProperty(item)
         }
       } else {
-        const newItem = await createProperty(ownerItemBody)
+        const newItem = await createProperty(item)
         if (newItem) {
           if (data.picturesFormData) {
             newItem.property.thumbnail = await updateImages(newItem.idOwner, data.picturesFormData)
@@ -91,12 +91,14 @@ export default defineComponent({
       defaultItem.value = Object.assign({}, getEmptyItem())
     }
 
-    const changeStatusActive = (item: any) => {
+    const changeStatusActive = async (item: any) => {
       item.property.active === 0 ? (item.property.active = 1) : (item.property.active = 0)
+      await updateProperty(item)
     }
 
-    const changeStatusVisible = (item: any) => {
+    const changeStatusVisible = async (item: any) => {
       item.property.visible === 0 ? (item.property.visible = 1) : (item.property.visible = 0)
+      await updateProperty(item)
     }
 
     return {
@@ -213,7 +215,7 @@ export default defineComponent({
         <v-toolbar>
           <v-dialog v-model="dialog" persistent>
             <template v-slot:activator="{ props }">
-              <v-btn class="mb-2" color="primary" dark v-bind="props"> Novi oglas </v-btn>
+              <v-btn color="primary" v-bind="props"> Novi oglas </v-btn>
             </template>
             <DataTableRowEditComponent
               :defaultItem="defaultItem"

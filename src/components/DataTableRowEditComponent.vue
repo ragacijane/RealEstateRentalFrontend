@@ -29,6 +29,7 @@ export default defineComponent({
     const editedItem = ref<OwnerItem>(props.defaultItem)
     const picturesFormData = ref<FormData | null>(null)
     const editDataForm = ref<any>(null)
+    const savePressed = ref<boolean>(false)
 
     onMounted(async () => {
       index.value = editedItem.value.idOwner
@@ -56,6 +57,7 @@ export default defineComponent({
     }
 
     const save = () => {
+      savePressed.value = true
       //check required fields
       emit('save-pressed', {
         item: editedItem.value,
@@ -83,10 +85,6 @@ export default defineComponent({
       picturesFormData.value = data.picturesFormData
     }
 
-    const downloadImages = async () => {
-      // Implementation for downloading images can be added here
-    }
-
     return {
       allTags,
       allCategories,
@@ -95,13 +93,13 @@ export default defineComponent({
       step,
       yesOrNo,
       editDataForm,
+      savePressed,
       //functions
       closeDialog,
       save,
       next,
       prev,
-      saveImages,
-      downloadImages
+      saveImages
     }
   }
 })
@@ -193,7 +191,12 @@ export default defineComponent({
                     <v-btn variant="flat" @click="closeDialog">Odustani</v-btn></v-col
                   >
                   <v-col class="text-right"
-                    ><v-btn class="text-white" color="blue-darken-4" variant="flat" @click="save"
+                    ><v-btn
+                      class="text-white"
+                      color="blue-darken-4"
+                      variant="flat"
+                      @click="save"
+                      :disabled="savePressed"
                       >Sačuvaj</v-btn
                     ></v-col
                   ></v-row

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { fetchImages } from '@/services/dataService'
-import type { PicturesBody } from '@/typesAndUtils/types'
-import { createFormData, getEmptyPicturesBody, getImageNameFromPath } from '@/typesAndUtils/utils'
+import type { PictureDto, PicturesBody } from '@/typesAndUtils/types'
+import { createFormData, getEmptyPicturesBody } from '@/typesAndUtils/utils'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 
 export default defineComponent({
@@ -17,13 +17,12 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const images = ref<string[]>([])
+    const images = ref<PictureDto[]>([])
     const model = ref<number>(-1)
     const body = ref<PicturesBody>(getEmptyPicturesBody(''))
     const oldLength = ref<number>(0)
     const thumbnailIndex = ref<number>(-1)
     const dialog = ref<boolean>(false)
-    const selectedImage = ref<string>('')
     const deletionMode = ref<boolean>(false)
 
     onMounted(async () => {
@@ -32,7 +31,7 @@ export default defineComponent({
       }
       if (images.value.length > 0) {
         for (let i = 0; i < images.value.length; i++) {
-          if (props.thumbnail == getImageNameFromPath(images.value[i])) {
+          if (props.thumbnail == images.value[i].pictureName) {
             thumbnailIndex.value = i
             break
           }
@@ -41,7 +40,7 @@ export default defineComponent({
         model.value = thumbnailIndex.value
         oldLength.value = images.value.length
       }
-      console.log(images.value)
+      console.log(images)
     })
 
     const handleFileInputChange = (event: Event) => {
@@ -52,13 +51,14 @@ export default defineComponent({
     }
 
     const handleFiles = (fileList: FileList) => {
-      // Convert FileList to array and assign to ref
       const currFiles = ref<File[]>([])
       currFiles.value = Array.from(fileList)
+
       currFiles.value.forEach((file) => {
         const reader = new FileReader()
 
-        reader.onload = () => images.value.push(reader.result as string)
+        reader.onload = () =>
+          images.value.push({ pictureUrl: reader.result as string, pictureName: file.name })
 
         reader.readAsDataURL(file)
         body.value.newImages.push(file)
@@ -80,8 +80,8 @@ export default defineComponent({
 
     const deletePhoto = (index: number) => {
       if (index > -1) {
-        const [check, rest] = images.value[index].split(':')
-        const imageToDelete = getImageNameFromPath(images.value[index])
+        const [check, rest] = images.value[index].pictureUrl.split(':')
+        const imageToDelete = images.value[index].pictureName
         images.value.splice(index, 1)
 
         if (check == 'data') {
@@ -113,7 +113,7 @@ export default defineComponent({
           body.value.thumbnailPhoto = body.value.newImages[index - oldLength.value].name
           body.value.isThumbInNew = 'true'
         } else {
-          body.value.thumbnailPhoto = getImageNameFromPath(images.value[index])
+          body.value.thumbnailPhoto = images.value[index].pictureName
           body.value.isThumbInNew = 'false'
         }
       } else {
@@ -129,9 +129,8 @@ export default defineComponent({
       })
     }
 
-    const openDialog = (image: string, index: number) => {
+    const openDialog = (index: number) => {
       model.value = index
-      selectedImage.value = image
       dialog.value = true
     }
 
@@ -159,7 +158,6 @@ export default defineComponent({
       body,
       thumbnailIndex,
       dialog,
-      selectedImage,
       deletionMode,
       //functions
       handleFileInputChange,
@@ -210,7 +208,7 @@ export default defineComponent({
         v-slot="{ isSelected, select }"
       >
         <div
-          @dblclick="(event: MouseEvent) => openDialog(image, index)"
+          @dblclick="(event: MouseEvent) => openDialog(index)"
           @click="(event: MouseEvent) => select(!isSelected)"
         >
           <div class="icon-above-card">
@@ -229,7 +227,7 @@ export default defineComponent({
             :class="{ 'border-primary': isSelected }"
           >
             <div class="d-flex fill-height align-center justify-center">
-              <v-img :src="image" alt="Image" class="image-item" />
+              <v-img :src="image.pictureUrl" alt="Image" class="image-item" />
             </div>
           </v-card>
         </div>
@@ -245,7 +243,7 @@ export default defineComponent({
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
 
-        <v-img :src="images[model]" alt="Selected Image" class="full-image" />
+        <v-img :src="images[model].pictureUrl" alt="Selected Image" class="full-image" />
 
         <v-btn icon class="nav-button next" @click="nextImage">
           <v-icon>mdi-chevron-right</v-icon>

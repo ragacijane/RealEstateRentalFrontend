@@ -1,3 +1,13 @@
+export interface LoginForm {
+  username: string
+  password: string
+}
+
+export interface PictureDto {
+  pictureUrl: string
+  pictureName: string
+}
+
 export interface HandleSaveItem {
   item: OwnerItem
   index: number
@@ -16,7 +26,7 @@ export interface SearchPropertyParams {
   ID: string | null
   type: Types | null | undefined
   phoneNumber: string | null | undefined
-  borough: Borough | null | undefined
+  borough: Borough[] | null | undefined
   squareFootageMin: string | null | undefined
   squareFootageMax: string | null | undefined
   category: number | null | undefined
@@ -27,36 +37,13 @@ export interface SearchPropertyParams {
   priceMax: string | null | undefined
 }
 
-export interface OwnerItemBodyRequest {
-  name: string
-  email: string
-  phone: string
-  contract: string
-  street: string
-  number: string
-  moreInfo: string
-  /////////////////////
-  typeId: number
-  structureId: number
-  rooms: number
-  squareFootage: number
-  bathrooms: number
-  heating: string
-  equipmentId: number
-  boroughId: number
-  floor: string
-  active: number
-  visible: number
-  deposit: number
-  price: number
-  category: number
-  title: string
-  description: string | null
+export interface ItemBody {
+  item: OwnerItem
   tagIds: string
 }
 
 export interface Borough {
-  id: number
+  idBorough: number
   boroughName: string
 }
 
@@ -76,7 +63,7 @@ export interface Tag {
 }
 
 export interface Equipment {
-  id: number
+  idEquipment: number
   equipmentType: string
 }
 

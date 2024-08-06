@@ -1,4 +1,4 @@
-import type { OwnerItem, OwnerItemBodyRequest, PicturesBody, SearchPropertyParams } from './types'
+import type { OwnerItem, ItemBody, PicturesBody, SearchPropertyParams } from './types'
 
 export const createFormData = (body: PicturesBody) => {
   const formData = new FormData()
@@ -21,11 +21,6 @@ export const createFormData = (body: PicturesBody) => {
   formData.append('thumbnailPhoto', body.thumbnailPhoto)
   formData.append('isThumbInNew', body.isThumbInNew)
   return formData
-}
-
-export const getImageNameFromPath = (str: string): string => {
-  const parts = str.split('/')
-  return parts[parts.length - 1]
 }
 
 export const getEmptyPicturesBody = (thumbnail: string): PicturesBody => {
@@ -56,39 +51,6 @@ export const getEmptyParams = (): SearchPropertyParams => {
   return emptyItem
 }
 
-export function createOwnerItemBodyRequest(
-  item: OwnerItem,
-  selectedTags: number[]
-): OwnerItemBodyRequest {
-  return {
-    name: item.name,
-    email: item.email,
-    phone: item.phone,
-    contract: item.contract,
-    street: item.street,
-    number: item.number,
-    moreInfo: item.moreInfo,
-    ///
-    typeId: item.property.type.idType,
-    structureId: item.property.structure.idStructure,
-    rooms: item.property.rooms,
-    squareFootage: item.property.squareFootage,
-    bathrooms: item.property.bathrooms,
-    heating: item.property.heating,
-    equipmentId: item.property.equipment.id,
-    boroughId: item.property.borough.id,
-    floor: item.property.floor,
-    active: item.property.active,
-    visible: item.property.visible,
-    deposit: item.property.deposit,
-    price: item.property.price,
-    category: item.property.category,
-    title: item.property.title,
-    description: item.property.description,
-    tagIds: selectedTags.join(',')
-  }
-}
-
 export const getEmptyItem = (): OwnerItem => {
   const emptyItem = {
     idOwner: 0,
@@ -116,11 +78,11 @@ export const getEmptyItem = (): OwnerItem => {
       heating: '',
       equipment: {
         equipmentType: '',
-        id: 0
+        idEquipment: 0
       },
       borough: {
         boroughName: '',
-        id: 0
+        idBorough: 0
       },
       floor: '',
       active: 0,

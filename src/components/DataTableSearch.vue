@@ -69,11 +69,13 @@ export default defineComponent({
             (prop) => prop.property.type.idType == tempType.idType
           )
 
-        const tempBorough = paramValue.borough
-        if (tempBorough)
-          filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.borough.id == tempBorough.id
+        const tempBorough: Borough[] | null | undefined = paramValue.borough
+        if (tempBorough && Array.isArray(tempBorough) && tempBorough.length > 0) {
+          const boroughNames = tempBorough.map((b) => b.boroughName)
+          filteredProperties.value = filteredProperties.value.filter((prop) =>
+            boroughNames.includes(prop.property.borough.boroughName)
           )
+        }
 
         const tempMinSF = paramValue.squareFootageMin
         if (tempMinSF)
@@ -90,7 +92,7 @@ export default defineComponent({
         const tempPhone = paramValue.phoneNumber
         if (tempPhone && tempPhone.length > 0) {
           filteredProperties.value = filteredProperties.value.filter((prop) =>
-            prop.number.toString().includes(tempPhone)
+            prop.phone.toString().includes(tempPhone)
           )
         }
 
@@ -231,6 +233,7 @@ export default defineComponent({
         <v-col cols="12" md="2" sm="2"
           ><v-select
             clearable
+            multiple
             v-model="params.borough"
             label="Opština"
             :items="allBoroughs"
