@@ -1,8 +1,9 @@
-export const BACKEND_URL = 'http://localhost:8081'
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 // export const BACKEND_URL = 'https://test-rental-1e845c8834a8.herokuapp.com'
 export const allCategories = [
   { id: 0, value: 'Iznajmljivanje' },
-  { id: 1, value: 'Prodaja' }
+  { id: 1, value: 'Prodaja' },
+  { ID: 2, value: 'Stan na dan' }
 ]
 
 export const yesOrNo = [
@@ -24,18 +25,18 @@ export const headersList: Array<TableHeader> = [
   },
   {
     title: 'ID',
-    align: 'center',
+    align: 'start',
     key: 'property.idProperty'
   },
   {
     title: 'Kategorija',
-    align: 'start',
+    align: 'center',
     key: 'category',
     sortable: false
   },
   {
     title: 'Tip',
-    align: 'start',
+    align: 'center',
     key: 'property.type.typeName',
     sortable: false
   },
@@ -47,13 +48,13 @@ export const headersList: Array<TableHeader> = [
   },
   {
     title: 'Opština',
-    align: 'start',
+    align: 'center',
     key: 'property.borough.boroughName',
     sortable: false
   },
   {
     title: 'Ulica',
-    align: 'start',
+    align: 'center',
     key: 'street',
     sortable: false
   },
@@ -65,17 +66,17 @@ export const headersList: Array<TableHeader> = [
   },
   {
     title: 'Površina',
-    align: 'start',
+    align: 'center',
     key: 'property.squareFootage'
   },
   {
     title: 'Cena',
-    align: 'start',
+    align: 'center',
     key: 'property.price'
   },
   {
     title: 'Opcije',
-    align: 'start',
+    align: 'center',
     key: 'edit',
     sortable: false
   }

@@ -80,13 +80,13 @@ export default defineComponent({
         const tempMinSF = paramValue.squareFootageMin
         if (tempMinSF)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.squareFootage >= parseInt(tempMinSF, 10)
+            (prop) => parseInt(prop.property.squareFootage) >= parseInt(tempMinSF, 10)
           )
 
         const tempMaxSF = paramValue.squareFootageMax
         if (tempMaxSF)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.squareFootage <= parseInt(tempMaxSF, 10)
+            (prop) => parseInt(prop.property.squareFootage) <= parseInt(tempMaxSF, 10)
           )
 
         const tempPhone = paramValue.phoneNumber
@@ -113,20 +113,20 @@ export default defineComponent({
         const tempEqip = paramValue.equipment
         if (tempEqip) {
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.equipment.id == tempEqip.id
+            (prop) => prop.property.equipment.idEquipment == tempEqip.idEquipment
           )
         }
 
         const tempMinPrice = paramValue.priceMin
         if (tempMinPrice)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.price >= parseInt(tempMinPrice, 10)
+            (prop) => parseInt(prop.property.price) >= parseInt(tempMinPrice, 10)
           )
 
         const tempMaxPrice = paramValue.priceMax
         if (tempMaxPrice)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.price <= parseInt(tempMaxPrice, 10)
+            (prop) => parseInt(prop.property.price) <= parseInt(tempMaxPrice, 10)
           )
       }
       emit('filter', {
@@ -198,133 +198,115 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-card>
-    <v-card-text>
-      <v-row>
-        <v-col cols="12" md="2" sm="2"
-          ><v-text-field
-            clearable
-            v-model="params.ID"
-            type="number"
-            label="ID"
-            @update:modelValue="setId"
-        /></v-col>
-        <v-col cols="12" md="2" sm="2"
-          ><v-select
-            clearable
-            v-model="params.category"
-            label="Kategorija"
-            :items="allCategories"
-            item-title="value"
-            item-value="id"
-            @update:modelValue="setCategory"
-        /></v-col>
-        <v-col cols="12" md="2" sm="2"
-          ><v-select
-            clearable
-            v-model="params.type"
-            label="Tip"
-            :items="allTypes"
-            item-title="typeName"
-            item-value="idType"
-            return-object
-            @update:modelValue="setTypeId"
-        /></v-col>
-        <v-col cols="12" md="2" sm="2"
-          ><v-select
-            clearable
-            multiple
-            v-model="params.borough"
-            label="Opština"
-            :items="allBoroughs"
-            item-title="boroughName"
-            item-value="id"
-            return-object
-            @update:modelValue="setBorough"
-        /></v-col>
-        <v-col cols="12" md="2" sm="2">
-          <v-text-field
-            v-model="params.squareFootageMin"
-            label="Površina od:"
-            @update:modelValue="setSFMin"
-            type="number"
-          />
-        </v-col>
-        <v-col cols="12" md="2" sm="2">
-          <v-text-field
-            v-model="params.squareFootageMax"
-            label="Površina do:"
-            @update:modelValue="setSFMax"
-            type="number"
-          />
-        </v-col>
-
-        <v-col cols="12" md="2" sm="2">
-          <v-text-field
-            v-model="params.phoneNumber"
-            label="Broj telefona"
-            @update:modelValue="setPhone"
-            type="number"
-          />
-        </v-col>
-        <v-col cols="12" md="2" sm="2"
-          ><v-select
-            v-model="params.structure"
-            clearable
-            label="Struktura"
-            :items="allStructures"
-            item-title="structureType"
-            item-value="idStructure"
-            return-object
-            @update:modelValue="setStructure"
-        /></v-col>
-
-        <v-col cols="12" md="2" sm="2"
-          ><v-text-field v-model="params.street" label="Ulica" @update:modelValue="setStreet"
-        /></v-col>
-
-        <v-col cols="12" md="2" sm="2"
-          ><v-select
-            v-model="params.equipment"
-            clearable
-            label="Nameštenost"
-            :items="allEquips"
-            item-title="equipmentType"
-            item-value="id"
-            return-object
-            @update:modelValue="setEquip"
-        /></v-col>
-
-        <v-col cols="12" md="2" sm="2">
-          <v-text-field
-            v-model="params.priceMin"
-            label="Cena od:"
-            @update:modelValue="setPriceMin"
-            type="number"
-        /></v-col>
-        <v-col cols="12" md="2" sm="2">
-          <v-text-field
-            v-model="params.priceMax"
-            label="Cena do:"
-            @update:modelValue="setPriceMax"
-            type="number"
-          />
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
-</template>
-
-<!--
-<v-card-text>
+  <v-row>
+    <v-col cols="12" md="2" sm="2"
+      ><v-text-field
+        clearable
+        v-model="params.ID"
+        type="number"
+        label="ID"
+        @update:modelValue="setId"
+    /></v-col>
+    <v-col cols="12" md="2" sm="2"
+      ><v-select
+        clearable
+        v-model="params.category"
+        label="Kategorija"
+        :items="allCategories"
+        item-title="value"
+        item-value="id"
+        @update:modelValue="setCategory"
+    /></v-col>
+    <v-col cols="12" md="2" sm="2"
+      ><v-select
+        clearable
+        v-model="params.type"
+        label="Tip"
+        :items="allTypes"
+        item-title="typeName"
+        item-value="idType"
+        return-object
+        @update:modelValue="setTypeId"
+    /></v-col>
+    <v-col cols="12" md="2" sm="2"
+      ><v-select
+        clearable
+        multiple
+        v-model="params.borough"
+        label="Opština"
+        :items="allBoroughs"
+        item-title="boroughName"
+        item-value="id"
+        return-object
+        @update:modelValue="setBorough"
+    /></v-col>
+    <v-col cols="12" md="2" sm="2">
       <v-text-field
-        :loading="loading"
-        append-inner-icon="mdi-magnify"
-        density="compact"
-        label="Search templates"
-        variant="solo"
-        hide-details
-        single-line
-        @click:append-inner="onClick"
-      ></v-text-field>
--->
+        v-model="params.squareFootageMin"
+        label="Površina od:"
+        @update:modelValue="setSFMin"
+        type="number"
+      />
+    </v-col>
+    <v-col cols="12" md="2" sm="2">
+      <v-text-field
+        v-model="params.squareFootageMax"
+        label="Površina do:"
+        @update:modelValue="setSFMax"
+        type="number"
+      />
+    </v-col>
+
+    <v-col cols="12" md="2" sm="2">
+      <v-text-field
+        v-model="params.phoneNumber"
+        label="Broj telefona"
+        @update:modelValue="setPhone"
+        type="number"
+      />
+    </v-col>
+    <v-col cols="12" md="2" sm="2"
+      ><v-select
+        v-model="params.structure"
+        clearable
+        label="Struktura"
+        :items="allStructures"
+        item-title="structureType"
+        item-value="idStructure"
+        return-object
+        @update:modelValue="setStructure"
+    /></v-col>
+
+    <v-col cols="12" md="2" sm="2"
+      ><v-text-field v-model="params.street" label="Ulica" @update:modelValue="setStreet"
+    /></v-col>
+
+    <v-col cols="12" md="2" sm="2"
+      ><v-select
+        v-model="params.equipment"
+        clearable
+        label="Nameštenost"
+        :items="allEquips"
+        item-title="equipmentType"
+        item-value="id"
+        return-object
+        @update:modelValue="setEquip"
+    /></v-col>
+
+    <v-col cols="12" md="2" sm="2">
+      <v-text-field
+        v-model="params.priceMin"
+        label="Cena od:"
+        @update:modelValue="setPriceMin"
+        type="number"
+    /></v-col>
+    <v-col cols="12" md="2" sm="2">
+      <v-text-field
+        v-model="params.priceMax"
+        label="Cena do:"
+        @update:modelValue="setPriceMax"
+        type="number"
+      />
+    </v-col>
+  </v-row>
+</template>

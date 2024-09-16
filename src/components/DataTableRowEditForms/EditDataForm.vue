@@ -2,7 +2,7 @@
 import { allCategories, yesOrNo } from '@/constants/constant'
 import { useDataStore } from '@/store/dataStore'
 import type { OwnerItem } from '@/typesAndUtils/types'
-import { defineComponent, onMounted, ref, type PropType } from 'vue'
+import { defineComponent, onMounted, ref, watch, type PropType } from 'vue'
 
 export default defineComponent({
   name: 'EditDataForm',
@@ -24,6 +24,15 @@ export default defineComponent({
     const getData = () => {
       return editedItem.value
     }
+    watch(
+      () => [editedItem.value.street, editedItem.value.property.borough?.boroughName],
+      ([street, borough]) => {
+        if (borough && street) {
+          editedItem.value.property.title = `${street}, ${borough}`
+        }
+      },
+      { immediate: true } // Apply the initial value
+    )
 
     return {
       allTags,
@@ -66,11 +75,19 @@ export default defineComponent({
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
-        <v-text-field v-model="editedItem.property.price" label="Cena €"></v-text-field>
+        <v-text-field
+          v-model="editedItem.property.price"
+          label="Cena €"
+          type="number"
+        ></v-text-field>
       </v-col>
       <!-- Drugi red-->
       <v-col cols="12" md="3" sm="6">
-        <v-text-field v-model="editedItem.phone" label="Telefon"></v-text-field></v-col
+        <v-text-field
+          v-model="editedItem.phone"
+          label="Telefon"
+          type="number"
+        ></v-text-field></v-col
       ><v-col cols="12" md="3" sm="6">
         <v-select
           v-model="editedItem.property.type"
@@ -111,10 +128,18 @@ export default defineComponent({
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
-        <v-text-field v-model="editedItem.property.floor" label="Sprat"></v-text-field>
+        <v-text-field
+          v-model="editedItem.property.floor"
+          label="Sprat"
+          type="number"
+        ></v-text-field>
       </v-col>
       <v-col cols="12" md="3" sm="6">
-        <v-text-field v-model="editedItem.property.bathrooms" label="Kupatila"></v-text-field>
+        <v-text-field
+          v-model="editedItem.property.bathrooms"
+          label="Kupatila"
+          type="number"
+        ></v-text-field>
       </v-col>
       <!--Cetvrti red-->
       <v-col cols="12" md="3" sm="6">
@@ -131,19 +156,24 @@ export default defineComponent({
         />
       </v-col>
       <v-col cols="12" md="2" sm="6">
-        <v-text-field v-model="editedItem.property.rooms" label="Prostorije"></v-text-field>
+        <v-text-field
+          v-model="editedItem.property.rooms"
+          label="Prostorije"
+          type="number"
+        ></v-text-field>
       </v-col>
       <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="editedItem.property.squareFootage"
           label="Kvadratura (m²)"
+          type="number"
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="2" sm="6">
         <v-text-field v-model="editedItem.property.heating" label="Grejanje"></v-text-field>
       </v-col>
       <v-col cols="12" md="3" sm="6">
-        <v-text-field v-model="editedItem.property.title" label="Naslov"></v-text-field>
+        <v-text-field readonly v-model="editedItem.property.title" label="Naslov"></v-text-field>
       </v-col>
       <v-col cols="12" md="6" sm="6"> </v-col>
       <v-col cols="12" md="7" sm="12">

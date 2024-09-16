@@ -58,3 +58,16 @@ export async function put<T>(url: string, body: any, headers?: Record<string, st
     return { data: null, error: error.message }
   }
 }
+
+export async function toggle(url: string, headers?: Record<string, string>): Promise<boolean> {
+  try {
+    const response = await axios.post(url, {}, { // Pass an empty object as the body
+      headers: { 'Content-Type': 'application/json', ...(headers || {}) }
+    });
+
+    // Return true if status is 200, otherwise false
+    return response.status === 200;
+  } catch (error: any) {
+    return false;
+  }
+}

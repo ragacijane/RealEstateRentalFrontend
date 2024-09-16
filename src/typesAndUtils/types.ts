@@ -71,20 +71,20 @@ export interface Property {
   idProperty: number
   category: number
   borough: Borough
-  price: number
+  price: string
   type: Types
   deposit: number
   structure: Structure
   floor: string
-  bathrooms: number
+  bathrooms: string
   equipment: Equipment
-  rooms: number
-  squareFootage: number
+  rooms: string
+  squareFootage: string
   heating: string
   active: number
   visible: number
   title: string
-  description: string | null
+  description: string
   thumbnail: string
 }
 

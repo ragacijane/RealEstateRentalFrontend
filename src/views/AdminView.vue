@@ -25,7 +25,6 @@ watch(
     isNotLoggedIn.value = !newToken // Show dialog if no token
     if (!isNotLoggedIn.value) {
       await adminStore.fetchAndSetProperties()
-      console.log(adminStore.allProperties)
     }
   },
   { immediate: true }
@@ -33,19 +32,16 @@ watch(
 </script>
 
 <template>
-  <v-app>
-    <!-- Header component -->
-    <TheHeader />
+  <TheHeader />
+  <v-container fluid class="mt-5"><DataTable /></v-container>
 
-    <!-- Main content area -->
-    <DataTable />
-
-    <!-- Footer component -->
-    <TheFooter />
-
-    <!-- Login dialog visibility controlled by `isLoggedIn` -->
-    <v-dialog v-model="isNotLoggedIn" persistent>
-      <AdminLogin />
-    </v-dialog>
-  </v-app>
+  <v-dialog v-model="isNotLoggedIn" persistent>
+    <AdminLogin />
+  </v-dialog>
 </template>
+
+<style scoped>
+:deep(.v-data-table thead th) {
+  font-weight: bold !important;
+}
+</style>

@@ -72,9 +72,9 @@ export const getEmptyItem = (): OwnerItem => {
         idStructure: 0,
         structureType: ''
       },
-      rooms: 0,
-      squareFootage: 0,
-      bathrooms: 0,
+      rooms: '',
+      squareFootage: '',
+      bathrooms: '',
       heating: '',
       equipment: {
         equipmentType: '',
@@ -88,7 +88,7 @@ export const getEmptyItem = (): OwnerItem => {
       active: 0,
       visible: 0,
       deposit: 0,
-      price: 0,
+      price: '',
       title: '',
       description: '',
       thumbnail: ''
