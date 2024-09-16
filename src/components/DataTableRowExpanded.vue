@@ -1,5 +1,4 @@
 <script lang="ts">
-import { BACKEND_URL } from '@/constants/constant'
 import { fetchThumbnail } from '@/services/dataService'
 import type { OwnerItem } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
@@ -14,9 +13,12 @@ export default defineComponent({
   setup(props) {
     const isZoomed = ref<boolean>(false)
     const thumbURL = ref<string>('/noImage.jpg')
+    const isLoading = ref<boolean>(true)
 
     onMounted(async () => {
+      isLoading.value = true
       await getPicUrl()
+      isLoading.value = false
     })
 
     const getPicUrl = async () => {
@@ -42,6 +44,7 @@ export default defineComponent({
     }
     return {
       isZoomed,
+      isLoading,
       thumbURL,
       toggleZoom,
       getPicUrl
@@ -54,8 +57,16 @@ export default defineComponent({
   <div v-if="propertyItem && propertyItem.idOwner">
     <v-container>
       <v-row>
-        <v-col cols="1">
-          <div @dblclick="toggleZoom()"><v-img :src="thumbURL" width="150px"></v-img></div>
+        <v-col cols="1" class="d-flex align-center justify-center pr-7">
+          <div @dblclick="toggleZoom()">
+            <v-progress-circular
+              v-if="isLoading"
+              size="60"
+              color="primary"
+              indeterminate
+            ></v-progress-circular>
+            <v-img v-else :src="thumbURL" width="100px"></v-img>
+          </div>
         </v-col>
         <v-col cols="11">
           <v-row dense no-gutters>
@@ -108,7 +119,7 @@ export default defineComponent({
               {{ propertyItem.property.floor }}
             </v-col>
             <v-col cols="3">
-              <p class="font-weight-bold d-inline" align="center">Kupatila:</p>
+              <p class="font-weight-bold d-inline">Kupatila:</p>
               {{ propertyItem.property.bathrooms }}
             </v-col>
             <!-- Cetvrti red-->
@@ -120,27 +131,23 @@ export default defineComponent({
               <p class="font-weight-bold d-inline">Nameštenost:</p>
               {{ propertyItem.property.equipment.equipmentType }}
             </v-col>
-            <v-col cols="6">
-              <v-row dense no-gutters>
-                <v-col cols="3"
-                  ><p class="font-weight-bold d-inline">Prostorije:</p>
-                  {{ propertyItem.property.rooms }}</v-col
-                >
-                <v-col cols="3"
-                  ><p class="font-weight-bold d-inline">Kvadratura:</p>
-                  {{ propertyItem.property.squareFootage }} m²</v-col
-                >
-                <v-col cols="3"
-                  ><p class="font-weight-bold d-inline">Grejanje:</p>
-                  {{ propertyItem.property.heating }}</v-col
-                >
-              </v-row>
-            </v-col>
+            <v-col cols="3"
+              ><p class="font-weight-bold d-inline">Kvadratura:</p>
+              {{ propertyItem.property.squareFootage }} m²</v-col
+            >
+            <v-col cols="3"
+              ><p class="font-weight-bold d-inline">Grejanje:</p>
+              {{ propertyItem.property.heating }}</v-col
+            >
             <!-- Peti red -->
-            <v-col cols="7">
+            <v-col cols="9">
               <p class="font-weight-bold d-inline">Naslov:</p>
               {{ propertyItem.property.title }}
             </v-col>
+            <v-col cols="3"
+              ><p class="font-weight-bold d-inline">Prostorije:</p>
+              {{ propertyItem.property.rooms }}</v-col
+            >
             <!-- Sesti red-->
             <v-col cols="6">
               <p class="font-weight-bold d-inline">Opis:</p>

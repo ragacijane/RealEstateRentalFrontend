@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useTheme } from 'vuetify'
+import apoloneImage from '@/assets/colorLogoHor.png'
 
 export default defineComponent({
   name: 'TheHeader',
@@ -17,20 +18,30 @@ export default defineComponent({
     return {
       light,
       // functions
-      toggleTheme
+      toggleTheme,
+      apoloneImage
     }
   }
 })
 </script>
 
 <template>
-  <div>
-    <v-row>
-      <v-col cols="12" md="10" sm="10"> <h1>The Header</h1> </v-col>
-      <v-col cols="12" md="2" sm="2" class="justify-sm-end">
-        <v-icon v-if="light" icon="mdi-star-outline" size="default" @click="toggleTheme"></v-icon>
-        <v-icon v-if="!light" icon="mdi-star" size="default" @click="toggleTheme"></v-icon
-      ></v-col>
-    </v-row>
-  </div>
+  <v-row class="align-start justify-center custom-row-bg" style="height: 92px">
+    <v-col cols="3" offset="5"
+      ><img :src="apoloneImage" alt="Apolone Logo" style="height: 80px" />
+    </v-col>
+    <v-col cols="1" offset="3">
+      <v-icon
+        :icon="light ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+        size="default"
+        class="pa-5 ma-5 text-white"
+        @click="toggleTheme"
+      />
+    </v-col>
+  </v-row>
 </template>
+<style scoped>
+.custom-row-bg {
+  background-color: #400636; /* Custom background color */
+}
+</style>
