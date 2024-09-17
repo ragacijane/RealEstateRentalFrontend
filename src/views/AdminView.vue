@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import TheHeader from '@/components/TheHeader.vue'
-import TheFooter from '@/components/TheFooter.vue'
 import DataTable from '@/components/DataTable.vue'
 import { useAdminStore } from '@/store/adminStore'
 import { onMounted, ref, watch } from 'vue'
@@ -33,7 +32,7 @@ watch(
 
 <template>
   <TheHeader />
-  <v-container fluid class="mt-5"><DataTable /></v-container>
+  <v-container v-if="!isNotLoggedIn" fluid class="mt-5"><DataTable /></v-container>
   <v-dialog v-model="isNotLoggedIn" persistent>
     <AdminLogin />
   </v-dialog>

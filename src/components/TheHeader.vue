@@ -32,7 +32,7 @@ export default defineComponent({
     </v-col>
     <v-col cols="1" offset="3">
       <v-icon
-        :icon="light ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+        :icon="light ? 'mdi-weather-night' : 'mdi-weather-sunny'"
         size="default"
         class="pa-5 ma-5 text-white"
         @click="toggleTheme"

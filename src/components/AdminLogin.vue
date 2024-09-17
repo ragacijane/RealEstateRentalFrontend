@@ -62,7 +62,6 @@ export default defineComponent({
         <v-btn type="submit" color="primary">Login</v-btn>
       </form>
     </v-card-text>
-    <v-card-action></v-card-action>
   </v-card>
 </template>
 <style scoped>
