@@ -34,7 +34,6 @@ watch(
 <template>
   <TheHeader />
   <v-container fluid class="mt-5"><DataTable /></v-container>
-
   <v-dialog v-model="isNotLoggedIn" persistent>
     <AdminLogin />
   </v-dialog>
