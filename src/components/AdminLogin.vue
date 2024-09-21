@@ -8,14 +8,15 @@ export default defineComponent({
   name: 'AdminLogin',
   setup() {
     const loginData = ref<LoginForm>({ username: '', password: '' })
-
     const userError = ref<string | null>(null)
     const passError = ref<string | null>(null)
+    const loginPressed = ref<boolean>(false)
 
     const router = useRouter()
     const handleLogin = async () => {
       if (validateForm()) {
         try {
+          loginPressed.value = true
           await login(loginData.value.username, loginData.value.password)
           router.push('/admin') // Navigate to the admin page after successful login
         } catch (error) {
@@ -24,6 +25,7 @@ export default defineComponent({
           passError.value = null
         }
       }
+      loginPressed.value = false
     }
 
     const validateForm = () => {
@@ -35,6 +37,7 @@ export default defineComponent({
       loginData,
       userError,
       passError,
+      loginPressed,
       //function
       handleLogin
     }
@@ -44,7 +47,11 @@ export default defineComponent({
 
 <template>
   <v-card title="Dobrodošli">
-    <v-card-text>
+    <div v-if="loginPressed" class="text-center">
+      <v-progress-circular size="120" color="primary" indeterminate></v-progress-circular>
+      <h2 class="primary--text">Molimo sačekajte 😊</h2>
+    </div>
+    <v-card-text v-else>
       <form @submit.prevent="handleLogin">
         <v-text-field
           v-model="loginData.username"
@@ -59,7 +66,7 @@ export default defineComponent({
           :error-messages="passError"
           :rules="[(v: string) => !!v || 'Password je obavezan!']"
         ></v-text-field>
-        <v-btn type="submit" color="primary">Login</v-btn>
+        <v-btn :disabled="loginPressed" type="submit" color="primary">Login</v-btn>
       </form>
     </v-card-text>
   </v-card>

@@ -128,11 +128,7 @@ export default defineComponent({
         />
       </v-col>
       <v-col cols="12" md="3" sm="6">
-        <v-text-field
-          v-model="editedItem.property.floor"
-          label="Sprat"
-          type="number"
-        ></v-text-field>
+        <v-text-field v-model="editedItem.property.floor" label="Sprat"></v-text-field>
       </v-col>
       <v-col cols="12" md="3" sm="6">
         <v-text-field
