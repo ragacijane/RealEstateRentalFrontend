@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheHeader from '@/components/TheHeader.vue'
-import DataTable from '@/components/DataTable.vue'
+import TheHeader from '@/components/AdminViewComponents/TheHeader.vue'
+import DataTable from '@/components/AdminViewComponents/DataTable.vue'
 import { useAdminStore } from '@/store/adminStore'
 import { onMounted, ref, watch } from 'vue'
-import AdminLogin from '@/components/AdminLogin.vue'
+import AdminLogin from '@/components/AdminViewComponents/AdminLogin.vue'
 import { useAuthStore } from '@/store/authStore'
 
 const adminStore = useAdminStore()
