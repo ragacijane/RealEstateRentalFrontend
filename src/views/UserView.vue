@@ -12,14 +12,10 @@ const allTypes = ref<Types[]>([])
 const allBoroughs = ref<Borough[]>([])
 const allStructures = ref<Structure[]>([])
 const allEquips = ref<Equipment[]>([])
-const isLoading = ref(true)
 
 onMounted(async () => {
   await dataStore.fetchData()
-  console.log('fetched')
   allTypes.value = dataStore.allTypes
-
-  isLoading.value = false
 })
 </script>
 
@@ -29,7 +25,7 @@ onMounted(async () => {
   <v-container fluid class="pa-0 pt-2 background-container">
     <v-img :src="Image" alt="Responsive Image" class="background-image" cover />
     <div class="card-wrapper">
-      <BaseSearch :loading="isLoading" />
+      <BaseSearch />
     </div>
   </v-container>
 </template>

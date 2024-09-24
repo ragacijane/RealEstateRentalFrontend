@@ -9,17 +9,11 @@ import type {
   Types
 } from '@/typesAndUtils/types'
 import { getEmptyParams } from '@/typesAndUtils/utils'
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watchEffect } from 'vue'
 import { allCategories } from '@/constants/constant'
 
 export default defineComponent({
   name: 'BaseSearch',
-  props: {
-    loading: {
-      type: Boolean,
-      required: true
-    }
-  },
   setup(props) {
     const step = ref<number>(1)
     const dataStore = useDataStore()
@@ -28,7 +22,31 @@ export default defineComponent({
     const allBoroughs = ref<Borough[]>(dataStore.allBoroughs)
     const allStructures = ref<Structure[]>(dataStore.allStructures)
     const allEquips = ref<Equipment[]>(dataStore.allEquips)
+
+    const isLoading = ref(true)
+
     const params = ref<SearchPropertyParams>(getEmptyParams())
+
+    watchEffect(() => {
+      if (
+        dataStore.allTypes.length &&
+        dataStore.allTags.length &&
+        dataStore.allBoroughs.length &&
+        dataStore.allStructures.length &&
+        dataStore.allEquips.length
+      ) {
+        allTags.value = dataStore.allTags
+        allTypes.value = dataStore.allTypes
+        allBoroughs.value = dataStore.allBoroughs
+        allStructures.value = dataStore.allStructures
+        allEquips.value = dataStore.allEquips
+
+        // Set loading to false once all data is available
+        isLoading.value = false
+      } else {
+        isLoading.value = true
+      }
+    })
     return {
       step,
       allTags,
@@ -37,6 +55,7 @@ export default defineComponent({
       allBoroughs,
       allStructures,
       allCategories,
+      isLoading,
       //
       params
     }
@@ -46,7 +65,7 @@ export default defineComponent({
 
 <template>
   <v-card class="pa-4" elevation="10" theme="light">
-    <div v-if="loading" class="text-center">
+    <div v-if="isLoading" class="text-center">
       <v-progress-circular size="120" color="primary" indeterminate />
     </div>
     <div v-else>
