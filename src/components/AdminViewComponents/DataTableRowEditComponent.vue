@@ -149,7 +149,7 @@ export default defineComponent({
                   :label="tag.tagName"
                   v-model="selectedTags"
                   :value="tag.idTag"
-                  color="primary"
+                  color="blue-darken-2"
                 ></v-checkbox
               ></v-col>
             </v-row>

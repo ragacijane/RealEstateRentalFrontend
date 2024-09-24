@@ -2,19 +2,21 @@
 import { defineComponent, ref } from 'vue'
 import { useTheme } from 'vuetify'
 import apoloneImage from '@/assets/colorLogoHor.png'
+import type { Borough, Equipment, Structure, Tag, Types } from '@/typesAndUtils/types'
 
 export default defineComponent({
   name: 'TheHeader',
+  props: {
+    allTypes: {
+      type: Array as () => Types[],
+      required: true
+    }
+  },
   components: {},
   setup() {
     const light = ref<boolean>(true)
     const theme = useTheme()
-    const items = [
-      { title: 'Click Me' },
-      { title: 'Click Me' },
-      { title: 'Click Me' },
-      { title: 'Click Me 2' }
-    ]
+    const contacts = [{ title: '066272747' }, { title: '066272797' }, { title: '0645087995' }]
     const toggleTheme = () => {
       theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
       light.value = theme.global.current.value.dark ? false : true
@@ -22,7 +24,7 @@ export default defineComponent({
 
     return {
       light,
-      items,
+      items: contacts,
       apoloneImage,
       // functions
       toggleTheme
@@ -45,8 +47,8 @@ export default defineComponent({
               <v-btn class="text-white" variant="text" v-bind="props"> IZDAVANJE </v-btn>
             </template>
             <v-list>
-              <v-list-item v-for="(item, index) in items" :key="index">
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item v-for="(item, index) in allTypes" :key="index">
+                <v-list-item-title>{{ item.typeName }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -57,8 +59,8 @@ export default defineComponent({
               <v-btn class="text-white" variant="text" v-bind="props"> PRODAJA </v-btn>
             </template>
             <v-list>
-              <v-list-item v-for="(item, index) in items" :key="index">
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item v-for="(item, index) in allTypes" :key="index">
+                <v-list-item-title>{{ item.typeName }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu></v-col
@@ -69,8 +71,8 @@ export default defineComponent({
               <v-btn class="text-white" variant="text" v-bind="props"> STAN NA DAN </v-btn>
             </template>
             <v-list>
-              <v-list-item v-for="(item, index) in items" :key="index">
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item v-for="(item, index) in allTypes" :key="index">
+                <v-list-item-title>{{ item.typeName }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -115,5 +117,6 @@ export default defineComponent({
 <style scoped>
 .custom-row-bg {
   background-color: #400636; /* Custom background color */
+  width: 100vw;
 }
 </style>

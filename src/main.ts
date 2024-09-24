@@ -13,6 +13,16 @@ import { createPinia } from 'pinia'
 
 // Create Vuetify instance with icon configuration
 const vuetify = createVuetify({
+  theme: {
+    defaultTheme: 'light', // Set default theme if needed
+    themes: {
+      light: {
+        colors: {
+          primary: '#3f0636'
+        }
+      }
+    },
+  },
   components,
   directives,
   icons: {
