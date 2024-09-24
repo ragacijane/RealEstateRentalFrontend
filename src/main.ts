@@ -13,11 +13,31 @@ import { createPinia } from 'pinia'
 
 // Create Vuetify instance with icon configuration
 const vuetify = createVuetify({
+  theme: {
+    defaultTheme: 'light', // Set default theme if needed
+    themes: {
+      light: {
+        colors: {
+          primary: '#3f0636'
+        }
+      }
+    },
+  },
   components,
   directives,
   icons: {
     defaultSet: 'mdi' // Use Material Design Icons
-  }
+  },
+  display: {
+    mobileBreakpoint: 'sm',  // Define mobile breakpoint
+    thresholds: {  // Custom breakpoints
+      xs: 0,
+      sm: 600,
+      md: 980,
+      lg: 1000,
+      xl: 1280,
+    },
+  },
 })
 const pinia = createPinia()
 const app = createApp(App)

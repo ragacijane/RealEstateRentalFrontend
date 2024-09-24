@@ -181,7 +181,7 @@ export default defineComponent({
             @click="changeStatusActive(item)"
           ></v-icon>
           <v-icon
-            color="primary"
+            color="blue-darken-2"
             :icon="item.property?.visible ? 'mdi-eye' : 'mdi-eye-off'"
             size="default"
             class="me-2"

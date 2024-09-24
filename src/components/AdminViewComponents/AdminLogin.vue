@@ -66,7 +66,10 @@ export default defineComponent({
           :error-messages="passError"
           :rules="[(v: string) => !!v || 'Password je obavezan!']"
         ></v-text-field>
-        <v-btn :disabled="loginPressed" type="submit" color="primary">Login</v-btn>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn :disabled="loginPressed" type="submit" color="primary" variant="flat">Login</v-btn>
+        </v-card-actions>
       </form>
     </v-card-text>
   </v-card>
