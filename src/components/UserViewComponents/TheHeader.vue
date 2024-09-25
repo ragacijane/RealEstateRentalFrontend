@@ -2,21 +2,15 @@
 import { defineComponent, ref } from 'vue'
 import { useTheme } from 'vuetify'
 import apoloneImage from '@/assets/colorLogoHor.png'
-import type { Borough, Equipment, Structure, Tag, Types } from '@/typesAndUtils/types'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'TheHeader',
-  props: {
-    allTypes: {
-      type: Array as () => Types[],
-      required: true
-    }
-  },
-  components: {},
   setup() {
     const light = ref<boolean>(true)
     const theme = useTheme()
-    const contacts = [{ title: '066272747' }, { title: '066272797' }, { title: '0645087995' }]
+    const router = useRouter()
+
     const toggleTheme = () => {
       theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
       light.value = theme.global.current.value.dark ? false : true
@@ -24,8 +18,8 @@ export default defineComponent({
 
     return {
       light,
-      items: contacts,
       apoloneImage,
+      router,
       // functions
       toggleTheme
     }
@@ -43,63 +37,48 @@ export default defineComponent({
             ><v-app-bar-nav-icon class="text-white" />
           </v-col>
           <v-col v-if="$vuetify.display.mdAndUp" cols="3">
-            <v-menu>
-              <template v-slot:activator="{ props }">
-                <v-btn class="text-white" variant="text" v-bind="props"> IZDAVANJE </v-btn>
-              </template>
-              <v-list>
-                <v-list-item v-for="(item, index) in allTypes" :key="index">
-                  <v-list-item-title>{{ item.typeName }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+            <v-btn class="text-white" variant="text" @click="() => router.push('/pretraga?cat=0')">
+              IZDAVANJE
+            </v-btn>
           </v-col>
-          <v-col v-if="$vuetify.display.mdAndUp" cols="3"
-            ><v-menu>
-              <template v-slot:activator="{ props }">
-                <v-btn class="text-white" variant="text" v-bind="props"> PRODAJA </v-btn>
-              </template>
-              <v-list>
-                <v-list-item v-for="(item, index) in allTypes" :key="index">
-                  <v-list-item-title>{{ item.typeName }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu></v-col
-          >
           <v-col v-if="$vuetify.display.mdAndUp" cols="3">
-            <v-menu>
-              <template v-slot:activator="{ props }">
-                <v-btn class="text-white" variant="text" v-bind="props"> STAN NA DAN </v-btn>
-              </template>
-              <v-list>
-                <v-list-item v-for="(item, index) in allTypes" :key="index">
-                  <v-list-item-title>{{ item.typeName }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+            <v-btn class="text-white" variant="text" @click="() => router.push('/pretraga?cat=1')">
+              PRODAJA
+            </v-btn>
+          </v-col>
+          <v-col v-if="$vuetify.display.mdAndUp" cols="3">
+            <v-btn class="text-white" variant="text" @click="() => router.push('/pretraga?cat=2')">
+              STAN NA DAN
+            </v-btn>
           </v-col>
         </v-row>
       </v-col>
       <v-col cols="2" class="d-flex align-center justify-center">
-        <img :src="apoloneImage" alt="Apolone Logo" style="height: 68px" />
+        <router-link to="/" class="d-flex">
+          <img :src="apoloneImage" alt="Apolone Logo" style="height: 68px" />
+        </router-link>
       </v-col>
       <v-col cols="5">
         <v-row justify="end" no-gutters>
           <v-col v-if="$vuetify.display.mdAndUp" cols="2"></v-col>
           <v-col cols="4">
-            <v-btn v-if="$vuetify.display.mdAndUp" class="text-white" variant="text">O NAMA</v-btn>
+            <v-btn
+              v-if="$vuetify.display.mdAndUp"
+              class="text-white"
+              variant="text"
+              @click="() => router.push('/o-nama')"
+              >O NAMA</v-btn
+            >
           </v-col>
           <v-col cols="3">
-            <v-menu v-if="$vuetify.display.mdAndUp">
-              <template v-slot:activator="{ props }">
-                <v-btn class="text-white" variant="text" v-bind="props"> KONTAKT </v-btn>
-              </template>
-              <v-list>
-                <v-list-item v-for="(item, index) in items" :key="index">
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+            <v-btn
+              v-if="$vuetify.display.mdAndUp"
+              class="text-white"
+              variant="text"
+              @click="() => router.push('/kontakt')"
+            >
+              KONTAKT
+            </v-btn>
           </v-col>
           <v-col class="d-flex align-center justify-end">
             <v-icon

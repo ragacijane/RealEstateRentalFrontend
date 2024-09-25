@@ -9,12 +9,12 @@ import type {
   Types
 } from '@/typesAndUtils/types'
 import { getEmptyParams } from '@/typesAndUtils/utils'
-import { defineComponent, onMounted, ref, watchEffect } from 'vue'
+import { defineComponent, ref, watchEffect } from 'vue'
 import { allCategories } from '@/constants/constant'
 
 export default defineComponent({
-  name: 'BaseSearch',
-  setup(props) {
+  name: 'MainPageSearch',
+  setup() {
     const step = ref<number>(1)
     const dataStore = useDataStore()
     const allTags = ref<Tag[]>(dataStore.allTags)
@@ -70,7 +70,7 @@ export default defineComponent({
     </div>
     <div v-else>
       <v-tabs>
-        <v-tab prepend-icon="mdi-id-card" text="SPEC" @click="step = 1" color="primary" />
+        <v-tab prepend-icon="mdi-id-card" text="Pretraga" @click="step = 1" color="primary" />
         <v-tab prepend-icon="mdi-fingerprint" text="ID" @click="step = 0" color="primary" />
         <!-- identifier or -->
       </v-tabs>

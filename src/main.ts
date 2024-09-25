@@ -20,8 +20,14 @@ const vuetify = createVuetify({
         colors: {
           primary: '#400636'
         }
+      },
+      dark: {
+        colors: {
+          primary: '#400636'
+        }
       }
     },
+
   },
   components,
   directives,

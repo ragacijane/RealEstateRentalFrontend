@@ -36,6 +36,17 @@ export interface SearchPropertyParams {
   priceMin: string | null | undefined
   priceMax: string | null | undefined
 }
+export interface SearchQueryParams {
+  idTy: number | null | undefined
+  idBor: number[] | null | undefined
+  sqMin: string | null | undefined
+  sqMax: string | null | undefined
+  cat: number | null | undefined
+  idSt: number | null | undefined
+  idEq: number | null | undefined
+  prMin: string | null | undefined
+  prMax: string | null | undefined
+}
 
 export interface ItemBody {
   item: OwnerItem
