@@ -10,6 +10,7 @@ import * as directives from 'vuetify/directives'
 // Import the icon styles
 import '@mdi/font/css/materialdesignicons.css'
 import { createPinia } from 'pinia'
+import './assets/main.css';
 
 // Create Vuetify instance with icon configuration
 const vuetify = createVuetify({
@@ -19,9 +20,15 @@ const vuetify = createVuetify({
       light: {
         colors: {
           primary: '#400636'
-        }
+        },
+      },
+      dark: {
+        colors: {
+          primary: '#400636'
+        },
       }
     },
+
   },
   components,
   directives,

@@ -16,12 +16,6 @@ import { defineComponent, onMounted, ref, type PropType } from 'vue'
 
 export default defineComponent({
   name: 'DataTableSearch',
-  //   props: {
-  //     allProperties: {
-  //       type: Array as PropType<OwnerItem[]>,
-  //       required: true
-  //     }
-  //   },
   setup(props, { emit }) {
     const adminStore = useAdminStore()
     const dataStore = useDataStore()
@@ -177,7 +171,6 @@ export default defineComponent({
       allBoroughs,
       allStructures,
       allCategories,
-      //
       params,
       //functions
       setId,

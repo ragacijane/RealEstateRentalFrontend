@@ -4,17 +4,19 @@ import type {
   Borough,
   Equipment,
   SearchPropertyParams,
+  SearchQueryParams,
   Structure,
   Tag,
   Types
 } from '@/typesAndUtils/types'
-import { getEmptyParams } from '@/typesAndUtils/utils'
-import { defineComponent, onMounted, ref, watchEffect } from 'vue'
+import { createQueryParams, getEmptyParams } from '@/typesAndUtils/utils'
+import { defineComponent, ref, watchEffect } from 'vue'
 import { allCategories } from '@/constants/constant'
+import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'BaseSearch',
-  setup(props) {
+  name: 'MainPageSearch',
+  setup() {
     const step = ref<number>(1)
     const dataStore = useDataStore()
     const allTags = ref<Tag[]>(dataStore.allTags)
@@ -23,9 +25,29 @@ export default defineComponent({
     const allStructures = ref<Structure[]>(dataStore.allStructures)
     const allEquips = ref<Equipment[]>(dataStore.allEquips)
 
-    const isLoading = ref(true)
+    const searchId = ref<string>('')
 
-    const params = ref<SearchPropertyParams>(getEmptyParams())
+    const isLoading = ref(true)
+    const route = useRoute()
+    const router = useRouter()
+
+    const parseQueryParams = (): SearchQueryParams => {
+      return {
+        idTy: route.query.idTy ? parseInt(route.query.idTy as string) : null,
+        idBors:
+          route.query.idBors !== undefined
+            ? (route.query.idBors as string).split(',').map(Number)
+            : null,
+        sqMin: (route.query.sqMin as string) || null,
+        sqMax: (route.query.sqMax as string) || null,
+        cat: route.query.cat !== undefined ? parseInt(route.query.cat as string) : null,
+        idSt: route.query.idSt !== undefined ? parseInt(route.query.idSt as string) : null,
+        idEq: route.query.idEq !== undefined ? parseInt(route.query.idEq as string) : null,
+        prMin: (route.query.prMin as string) || null,
+        prMax: (route.query.prMax as string) || null
+      }
+    }
+    const filterParams = ref<SearchQueryParams>(parseQueryParams())
 
     watchEffect(() => {
       if (
@@ -47,6 +69,12 @@ export default defineComponent({
         isLoading.value = true
       }
     })
+
+    const applyFilters = (filters: SearchQueryParams) => {
+      const filteredQueryParams = createQueryParams(filters)
+      router.push({ path: '/pretraga', query: filteredQueryParams })
+    }
+
     return {
       step,
       allTags,
@@ -57,7 +85,9 @@ export default defineComponent({
       allCategories,
       isLoading,
       //
-      params
+      applyFilters,
+      filterParams,
+      searchId
     }
   }
 })
@@ -70,7 +100,7 @@ export default defineComponent({
     </div>
     <div v-else>
       <v-tabs>
-        <v-tab prepend-icon="mdi-id-card" text="SPEC" @click="step = 1" color="primary" />
+        <v-tab prepend-icon="mdi-id-card" text="Pretraga" @click="step = 1" color="primary" />
         <v-tab prepend-icon="mdi-fingerprint" text="ID" @click="step = 0" color="primary" />
         <!-- identifier or -->
       </v-tabs>
@@ -79,7 +109,7 @@ export default defineComponent({
           <v-window-item :value="0">
             <v-text-field
               variant="outlined"
-              v-model="params.ID"
+              v-model="searchId"
               placeholder="Unesite ID ovde"
               class="primary-input"
               type="number"
@@ -99,7 +129,7 @@ export default defineComponent({
                   variant="outlined"
                   color="primary"
                   clearable
-                  v-model="params.category"
+                  v-model="filterParams.cat"
                   label="Kategorija"
                   :items="allCategories"
                   item-title="value"
@@ -116,12 +146,11 @@ export default defineComponent({
                   variant="outlined"
                   color="primary"
                   clearable
-                  v-model="params.type"
+                  v-model="filterParams.idTy"
                   label="Vrsta"
                   :items="allTypes"
                   item-title="typeName"
                   item-value="idType"
-                  return-object
                   ><template v-slot:selection="{ item, index }">
                     <v-chip variant="flat" color="primary" v-if="index < 2">
                       <span>{{ item.title }}</span>
@@ -135,12 +164,11 @@ export default defineComponent({
                   color="primary"
                   clearable
                   multiple
-                  v-model="params.borough"
+                  v-model="filterParams.idBors"
                   label="Lokacija"
                   :items="allBoroughs"
                   item-title="boroughName"
-                  item-value="id"
-                  return-object
+                  item-value="idBorough"
                   ><template v-slot:selection="{ item, index }">
                     <v-chip variant="flat" color="primary">
                       <span>{{ item.title }}</span>
@@ -157,12 +185,11 @@ export default defineComponent({
                   variant="outlined"
                   color="primary"
                   clearable
-                  v-model="params.structure"
+                  v-model="filterParams.idSt"
                   label="Struktura"
                   :items="allStructures"
                   item-title="structureType"
                   item-value="idStructure"
-                  return-object
                   ><template v-slot:selection="{ item, index }">
                     <v-chip variant="flat" color="primary" v-if="index < 2">
                       <span>{{ item.title }}</span>
@@ -175,12 +202,11 @@ export default defineComponent({
                   variant="outlined"
                   color="primary"
                   clearable
-                  v-model="params.equipment"
+                  v-model="filterParams.idEq"
                   label="Nameštenost"
                   :items="allEquips"
                   item-title="equipmentType"
-                  item-value="id"
-                  return-object
+                  item-value="idEquipment"
                   ><template v-slot:selection="{ item, index }">
                     <v-chip variant="flat" color="primary" v-if="index < 2">
                       <span>{{ item.title }}</span>
@@ -198,7 +224,7 @@ export default defineComponent({
                   <v-col cols="6">
                     <v-text-field
                       variant="outlined"
-                      v-model="params.priceMin"
+                      v-model="filterParams.prMin"
                       density="compact"
                       label="Od"
                       class="primary-input"
@@ -210,7 +236,7 @@ export default defineComponent({
                   <v-col cols="6"
                     ><v-text-field
                       variant="outlined"
-                      v-model="params.priceMax"
+                      v-model="filterParams.prMax"
                       density="compact"
                       label="Do"
                       class="primary-input"
@@ -226,7 +252,7 @@ export default defineComponent({
                   <v-col cols="6"
                     ><v-text-field
                       variant="outlined"
-                      v-model="params.squareFootageMin"
+                      v-model="filterParams.sqMin"
                       density="compact"
                       label="Od"
                       class="primary-input"
@@ -237,7 +263,7 @@ export default defineComponent({
                   <v-col cols="6">
                     <v-text-field
                       variant="outlined"
-                      v-model="params.squareFootageMax"
+                      v-model="filterParams.sqMax"
                       density="compact"
                       label="Do"
                       class="primary-input"
@@ -266,8 +292,13 @@ export default defineComponent({
         <v-btn v-if="step < 3 && step > 0" color="primary" variant="flat" @click="step++">
           DALJE
         </v-btn>
-        <v-btn v-if="step === 3 || step === 0" color="primary" variant="flat">
-          PRETRAŽi
+        <v-btn
+          v-if="step === 3 || step === 0"
+          color="primary"
+          variant="flat"
+          @click="() => applyFilters(filterParams)"
+        >
+          PRETRAŽI
           <v-icon left class="pl-4 icon-bold">mdi-magnify</v-icon>
         </v-btn>
       </v-card-actions>

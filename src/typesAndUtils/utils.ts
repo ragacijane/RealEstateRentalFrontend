@@ -1,4 +1,4 @@
-import type { OwnerItem, ItemBody, PicturesBody, SearchPropertyParams } from './types'
+import type { OwnerItem, ItemBody, PicturesBody, SearchPropertyParams, SearchQueryParams } from './types'
 
 export const createFormData = (body: PicturesBody) => {
   const formData = new FormData()
@@ -95,4 +95,33 @@ export const getEmptyItem = (): OwnerItem => {
     }
   }
   return emptyItem
+}
+
+export const createQueryParams = (filters: SearchQueryParams) => {
+  const queryParams = {
+    idTy: filters.idTy ?? null,
+    idBors: filters.idBors?.length ? filters.idBors.join(',') : null,
+    sqMin: filters.sqMin || null,
+    sqMax: filters.sqMax || null,
+    cat: filters.cat ?? null,
+    idSt: filters.idSt ?? null,
+    idEq: filters.idEq ?? null,
+    prMin: filters.prMin || null,
+    prMax: filters.prMax || null
+  }
+
+  // Remove null values from the queryParams object
+  const filteredQueryParams = (Object.keys(queryParams) as Array<keyof typeof queryParams>)
+    .filter((key) => queryParams[key] !== null && queryParams[key] !== undefined)
+    .reduce(
+      (acc, key) => {
+        const value = queryParams[key]
+        if (value !== null && value !== undefined) {
+          acc[key] = value as string | number // Type assertion to avoid the error
+        }
+        return acc
+      },
+      {} as Record<string, string | number>
+    )
+  return filteredQueryParams
 }

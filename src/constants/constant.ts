@@ -1,9 +1,9 @@
 export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 // export const BACKEND_URL = 'https://test-rental-1e845c8834a8.herokuapp.com'
 export const allCategories = [
-  { id: 0, value: 'Iznajmljivanje' },
+  { id: 0, value: 'Izdavanje' },
   { id: 1, value: 'Prodaja' },
-  { ID: 2, value: 'Stan na dan' }
+  { id: 2, value: 'Stan na dan' }
 ]
 
 export const yesOrNo = [

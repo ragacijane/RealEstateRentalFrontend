@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
   <RouterView />
 </template>
+<style lang="scss">
+/* Apply global fonts here */
+body,
+* {
+  font-family: 'Red Hat Display', sans-serif !important;
+}
+</style>
 
 <!-- <style scoped>
 header {

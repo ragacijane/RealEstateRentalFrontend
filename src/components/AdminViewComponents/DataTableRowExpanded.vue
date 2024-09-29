@@ -26,17 +26,16 @@ export default defineComponent({
 
       if (temp !== null && temp.length > 0) {
         try {
-          // Call your fetchThumbnail function from DataService to get the URL
           thumbURL.value = await fetchThumbnail(temp)
           if (!thumbURL.value) {
-            thumbURL.value = '/noImage.jpg' // Fallback to default image if URL is empty
+            thumbURL.value = '/noImage.jpg'
           }
         } catch (error) {
           console.error('Error fetching thumbnail:', error)
-          thumbURL.value = '/noImage.jpg' // Handle error case
+          thumbURL.value = '/noImage.jpg'
         }
       } else {
-        thumbURL.value = '/noImage.jpg' // Handle case where thumbnail is null or empty
+        thumbURL.value = '/noImage.jpg'
       }
     }
     const toggleZoom = () => {

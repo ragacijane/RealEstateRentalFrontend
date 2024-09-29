@@ -1,31 +1,24 @@
 <script setup lang="ts">
 import TheHeader from '@/components/UserViewComponents/TheHeader.vue'
 import Image from '@/assets/backgroundImage.jpg'
-import { defineComponent, onMounted, ref } from 'vue'
-import BaseSearch from '@/components/UserViewComponents/BaseSearch.vue'
-import type { Borough, Equipment, Structure, Tag, Types } from '@/typesAndUtils/types'
+import { onMounted, ref } from 'vue'
+import MainPageSearch from '@/components/UserViewComponents/MainPageSearch.vue'
 import { useDataStore } from '@/store/dataStore'
 
 const dataStore = useDataStore()
-const allTags = ref<Tag[]>([])
-const allTypes = ref<Types[]>([])
-const allBoroughs = ref<Borough[]>([])
-const allStructures = ref<Structure[]>([])
-const allEquips = ref<Equipment[]>([])
 
 onMounted(async () => {
   await dataStore.fetchData()
-  allTypes.value = dataStore.allTypes
 })
 </script>
 
 <template>
-  <TheHeader :allTypes="allTypes" />
+  <TheHeader />
   <!-- Background Image Container -->
   <v-container fluid class="pa-0 pt-2 background-container">
     <v-img :src="Image" alt="Responsive Image" class="background-image" cover />
     <div class="card-wrapper">
-      <BaseSearch />
+      <MainPageSearch />
     </div>
   </v-container>
 </template>
