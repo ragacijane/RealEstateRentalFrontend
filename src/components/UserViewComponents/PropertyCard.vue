@@ -71,7 +71,7 @@ export default defineComponent({
     </v-img>
     <v-container class="pa-1" @click="() => router.push(`oglas/${property?.idProperty}`)">
       <p class="font-weight-medium text-h5 single-line-text" color="primary">
-        <v-icon class="text-body-1">mdi-map-marker</v-icon>
+        <v-icon class="text-h5" color="primary">mdi-map-marker</v-icon>
         {{ property?.title.split(',')[1] }}
       </p>
       <p class="font-weight-medium text-h6 single-line-text" color="primary">

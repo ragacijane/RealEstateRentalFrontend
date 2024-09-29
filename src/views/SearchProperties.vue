@@ -2,78 +2,118 @@
 import PropertyCard from '@/components/UserViewComponents/PropertyCard.vue'
 import TheHeader from '@/components/UserViewComponents/TheHeader.vue'
 import type { Property, SearchQueryParams } from '@/typesAndUtils/types'
-import { onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import SearchBar from '@/components/UserViewComponents/SearchBar.vue'
 import { fetchFilteredProperty as fetchFilteredProperties } from '@/services/dataService'
-import { useDataStore } from '@/store/dataStore'
+import apoloneImage from '@/assets/colorLogoVer.png'
+
+const filteredProperties = ref<Property[]>([])
+const sortedProperties = ref<Property[]>([])
+const route = useRoute()
+const router = useRouter()
+const isLoading = ref<Boolean>(false)
 
 const applyFiltersParams = async (filterParams: SearchQueryParams) => {
   const data = await fetchFilteredProperties(filterParams)
-
-  console.log(data.length)
   return data
 }
 
-const filteredProperties = ref<Property[]>([])
-const router = useRoute()
-const isLoading = ref<Boolean>(false)
-const dataStore = useDataStore()
+// PARAMS
 
 const parseQueryParams = (): SearchQueryParams => {
   return {
-    idTy: router.query.idTy ? parseInt(router.query.idTy as string) : null,
+    idTy: route.query.idTy ? parseInt(route.query.idTy as string) : null,
     idBors:
-      router.query.idBors !== undefined
-        ? (router.query.idBors as string).split(',').map(Number)
+      route.query.idBors !== undefined
+        ? (route.query.idBors as string).split(',').map(Number)
         : null,
-    sqMin: (router.query.sqMin as string) || null,
-    sqMax: (router.query.sqMax as string) || null,
-    cat: router.query.cat !== undefined ? parseInt(router.query.cat as string) : null,
-    idSt: router.query.idSt !== undefined ? parseInt(router.query.idSt as string) : null,
-    idEq: router.query.idEq !== undefined ? parseInt(router.query.idEq as string) : null,
-    prMin: (router.query.prMin as string) || null,
-    prMax: (router.query.prMax as string) || null
+    sqMin: (route.query.sqMin as string) || null,
+    sqMax: (route.query.sqMax as string) || null,
+    cat: route.query.cat !== undefined ? parseInt(route.query.cat as string) : null,
+    idSt: route.query.idSt !== undefined ? parseInt(route.query.idSt as string) : null,
+    idEq: route.query.idEq !== undefined ? parseInt(route.query.idEq as string) : null,
+    prMin: (route.query.prMin as string) || null,
+    prMax: (route.query.prMax as string) || null
   }
 }
 
 const filterParams = ref<SearchQueryParams>(parseQueryParams())
 
 watch(
-  () => router.query,
+  () => route.query,
   async () => {
     filterParams.value = parseQueryParams()
     isLoading.value = true
     filteredProperties.value = await applyFiltersParams(filterParams.value)
+    sortedProperties.value = sortProperties()
     isLoading.value = false
   },
-  { immediate: true } // Make sure the watcher triggers on initial load
+  { immediate: true }
 )
 
-// const handleFilterUpdate = async (newFilterParams: SearchQueryParams) => {
-//   // Update the filtered properties based on the new filter params
-//   isLoading.value = true
-//   filteredProperties.value = await applyFilters(newFilterParams)
-//   isLoading.value = false
-// }
+// SORTING
+const sortOption = ref('priceAsc')
+
+const sortProperties = () => {
+  if (!filteredProperties.value) return []
+
+  let sorted = [...filteredProperties.value]
+
+  switch (sortOption.value) {
+    case 'priceAsc':
+      sorted.sort((a, b) => (parseInt(a.price) || 0) - (parseInt(b.price) || 0))
+      break
+    case 'priceDesc':
+      sorted.sort((a, b) => (parseInt(b.price) || 0) - (parseInt(a.price) || 0))
+      break
+    case 'sqFtAsc':
+      sorted.sort((a, b) => (parseInt(a.squareFootage) || 0) - (parseInt(b.squareFootage) || 0))
+      break
+    case 'sqFtDesc':
+      sorted.sort((a, b) => (parseInt(b.squareFootage) || 0) - (parseInt(a.squareFootage) || 0))
+      break
+    default:
+      break
+  }
+  return sorted
+}
+
+const handleSortChange = (option: string) => {
+  sortOption.value = option
+}
+
+watch(
+  sortOption,
+  () => {
+    isLoading.value = true
+    sortedProperties.value = sortProperties()
+    isLoading.value = false
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
   <TheHeader class="pb-2" />
   <v-container fluid>
-    <SearchBar :filter-params="filterParams" />
+    <SearchBar
+      :filter-params="filterParams"
+      :current-sort-method="sortOption"
+      @sort="handleSortChange"
+    />
 
     <v-divider></v-divider>
   </v-container>
 
-  <v-container fluid>
+  <v-container fluid :key="sortOption">
     <div v-if="isLoading" class="text-center">
       <v-progress-circular size="120" color="primary" indeterminate />
     </div>
-    <div v-else-if="filteredProperties.length > 0">
+    <div v-else-if="sortedProperties.length > 0">
       <v-row align="center" justify="center">
         <v-col
-          v-for="(property, index) in filteredProperties"
+          v-for="(property, index) in sortedProperties"
           :key="index"
           cols="12"
           sm="6"
@@ -88,7 +128,14 @@ watch(
     </div>
     <!-- Show message when no properties are found -->
     <div v-else class="text-center">
-      <p>No properties found.</p>
+      <v-empty-state
+        headline="&nbsp;"
+        title="Nema rezultata."
+        text="Nažalost nemamo oglase koji odgovaraju navedenim kriterijumima."
+        :image="apoloneImage"
+      >
+        <v-btn variant="flat" color="primary" @click="() => router.push('/')">Povratak</v-btn>
+      </v-empty-state>
     </div>
   </v-container>
 </template>

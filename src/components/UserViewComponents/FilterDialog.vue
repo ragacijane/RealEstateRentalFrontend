@@ -11,6 +11,7 @@ import type {
 import { defineComponent, onMounted, ref, watchEffect, type PropType } from 'vue'
 import { allCategories } from '@/constants/constant'
 import { useRouter } from 'vue-router'
+import { createQueryParams } from '@/typesAndUtils/utils'
 
 export default defineComponent({
   name: 'FilteringDialog',
@@ -33,33 +34,12 @@ export default defineComponent({
     const router = useRouter()
 
     const applyFilters = (filters: SearchQueryParams) => {
-      const queryParams = {
-        idTy: filters.idTy ?? null,
-        idBors: filters.idBors?.length ? filters.idBors.join(',') : null,
-        sqMin: filters.sqMin || null,
-        sqMax: filters.sqMax || null,
-        cat: filters.cat ?? null,
-        idSt: filters.idSt ?? null,
-        idEq: filters.idEq ?? null,
-        prMin: filters.prMin || null,
-        prMax: filters.prMax || null
-      }
-
-      // Remove null values from the queryParams object
-      const filteredQueryParams = (Object.keys(queryParams) as Array<keyof typeof queryParams>)
-        .filter((key) => queryParams[key] !== null && queryParams[key] !== undefined)
-        .reduce(
-          (acc, key) => {
-            const value = queryParams[key]
-            if (value !== null && value !== undefined) {
-              acc[key] = value as string | number // Type assertion to avoid the error
-            }
-            return acc
-          },
-          {} as Record<string, string | number>
-        )
-      emit('apply-filters')
+      const filteredQueryParams = createQueryParams(filters)
+      emit('close-dialog')
       router.push({ path: '/pretraga', query: filteredQueryParams })
+    }
+    const closeDialog = () => {
+      emit('close-dialog')
     }
     onMounted(async () => {
       await dataStore.fetchData()
@@ -95,7 +75,8 @@ export default defineComponent({
       allBoroughs,
       allStructures,
       isLoading,
-      applyFilters
+      applyFilters,
+      closeDialog
     }
   }
 })
@@ -104,11 +85,22 @@ export default defineComponent({
 <template>
   <v-container fluid>
     <div class="card-wrapper">
-      <v-card class="pa-4" elevation="20" width="600px">
+      <v-card class="pa-4 card-content" elevation="20" width="600px">
+        <p class="font-weight-medium text-h5 s">&nbsp;</p>
+        <v-btn
+          icon
+          @click="closeDialog"
+          class="close-btn"
+          aria-label="Close"
+          variant="flat"
+          color="primary"
+          size="small"
+          ><v-icon>mdi-close</v-icon></v-btn
+        >
         <div v-if="isLoading" class="text-center">
           <v-progress-circular size="120" color="primary" indeterminate />
         </div>
-        <div v-else>
+        <div class="scrollable-content" v-else>
           <v-row class="pa-2">
             <v-col cols="12" md="4">
               <v-select
@@ -270,16 +262,29 @@ export default defineComponent({
   </v-container>
 </template>
 <style scoped>
-.background-container {
-  position: relative;
-  width: 100vw;
-  height: calc(100vh - 68px); /* Adjust according to the header height */
-  overflow: hidden;
-}
 .card-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   height: calc(100vh - 68px);
+}
+.card-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* height: 80%; */
+  max-height: 80%;
+}
+
+.scrollable-content {
+  flex: 1; /* Allows content to grow and take up remaining space */
+  overflow-y: auto; /* Enable scrolling only for the content */
+  overflow-x: hidden;
+  padding-bottom: 16px; /* Provide some space at the bottom */
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 </style>
