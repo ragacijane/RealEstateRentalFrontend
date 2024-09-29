@@ -38,7 +38,7 @@ export interface SearchPropertyParams {
 }
 export interface SearchQueryParams {
   idTy: number | null | undefined
-  idBor: number[] | null | undefined
+  idBors: number[] | null | undefined
   sqMin: string | null | undefined
   sqMax: string | null | undefined
   cat: number | null | undefined

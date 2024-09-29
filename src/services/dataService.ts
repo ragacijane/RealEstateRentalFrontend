@@ -7,7 +7,9 @@ import {
   type Types,
   type Borough,
   type Structure,
-  type PictureDto
+  type PictureDto,
+  type SearchQueryParams,
+  type Property
 } from '../typesAndUtils/types'
 
 export async function fetchTags(): Promise<Tag[]> {
@@ -87,4 +89,28 @@ export async function fetchTagsFromProperty(id: number): Promise<number[]> {
   //   throw new Error(response.error)
   // }
   return response.data ?? []
+}
+
+export async function fetchFilteredProperty(params: SearchQueryParams): Promise<Property[]> {
+  const queryParams: string[] = [];
+  if (params.idTy != undefined) queryParams.push(`idTy=${params.idTy}`);
+  if (params.idBors != undefined && params.idBors.length > 0) queryParams.push(`idBors=${params.idBors.join(',')}`);
+  if (params.sqMin) queryParams.push(`sqMin=${params.sqMin}`);
+  if (params.sqMax) queryParams.push(`sqMax=${params.sqMax}`);
+  if (params.cat != undefined) queryParams.push(`cat=${params.cat}`);
+  if (params.idSt != undefined) queryParams.push(`idSt=${params.idSt}`);
+  if (params.idEq != undefined) queryParams.push(`idEq=${params.idEq}`);
+  if (params.prMin) queryParams.push(`prMin=${params.prMin}`);
+  if (params.prMax) queryParams.push(`prMax=${params.prMax}`);
+
+  const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+  const url = `${BACKEND_URL}/properties/filters${queryString}`;
+  const response = await get<Property[]>(url)
+  return response.data ?? []
+}
+
+export async function fetchProperty(id: number): Promise<Property | null> {
+  const url = `${BACKEND_URL}/properties/property?id=${id}`
+  const response = await get<Property>(url)
+  return response.data ?? null
 }
