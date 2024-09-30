@@ -4,7 +4,7 @@ import { fetchProperty } from '@/services/dataService'
 import type { Property } from '@/typesAndUtils/types'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import apoloneImage from '@/assets/colorLogoVer.png'
+import apoloneImage from '@/assets/colorLogoVer.svg'
 
 const property = ref<Property | null>(null)
 const route = useRoute()

@@ -6,7 +6,7 @@ import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SearchBar from '@/components/UserViewComponents/SearchBar.vue'
 import { fetchFilteredProperty as fetchFilteredProperties } from '@/services/dataService'
-import apoloneImage from '@/assets/colorLogoVer.png'
+import apoloneImage from '@/assets/colorLogoVer.svg'
 
 const filteredProperties = ref<Property[]>([])
 const sortedProperties = ref<Property[]>([])
@@ -47,7 +47,7 @@ watch(
     isLoading.value = true
     filteredProperties.value = await applyFiltersParams(filterParams.value)
     sortedProperties.value = sortProperties()
-    isLoading.value = false
+    // isLoading.value = false
   },
   { immediate: true }
 )
@@ -88,7 +88,7 @@ watch(
   () => {
     isLoading.value = true
     sortedProperties.value = sortProperties()
-    isLoading.value = false
+    // isLoading.value = false
   },
   { immediate: true }
 )
@@ -108,7 +108,25 @@ watch(
 
   <v-container fluid :key="sortOption">
     <div v-if="isLoading" class="text-center">
-      <v-progress-circular size="120" color="primary" indeterminate />
+      <v-row align="center" justify="center">
+        <v-col
+          v-for="n in 12"
+          :key="n"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+          xl="2"
+          class="d-flex justify-center"
+        >
+          <v-skeleton-loader
+            class="mx-auto"
+            width="250px"
+            height="360px"
+            type="image, article"
+          ></v-skeleton-loader>
+        </v-col>
+      </v-row>
     </div>
     <div v-else-if="sortedProperties.length > 0">
       <v-row align="center" justify="center">
