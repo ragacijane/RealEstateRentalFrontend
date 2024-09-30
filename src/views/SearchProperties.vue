@@ -47,7 +47,7 @@ watch(
     isLoading.value = true
     filteredProperties.value = await applyFiltersParams(filterParams.value)
     sortedProperties.value = sortProperties()
-    // isLoading.value = false
+    isLoading.value = false
   },
   { immediate: true }
 )
@@ -88,7 +88,7 @@ watch(
   () => {
     isLoading.value = true
     sortedProperties.value = sortProperties()
-    // isLoading.value = false
+    isLoading.value = false
   },
   { immediate: true }
 )
