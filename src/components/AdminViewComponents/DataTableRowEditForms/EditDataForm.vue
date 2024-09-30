@@ -77,8 +77,10 @@ export default defineComponent({
       <v-col cols="12" md="3" sm="6">
         <v-text-field
           v-model="editedItem.property.price"
-          label="Cena €"
+          label="Cena"
           type="number"
+          hide-spin-buttons
+          suffix="€"
         ></v-text-field>
       </v-col>
       <!-- Drugi red-->
@@ -87,6 +89,7 @@ export default defineComponent({
           v-model="editedItem.phone"
           label="Telefon"
           type="number"
+          hide-spin-buttons
         ></v-text-field></v-col
       ><v-col cols="12" md="3" sm="6">
         <v-select
@@ -135,6 +138,7 @@ export default defineComponent({
           v-model="editedItem.property.bathrooms"
           label="Kupatila"
           type="number"
+          hide-spin-buttons
         ></v-text-field>
       </v-col>
       <!--Cetvrti red-->
@@ -156,13 +160,16 @@ export default defineComponent({
           v-model="editedItem.property.rooms"
           label="Prostorije"
           type="number"
+          hide-spin-buttons
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="editedItem.property.squareFootage"
-          label="Kvadratura (m²)"
+          label="Kvadratura"
           type="number"
+          hide-spin-buttons
+          suffix="m²"
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="2" sm="6">
