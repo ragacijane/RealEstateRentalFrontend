@@ -203,6 +203,7 @@ export default defineComponent({
                     label="Od"
                     class="primary-input"
                     type="number"
+                    hide-spin-buttons
                     color="primary"
                     suffix="€"
                   />
@@ -215,6 +216,7 @@ export default defineComponent({
                     label="Do"
                     class="primary-input"
                     type="number"
+                    hide-spin-buttons
                     color="primary"
                     suffix="€"
                 /></v-col>
@@ -231,6 +233,7 @@ export default defineComponent({
                     label="Od"
                     class="primary-input"
                     type="number"
+                    hide-spin-buttons
                     color="primary"
                     suffix="m²"
                 /></v-col>
@@ -242,6 +245,7 @@ export default defineComponent({
                     label="Do"
                     class="primary-input"
                     type="number"
+                    hide-spin-buttons
                     color="primary"
                     suffix="m²"
                   />

@@ -10,18 +10,25 @@ export default defineComponent({
     const light = ref<boolean>(true)
     const theme = useTheme()
     const router = useRouter()
+    const menu = ref<boolean>(false)
 
     const toggleTheme = () => {
       theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
       light.value = theme.global.current.value.dark ? false : true
     }
 
+    const navigateTo = (path: string) => {
+      router.push(path)
+    }
+
     return {
       light,
       apoloneImage,
       router,
+      menu,
       // functions
-      toggleTheme
+      toggleTheme,
+      navigateTo
     }
   }
 })
@@ -33,21 +40,47 @@ export default defineComponent({
       <v-col cols="5">
         <v-row justify="start" no-gutters>
           <v-col cols="1" />
-          <v-col v-if="$vuetify.display.smAndDown" cols="1"
-            ><v-app-bar-nav-icon class="text-white" />
+          <v-col v-if="$vuetify.display.smAndDown" cols="1">
+            <v-menu v-model="menu" close-on-content-click offset-y>
+              <template v-slot:activator="{ props }">
+                <v-app-bar-nav-icon
+                  class="text-white"
+                  v-bind="props"
+                  :ripple="false"
+                  variant="plain"
+                />
+              </template>
+              <v-list>
+                <v-list-item @click="navigateTo('/pretraga?cat=0')">
+                  <v-list-item-title>Izdavanje</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="navigateTo('/pretraga?cat=1')">
+                  <v-list-item-title>Prodaja</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="navigateTo('/pretraga?cat=2')">
+                  <v-list-item-title>Stan na dan</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="navigateTo('/o-nama')">
+                  <v-list-item-title>O nama</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="navigateTo('/kontakt')">
+                  <v-list-item-title>Kontakt</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-col>
           <v-col v-if="$vuetify.display.mdAndUp" cols="3">
-            <v-btn class="text-white" variant="text" @click="() => router.push('/pretraga?cat=0')">
+            <v-btn class="text-white" variant="text" @click="navigateTo('/pretraga?cat=0')">
               IZDAVANJE
             </v-btn>
           </v-col>
           <v-col v-if="$vuetify.display.mdAndUp" cols="3">
-            <v-btn class="text-white" variant="text" @click="() => router.push('/pretraga?cat=1')">
+            <v-btn class="text-white" variant="text" @click="navigateTo('/pretraga?cat=1')">
               PRODAJA
             </v-btn>
           </v-col>
           <v-col v-if="$vuetify.display.mdAndUp" cols="3">
-            <v-btn class="text-white" variant="text" @click="() => router.push('/pretraga?cat=2')">
+            <v-btn class="text-white" variant="text" @click="navigateTo('/pretraga?cat=2')">
               STAN NA DAN
             </v-btn>
           </v-col>
@@ -66,7 +99,7 @@ export default defineComponent({
               v-if="$vuetify.display.mdAndUp"
               class="text-white"
               variant="text"
-              @click="() => router.push('/o-nama')"
+              @click="navigateTo('/o-nama')"
               >O NAMA</v-btn
             >
           </v-col>
@@ -75,7 +108,7 @@ export default defineComponent({
               v-if="$vuetify.display.mdAndUp"
               class="text-white"
               variant="text"
-              @click="() => router.push('/kontakt')"
+              @click="navigateTo('/kontakt')"
             >
               KONTAKT
             </v-btn>
@@ -99,5 +132,8 @@ export default defineComponent({
 .custom-row-bg {
   background-color: #400636; /* Custom background color */
   width: 100vw;
+}
+.v-app-bar-nav-icon:focus {
+  outline: none;
 }
 </style>

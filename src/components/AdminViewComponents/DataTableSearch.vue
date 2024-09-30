@@ -197,6 +197,7 @@ export default defineComponent({
         clearable
         v-model="params.ID"
         type="number"
+        hide-spin-buttons
         label="ID"
         @update:modelValue="setId"
     /></v-col>
@@ -239,6 +240,8 @@ export default defineComponent({
         label="Površina od:"
         @update:modelValue="setSFMin"
         type="number"
+        hide-spin-buttons
+        suffix="m²"
       />
     </v-col>
     <v-col cols="12" md="2" sm="2">
@@ -247,6 +250,8 @@ export default defineComponent({
         label="Površina do:"
         @update:modelValue="setSFMax"
         type="number"
+        hide-spin-buttons
+        suffix="m²"
       />
     </v-col>
 
@@ -256,6 +261,7 @@ export default defineComponent({
         label="Broj telefona"
         @update:modelValue="setPhone"
         type="number"
+        hide-spin-buttons
       />
     </v-col>
     <v-col cols="12" md="2" sm="2"
@@ -292,6 +298,8 @@ export default defineComponent({
         label="Cena od:"
         @update:modelValue="setPriceMin"
         type="number"
+        hide-spin-buttons
+        suffix="€"
     /></v-col>
     <v-col cols="12" md="2" sm="2">
       <v-text-field
@@ -299,6 +307,8 @@ export default defineComponent({
         label="Cena do:"
         @update:modelValue="setPriceMax"
         type="number"
+        hide-spin-buttons
+        suffix="€"
       />
     </v-col>
   </v-row>
