@@ -4,6 +4,7 @@ import Image from '@/assets/backgroundImage.jpg'
 import type { Property } from '@/typesAndUtils/types'
 import { useRouter } from 'vue-router'
 import { fetchThumbnail } from '@/services/dataService'
+import ZoomedImageSlider from '@/components/UserViewComponents/ZoomedImageSlider.vue'
 
 export default defineComponent({
   name: 'PropertyCard',
@@ -11,6 +12,9 @@ export default defineComponent({
     property: {
       type: Object as PropType<Property>
     }
+  },
+  components: {
+    ZoomedImageSlider
   },
   setup(props) {
     const router = useRouter()
@@ -106,7 +110,9 @@ export default defineComponent({
         >
       </v-row>
     </v-container>
-    <v-dialog v-model="imageSliderDialog"></v-dialog>
+    <v-dialog v-model="imageSliderDialog" opacity="0.8" eager>
+      <ZoomedImageSlider :property-id="property?.idProperty || 0" />
+    </v-dialog>
   </v-card>
 </template>
 <style scoped>
@@ -119,5 +125,8 @@ export default defineComponent({
   overflow: hidden; /* Hide any overflowing text */
   text-overflow: ellipsis; /* Add ellipsis ("...") if the text is too long */
   font-size: clamp(12px, 3vw, 20px); /* Dynamically scale font size */
+}
+.custom-overlay {
+  opacity: 0.8;
 }
 </style>
