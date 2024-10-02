@@ -46,12 +46,30 @@ export default defineComponent({
       isLoading.value = false
     })
 
+    const onDialogOpen = () => {
+      window.history.pushState(null, '', window.location.href) // Push a new history entry
+      window.addEventListener('popstate', handleBackButton)
+    }
+
+    const onDialogClose = () => {
+      window.removeEventListener('popstate', handleBackButton)
+    }
+
+    const handleBackButton = () => {
+      if (imageSliderDialog.value) {
+        imageSliderDialog.value = false // Close the dialog
+        window.history.pushState(null, '', window.location.href) // Reset history state
+      }
+    }
+
     return {
       Image,
       property: props.property,
       imageSliderDialog,
       router,
-      thumbURL
+      thumbURL,
+      onDialogOpen,
+      onDialogClose
     }
   }
 })
@@ -110,7 +128,14 @@ export default defineComponent({
         >
       </v-row>
     </v-container>
-    <v-dialog v-model="imageSliderDialog" opacity="0.8" eager>
+    <v-dialog
+      v-model="imageSliderDialog"
+      opacity="0.8"
+      eager
+      @open="onDialogOpen"
+      @close="onDialogClose"
+      theme="light"
+    >
       <ZoomedImageSlider :property-id="property?.idProperty || 0" />
     </v-dialog>
   </v-card>
