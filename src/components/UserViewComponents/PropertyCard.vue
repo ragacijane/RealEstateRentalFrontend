@@ -104,8 +104,17 @@ export default defineComponent({
         >
       </v-row>
     </v-container>
-    <v-dialog v-model="imageSliderDialog" opacity="0.8" eager theme="light">
-      <ZoomedImageSlider :property-id="property?.idProperty || 0" />
+    <v-dialog
+      v-model="imageSliderDialog"
+      opacity="0.8"
+      eager
+      theme="light"
+      class="pa-0 ma-0"
+      height="100vh"
+    >
+      <div class="pa-0 pt-1 ma-0">
+        <ZoomedImageSlider :property-id="property?.idProperty || 0" />
+      </div>
       <v-btn icon @click="imageSliderDialog = false" class="close-button" elevation="0">
         <v-icon>mdi-close</v-icon>
       </v-btn>
@@ -125,7 +134,7 @@ export default defineComponent({
 }
 .close-button {
   position: absolute;
-  top: 1px;
+  top: 0px;
   right: 1px;
   background-color: transparent !important; /* Transparent background */
   color: white !important; /* White icon color */

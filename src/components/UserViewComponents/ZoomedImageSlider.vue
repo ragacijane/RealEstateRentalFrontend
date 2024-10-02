@@ -30,8 +30,13 @@ export default defineComponent({
   <div v-if="isLoading" class="text-center">
     <v-progress-circular size="120" color="primary" indeterminate />
   </div>
-  <v-carousel v-else show-arrows="hover" cycle hide-delimiter-background>
-    <v-carousel-item v-for="(img, index) in images" :key="index" :src="img.pictureUrl">
+  <v-carousel v-else show-arrows="hover" hide-delimiter-background height="90vh">
+    <v-carousel-item
+      v-for="(img, index) in images"
+      :key="index"
+      :src="img.pictureUrl"
+      height="90vh"
+    >
     </v-carousel-item>
   </v-carousel>
 </template>
