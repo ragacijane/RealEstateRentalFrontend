@@ -71,6 +71,11 @@ export default defineComponent({
     })
 
     const applyFilters = (filters: SearchQueryParams) => {
+      if (step.value === 0) {
+        if (searchId.value.length > 0) router.push(`oglas/${searchId.value}`)
+        return
+      }
+
       const filteredQueryParams = createQueryParams(filters)
       router.push({ path: '/pretraga', query: filteredQueryParams })
     }
@@ -301,7 +306,7 @@ export default defineComponent({
           v-if="step === 3 || step === 0"
           color="primary"
           variant="flat"
-          @click="() => applyFilters(filterParams)"
+          @click="applyFilters(filterParams)"
         >
           PRETRAŽI
           <v-icon left class="pl-4 icon-bold">mdi-magnify</v-icon>

@@ -2,6 +2,7 @@
 import { fetchThumbnail } from '@/services/dataService'
 import type { OwnerItem } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
+import ZoomedImageSlider from '@/components/UserViewComponents/ZoomedImageSlider.vue'
 export default defineComponent({
   name: 'DataTableRowExpanded',
   props: {
@@ -9,6 +10,9 @@ export default defineComponent({
       type: Object as PropType<OwnerItem>,
       required: true
     }
+  },
+  components: {
+    ZoomedImageSlider
   },
   setup(props) {
     const isZoomed = ref<boolean>(false)
@@ -160,14 +164,14 @@ export default defineComponent({
         </v-col>
       </v-row>
     </v-container>
-    <v-dialog v-model="isZoomed" max-width="100%" height="100%"
-      ><v-card v-if="isZoomed" class="full-screen-card">
-        <v-btn icon class="nav-button close" @click="toggleZoom()">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-
-        <v-img :src="thumbURL" alt="Selected Image" class="full-image" /> </v-card
-    ></v-dialog>
+    <v-dialog v-model="isZoomed" opacity="0.8" eager theme="light" class="pa-0 ma-0" height="100vh">
+      <div class="pa-0 pt-1 ma-0">
+        <ZoomedImageSlider :property-id="propertyItem.property.idProperty" />
+      </div>
+      <v-btn icon @click="isZoomed = false" class="close-button" elevation="0">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-dialog>
   </div>
 </template>
 
@@ -197,5 +201,13 @@ export default defineComponent({
   transform: none;
   position: absolute;
   z-index: 10;
+}
+
+.close-button {
+  position: absolute;
+  top: 0px;
+  right: 1px;
+  background-color: transparent !important; /* Transparent background */
+  color: white !important; /* White icon color */
 }
 </style>
