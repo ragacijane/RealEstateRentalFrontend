@@ -46,30 +46,12 @@ export default defineComponent({
       isLoading.value = false
     })
 
-    const onDialogOpen = () => {
-      window.history.pushState(null, '', window.location.href) // Push a new history entry
-      window.addEventListener('popstate', handleBackButton)
-    }
-
-    const onDialogClose = () => {
-      window.removeEventListener('popstate', handleBackButton)
-    }
-
-    const handleBackButton = () => {
-      if (imageSliderDialog.value) {
-        imageSliderDialog.value = false // Close the dialog
-        window.history.pushState(null, '', window.location.href) // Reset history state
-      }
-    }
-
     return {
       Image,
       property: props.property,
       imageSliderDialog,
       router,
-      thumbURL,
-      onDialogOpen,
-      onDialogClose
+      thumbURL
     }
   }
 })
@@ -77,13 +59,7 @@ export default defineComponent({
 
 <template>
   <v-card elevation="6">
-    <v-img
-      :src="thumbURL"
-      class="align-end"
-      height="180px"
-      cover
-      @click="() => (imageSliderDialog = true)"
-    >
+    <v-img :src="thumbURL" class="align-end" height="180px" cover @click="imageSliderDialog = true">
       <v-card-title class="text-white"
         ><v-chip label variant="flat" color="primary"
           ><v-icon class="text-white pa-0 pr-2"> mdi-fingerprint </v-icon
@@ -128,15 +104,11 @@ export default defineComponent({
         >
       </v-row>
     </v-container>
-    <v-dialog
-      v-model="imageSliderDialog"
-      opacity="0.8"
-      eager
-      @open="onDialogOpen"
-      @close="onDialogClose"
-      theme="light"
-    >
+    <v-dialog v-model="imageSliderDialog" opacity="0.8" eager theme="light">
       <ZoomedImageSlider :property-id="property?.idProperty || 0" />
+      <v-btn icon @click="imageSliderDialog = false" class="close-button" elevation="0">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
     </v-dialog>
   </v-card>
 </template>
@@ -153,5 +125,12 @@ export default defineComponent({
 }
 .custom-overlay {
   opacity: 0.8;
+}
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent !important; /* Transparent background */
+  color: white !important; /* White icon color */
 }
 </style>
