@@ -123,13 +123,10 @@ export default defineComponent({
   text-overflow: ellipsis; /* Add ellipsis ("...") if the text is too long */
   font-size: clamp(12px, 3vw, 20px); /* Dynamically scale font size */
 }
-.custom-overlay {
-  opacity: 0.8;
-}
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 1px;
+  right: 1px;
   background-color: transparent !important; /* Transparent background */
   color: white !important; /* White icon color */
 }
