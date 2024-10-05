@@ -13,11 +13,13 @@ export default defineComponent({
       required: true
     }
   },
+
   setup(props) {
     const dataStore = useDataStore()
     const allTags = ref<Tag[]>([])
     const propertyTags = ref<number[]>([])
     const isLoading = ref<boolean>(true)
+
     onMounted(async () => {
       isLoading.value = true
       await dataStore.fetchTagsDataStore()
@@ -25,6 +27,7 @@ export default defineComponent({
       propertyTags.value = await fetchTagsFromProperty(props.property.idProperty)
       isLoading.value = false
     })
+
     return {
       allCategories,
       allTags,
@@ -36,17 +39,20 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-container v-if="!isLoading" fluid>
+  <div v-if="isLoading" class="text-center">
+    <v-progress-circular size="120" color="primary" indeterminate />
+  </div>
+  <v-container v-else fluid>
     <v-row>
       <v-col>
         <v-chip label variant="flat" color="primary" class="font-weight-medium"
           ><v-icon class="text-white pa-0 pr-2"> mdi-fingerprint </v-icon>
-          {{ property?.idProperty }}</v-chip
+          {{ property.idProperty }}</v-chip
         >
       </v-col>
       <v-col class="d-flex align-center justify-end">
         <v-chip label variant="flat" color="primary"
-          ><p class="font-weight-medium">{{ property?.price }} €</p>
+          ><p class="font-weight-medium">{{ property.price }} €</p>
         </v-chip>
       </v-col>
     </v-row>
@@ -54,7 +60,7 @@ export default defineComponent({
       <v-col
         ><p class="font-weight-medium text-h5">
           <v-icon class="text-h5">mdi-map-marker</v-icon>
-          {{ property?.title }}
+          {{ property.title }}
         </p></v-col
       >
     </v-row>
@@ -145,7 +151,7 @@ export default defineComponent({
           color="primary"
           label
         >
-          {{ allTags[item].tagName }}
+          {{ allTags[item]?.tagName || '' }}
         </v-chip>
       </v-col>
     </v-row>

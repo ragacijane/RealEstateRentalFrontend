@@ -76,7 +76,6 @@ export default defineComponent({
           if (data.picturesFormData) {
             data.item.property.thumbnail = await updateImages(data.index, data.picturesFormData)
           }
-          allProperties.value[itemIndex] = data.item
           await updateProperty(item)
         }
       } else {
@@ -85,11 +84,10 @@ export default defineComponent({
           if (data.picturesFormData) {
             newItem.property.thumbnail = await updateImages(newItem.idOwner, data.picturesFormData)
           }
-          allProperties.value.push(newItem)
         }
       }
-
-      setAllProperties(allProperties.value)
+      await adminStore.fetchAndSetProperties()
+      setAllProperties(adminStore.allProperties)
       filteredProperties.value = adminStore.allProperties
       closeDialog()
     }

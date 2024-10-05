@@ -104,6 +104,7 @@ export default defineComponent({
           <v-row class="pa-2">
             <v-col cols="12" md="4">
               <v-select
+                focused
                 variant="outlined"
                 color="primary"
                 clearable
@@ -121,6 +122,7 @@ export default defineComponent({
             </v-col>
             <v-col cols="12" md="4">
               <v-select
+                focused
                 variant="outlined"
                 color="primary"
                 clearable
@@ -138,6 +140,7 @@ export default defineComponent({
             </v-col>
             <v-col cols="12" md="4">
               <v-select
+                focused
                 variant="outlined"
                 color="primary"
                 clearable
@@ -158,6 +161,7 @@ export default defineComponent({
           <v-row class="pa-2">
             <v-col cols="12" md="6">
               <v-select
+                focused
                 variant="outlined"
                 color="primary"
                 clearable
@@ -175,6 +179,7 @@ export default defineComponent({
             </v-col>
             <v-col cols="12" md="6">
               <v-select
+                focused
                 variant="outlined"
                 color="primary"
                 clearable
@@ -197,6 +202,7 @@ export default defineComponent({
               <v-row class="pt-4" justify="space-evenly">
                 <v-col cols="6">
                   <v-text-field
+                    focused
                     variant="outlined"
                     v-model="localFilterParams.prMin"
                     density="compact"
@@ -210,6 +216,7 @@ export default defineComponent({
                 </v-col>
                 <v-col cols="6"
                   ><v-text-field
+                    focused
                     variant="outlined"
                     v-model="localFilterParams.prMax"
                     density="compact"
@@ -227,6 +234,7 @@ export default defineComponent({
               <v-row class="pt-4" justify="space-evenly">
                 <v-col cols="6"
                   ><v-text-field
+                    focused
                     variant="outlined"
                     v-model="localFilterParams.sqMin"
                     density="compact"
@@ -239,6 +247,7 @@ export default defineComponent({
                 /></v-col>
                 <v-col cols="6">
                   <v-text-field
+                    focused
                     variant="outlined"
                     v-model="localFilterParams.sqMax"
                     density="compact"
