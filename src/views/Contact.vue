@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TheHeader from '@/components/UserViewComponents/TheHeader.vue'
-import apoloneImage from '@/assets/colorLogoVer.svg'
+import apoloneImage from '@/assets/colorLogoTextVer.svg'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 </script>

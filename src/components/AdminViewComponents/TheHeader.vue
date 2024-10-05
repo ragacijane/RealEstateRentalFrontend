@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useTheme } from 'vuetify'
-import apoloneImage from '@/assets/colorLogoHor.png'
+import apoloneImage from '@/assets/colorLogoTextHor.png'
 
 export default defineComponent({
   name: 'TheHeader',

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useTheme } from 'vuetify'
-import apoloneImage from '@/assets/colorLogoHor.png'
+import apoloneImage from '@/assets/colorLogoTextHor.png'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -38,7 +38,7 @@ export default defineComponent({
   <v-container fluid class="pa-0" justify-start>
     <v-row align="center" class="custom-row-bg" no-gutters>
       <v-col cols="5">
-        <v-row justify="start" no-gutters>
+        <v-row justify="start">
           <v-col cols="1" />
           <v-col v-if="$vuetify.display.smAndDown" cols="1">
             <v-menu v-model="menu" close-on-content-click offset-y>
@@ -86,7 +86,7 @@ export default defineComponent({
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="2" class="d-flex align-center justify-center">
+      <v-col cols="2" class="d-flex align-center justify-center pr-4 m-0">
         <router-link to="/" class="d-flex">
           <img :src="apoloneImage" alt="Apolone Logo" style="height: 68px" />
         </router-link>
@@ -129,6 +129,10 @@ export default defineComponent({
 </template>
 
 <style scoped>
+img {
+  display: block;
+  box-sizing: border-box;
+}
 .custom-row-bg {
   background-color: #400636; /* Custom background color */
   width: 100vw;

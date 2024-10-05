@@ -6,7 +6,7 @@ import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SearchBar from '@/components/UserViewComponents/SearchBar.vue'
 import { fetchFilteredProperty as fetchFilteredProperties } from '@/services/dataService'
-import apoloneImage from '@/assets/colorLogoVer.svg'
+import apoloneImage from '@/assets/colorLogoTextVer.svg'
 
 const filteredProperties = ref<Property[]>([])
 const sortedProperties = ref<Property[]>([])
