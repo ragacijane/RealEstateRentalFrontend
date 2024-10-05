@@ -33,6 +33,15 @@ export const useDataStore = defineStore('dataStore', () => {
     allStructures.value = newData
   }
 
+  const fetchTagsDataStore = async () => {
+    try {
+      const tags = await fetchTags()
+      setAllTags(tags)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const fetchData = async () => {
     try {
       const [tags, equipment, types, boroughs, structures] = await Promise.all([
@@ -63,6 +72,7 @@ export const useDataStore = defineStore('dataStore', () => {
     setAllTypes,
     setAllBoroughs,
     setAllStructures,
-    fetchData
+    fetchData,
+    fetchTagsDataStore
   }
 })

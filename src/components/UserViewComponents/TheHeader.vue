@@ -38,7 +38,7 @@ export default defineComponent({
   <v-container fluid class="pa-0" justify-start>
     <v-row align="center" class="custom-row-bg" no-gutters>
       <v-col cols="5">
-        <v-row justify="start">
+        <v-row justify="start" no-gutters>
           <v-col cols="1" />
           <v-col v-if="$vuetify.display.smAndDown" cols="1">
             <v-menu v-model="menu" close-on-content-click offset-y>

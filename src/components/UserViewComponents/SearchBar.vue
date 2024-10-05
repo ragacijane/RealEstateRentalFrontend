@@ -79,10 +79,23 @@ export default defineComponent({
           }}
         </p>
       </v-col>
-      <v-col cols="0" sm="6" md="4"></v-col>
-      <v-col cols="12" md="4" justify="end" align="end">
+      <v-col cols="0" md="2"></v-col>
+      <v-col cols="12" md="6" justify="end" align="end">
         <v-row>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="4">
+            <v-btn
+              color="primary"
+              size="large"
+              rounded
+              :style="{ fontSize: '12px' }"
+              width="100%"
+              @click="() => (filterDialog = true)"
+            >
+              <v-icon class="pa-0 pr-5" left>mdi-fingerprint</v-icon>
+              TRAŽI PO ID</v-btn
+            >
+          </v-col>
+          <v-col cols="12" sm="4">
             <v-btn
               color="primary"
               size="large"
@@ -95,7 +108,7 @@ export default defineComponent({
               Filtriraj</v-btn
             >
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="4">
             <v-btn
               color="primary"
               size="large"
