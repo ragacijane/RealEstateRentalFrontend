@@ -1,13 +1,13 @@
 <script lang="ts">
 import { fetchThumbnail } from '@/services/dataService'
-import type { OwnerItem } from '@/typesAndUtils/types'
+import type { Property } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import ZoomedImageSlider from '@/components/UserViewComponents/ZoomedImageSlider.vue'
 export default defineComponent({
   name: 'DataTableRowExpanded',
   props: {
     propertyItem: {
-      type: Object as PropType<OwnerItem>,
+      type: Object as PropType<Property>,
       required: true
     }
   },
@@ -26,7 +26,7 @@ export default defineComponent({
     })
 
     const getPicUrl = async () => {
-      const temp = props.propertyItem.property.thumbnail
+      const temp = props.propertyItem.thumbnail
 
       if (temp !== null && temp.length > 0) {
         try {
@@ -57,7 +57,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-if="propertyItem && propertyItem.idOwner">
+  <div v-if="propertyItem && propertyItem.idProperty">
     <v-container>
       <v-row>
         <v-col cols="1" class="d-flex align-center justify-center pr-7">
@@ -80,15 +80,15 @@ export default defineComponent({
             </v-col>
             <v-col cols="13">
               <p class="font-weight-bold d-inline">Kategorija:</p>
-              {{ propertyItem.property.category == 0 ? 'Iznajmljivanje' : 'Prodaja' }}
+              {{ propertyItem.category == 0 ? 'Iznajmljivanje' : 'Prodaja' }}
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Opština:</p>
-              {{ propertyItem.property.borough.boroughName }}
+              {{ propertyItem.borough.boroughName }}
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Cena:</p>
-              {{ propertyItem.property.price }} €
+              {{ propertyItem.price }} €
             </v-col>
             <!-- Drugi red-->
             <v-col cols="3">
@@ -97,7 +97,7 @@ export default defineComponent({
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Tip:</p>
-              {{ propertyItem.property.type.typeName }}
+              {{ propertyItem.type.typeName }}
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Ulica i broj:</p>
@@ -106,7 +106,7 @@ export default defineComponent({
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Depozit:</p>
-              {{ propertyItem.property.deposit == 0 ? 'DA' : 'NE' }}
+              {{ propertyItem.deposit == 0 ? 'DA' : 'NE' }}
             </v-col>
             <!-- Treci red-->
             <v-col cols="3">
@@ -115,15 +115,15 @@ export default defineComponent({
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Struktura:</p>
-              {{ propertyItem.property.structure.structureType }}
+              {{ propertyItem.structure.structureType }}
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Sprat:</p>
-              {{ propertyItem.property.floor }}
+              {{ propertyItem.floor }}
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Kupatila:</p>
-              {{ propertyItem.property.bathrooms }}
+              {{ propertyItem.bathrooms }}
             </v-col>
             <!-- Cetvrti red-->
             <v-col cols="3">
@@ -132,29 +132,29 @@ export default defineComponent({
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Nameštenost:</p>
-              {{ propertyItem.property.equipment.equipmentType }}
+              {{ propertyItem.equipment.equipmentType }}
             </v-col>
             <v-col cols="3"
               ><p class="font-weight-bold d-inline">Kvadratura:</p>
-              {{ propertyItem.property.squareFootage }} m²</v-col
+              {{ propertyItem.squareFootage }} m²</v-col
             >
             <v-col cols="3"
               ><p class="font-weight-bold d-inline">Grejanje:</p>
-              {{ propertyItem.property.heating }}</v-col
+              {{ propertyItem.heating }}</v-col
             >
             <!-- Peti red -->
             <v-col cols="9">
               <p class="font-weight-bold d-inline">Naslov:</p>
-              {{ propertyItem.property.title }}
+              {{ propertyItem.title }}
             </v-col>
             <v-col cols="3"
               ><p class="font-weight-bold d-inline">Prostorije:</p>
-              {{ propertyItem.property.rooms }}</v-col
+              {{ propertyItem.rooms }}</v-col
             >
             <!-- Sesti red-->
             <v-col cols="6">
               <p class="font-weight-bold d-inline">Opis:</p>
-              {{ propertyItem.property.description }}
+              {{ propertyItem.description }}
             </v-col>
             <v-col cols="6">
               <p class="font-weight-bold d-inline">Dodatne informacije:</p>
@@ -166,7 +166,7 @@ export default defineComponent({
     </v-container>
     <v-dialog v-model="isZoomed" opacity="0.8" eager theme="light" class="pa-0 ma-0" height="100vh">
       <div class="pa-0 pt-1 ma-0">
-        <ZoomedImageSlider :property-id="propertyItem.property.idProperty" />
+        <ZoomedImageSlider :property-id="propertyItem.idProperty" />
       </div>
       <v-btn icon @click="isZoomed = false" class="close-button" elevation="0">
         <v-icon>mdi-close</v-icon>

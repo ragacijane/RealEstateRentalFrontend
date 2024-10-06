@@ -1,6 +1,6 @@
 <script lang="ts">
 import { allCategories } from '@/constants/constant'
-import type { Property, SearchQueryParams } from '@/typesAndUtils/types'
+import type { PropertyProjected, SearchQueryParams } from '@/typesAndUtils/types'
 import { defineComponent, ref, watch, type PropType } from 'vue'
 import FilteringDialog from '@/components/UserViewComponents/FilterDialog.vue'
 import SortDialog from '@/components/UserViewComponents/SortDialog.vue'
@@ -24,7 +24,7 @@ export default defineComponent({
   },
   emits: ['sort'],
   setup(props, { emit }) {
-    const filteredProperties = ref<Property[]>([])
+    const filteredProperties = ref<PropertyProjected[]>([])
     const localFilterParams = ref<SearchQueryParams>({ ...props.filterParams })
     const filterDialog = ref<boolean>(false)
     const sortDialog = ref<boolean>(false)

@@ -6,7 +6,7 @@ import {
   type Tag,
   type Borough,
   type Equipment,
-  type OwnerItem,
+  type Property,
   type SearchPropertyParams,
   type Structure,
   type Types
@@ -24,7 +24,7 @@ export default defineComponent({
     const allBoroughs = ref<Borough[]>([])
     const allStructures = ref<Structure[]>([])
     const allEquips = ref<Equipment[]>([])
-    const filteredProperties = ref<OwnerItem[]>([])
+    const filteredProperties = ref<Property[]>([])
 
     const params = ref<SearchPropertyParams>(getEmptyParams())
 
@@ -45,7 +45,7 @@ export default defineComponent({
       const tempId = paramValue.ID
       if (tempId && tempId.length > 0) {
         filteredProperties.value = adminStore.allProperties.filter((prop) =>
-          prop.idOwner.toString().includes(tempId)
+          prop.idProperty.toString().includes(tempId)
         )
       } else {
         filteredProperties.value = adminStore.allProperties
@@ -53,34 +53,34 @@ export default defineComponent({
         const tempCategory = paramValue.category
         if (tempCategory != null && tempCategory != undefined) {
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.category == tempCategory
+            (prop) => prop.category == tempCategory
           )
         }
 
         const tempType = paramValue.type
         if (tempType)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.type.idType == tempType.idType
+            (prop) => prop.type.idType == tempType.idType
           )
 
         const tempBorough: Borough[] | null | undefined = paramValue.borough
         if (tempBorough && Array.isArray(tempBorough) && tempBorough.length > 0) {
           const boroughNames = tempBorough.map((b) => b.boroughName)
           filteredProperties.value = filteredProperties.value.filter((prop) =>
-            boroughNames.includes(prop.property.borough.boroughName)
+            boroughNames.includes(prop.borough.boroughName)
           )
         }
 
         const tempMinSF = paramValue.squareFootageMin
         if (tempMinSF)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => parseInt(prop.property.squareFootage) >= parseInt(tempMinSF, 10)
+            (prop) => parseInt(prop.squareFootage) >= parseInt(tempMinSF, 10)
           )
 
         const tempMaxSF = paramValue.squareFootageMax
         if (tempMaxSF)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => parseInt(prop.property.squareFootage) <= parseInt(tempMaxSF, 10)
+            (prop) => parseInt(prop.squareFootage) <= parseInt(tempMaxSF, 10)
           )
 
         const tempPhone = paramValue.phoneNumber
@@ -93,7 +93,7 @@ export default defineComponent({
         const tempStruct = paramValue.structure
         if (tempStruct) {
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.structure.idStructure == tempStruct.idStructure
+            (prop) => prop.structure.idStructure == tempStruct.idStructure
           )
         }
 
@@ -107,20 +107,20 @@ export default defineComponent({
         const tempEqip = paramValue.equipment
         if (tempEqip) {
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => prop.property.equipment.idEquipment == tempEqip.idEquipment
+            (prop) => prop.equipment.idEquipment == tempEqip.idEquipment
           )
         }
 
         const tempMinPrice = paramValue.priceMin
         if (tempMinPrice)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => parseInt(prop.property.price) >= parseInt(tempMinPrice, 10)
+            (prop) => parseInt(prop.price) >= parseInt(tempMinPrice, 10)
           )
 
         const tempMaxPrice = paramValue.priceMax
         if (tempMaxPrice)
           filteredProperties.value = filteredProperties.value.filter(
-            (prop) => parseInt(prop.property.price) <= parseInt(tempMaxPrice, 10)
+            (prop) => parseInt(prop.price) <= parseInt(tempMaxPrice, 10)
           )
       }
       emit('filter', {

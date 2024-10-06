@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import PropertyCard from '@/components/UserViewComponents/PropertyCard.vue'
-import TheHeader from '@/components/UserViewComponents/TheHeader.vue'
-import type { Property, SearchQueryParams } from '@/typesAndUtils/types'
+import type { PropertyProjected, SearchQueryParams } from '@/typesAndUtils/types'
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import SearchBar from '@/components/UserViewComponents/SearchBar.vue'
 import { fetchFilteredProperty as fetchFilteredProperties } from '@/services/dataService'
 import apoloneImage from '@/assets/colorLogoTextVer.svg'
 
-const filteredProperties = ref<Property[]>([])
-const sortedProperties = ref<Property[]>([])
+const filteredProperties = ref<PropertyProjected[]>([])
+const sortedProperties = ref<PropertyProjected[]>([])
 const route = useRoute()
 const router = useRouter()
 const isLoading = ref<Boolean>(false)
@@ -95,8 +94,7 @@ watch(
 </script>
 
 <template>
-  <TheHeader class="pb-2" />
-  <v-container fluid>
+  <v-container fluid class="pt-2">
     <SearchBar
       :filter-params="filterParams"
       :current-sort-method="sortOption"

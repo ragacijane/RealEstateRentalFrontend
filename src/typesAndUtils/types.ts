@@ -9,7 +9,7 @@ export interface PictureDto {
 }
 
 export interface HandleSaveItem {
-  item: OwnerItem
+  item: Property
   index: number
   selectedTags: number[]
   picturesFormData: FormData
@@ -49,7 +49,7 @@ export interface SearchQueryParams {
 }
 
 export interface ItemBody {
-  item: OwnerItem
+  item: Property
   tagIds: string
 }
 
@@ -78,7 +78,7 @@ export interface Equipment {
   equipmentType: string
 }
 
-export interface Property {
+export interface PropertyProjected {
   idProperty: number
   category: number
   borough: Borough
@@ -99,8 +99,7 @@ export interface Property {
   thumbnail: string
 }
 
-export interface OwnerItem {
-  idOwner: number
+export interface Property {
   name: string
   phone: string
   street: string
@@ -108,5 +107,23 @@ export interface OwnerItem {
   email: string
   contract: string
   moreInfo: string
-  property: Property
+
+  idProperty: number
+  category: number
+  borough: Borough
+  price: string
+  type: Types
+  deposit: number
+  structure: Structure
+  floor: string
+  bathrooms: string
+  equipment: Equipment
+  rooms: string
+  squareFootage: string
+  heating: string
+  active: number
+  visible: number
+  title: string
+  description: string
+  thumbnail: string
 }

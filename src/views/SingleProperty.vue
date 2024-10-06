@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import TheHeader from '@/components/UserViewComponents/TheHeader.vue'
 import { fetchProperty } from '@/services/dataService'
-import type { Property } from '@/typesAndUtils/types'
+import type { PropertyProjected } from '@/typesAndUtils/types'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import apoloneImage from '@/assets/colorLogoTextVer.svg'
 import PropertyPageData from '@/components/UserViewComponents/PropertyPageData.vue'
 
-const property = ref<Property | null>(null)
+const property = ref<PropertyProjected | null>(null)
 const route = useRoute()
 const router = useRouter()
 
@@ -28,7 +27,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <TheHeader />
   <v-container fluid class="bacground-container">
     <div v-if="property != null && property != undefined" class="card-wrapper pr-3">
       <v-card max-width="900px" elevation="20">

@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { Property, Tag } from '@/typesAndUtils/types'
+import type { PropertyProjected, Tag } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import { allCategories } from '@/constants/constant'
 import { useDataStore } from '@/store/dataStore'
@@ -9,7 +9,7 @@ export default defineComponent({
   name: 'PropertyPageData',
   props: {
     property: {
-      type: Object as PropType<Property>,
+      type: Object as PropType<PropertyProjected>,
       required: true
     }
   },

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import Image from '@/assets/backgroundImage.jpg'
-import type { Property } from '@/typesAndUtils/types'
+import type { PropertyProjected } from '@/typesAndUtils/types'
 import { useRouter } from 'vue-router'
 import { fetchThumbnail } from '@/services/dataService'
 import ZoomedImageSlider from '@/components/UserViewComponents/ZoomedImageSlider.vue'
@@ -10,7 +10,7 @@ export default defineComponent({
   name: 'PropertyCard',
   props: {
     property: {
-      type: Object as PropType<Property>
+      type: Object as PropType<PropertyProjected>
     }
   },
   components: {

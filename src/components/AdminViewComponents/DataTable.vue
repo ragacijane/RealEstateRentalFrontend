@@ -11,7 +11,7 @@ import {
 } from '@/services/adminService'
 import DataTableRowEditComponent from './DataTableRowEditComponent.vue'
 import DataTableRowExpanded from './DataTableRowExpanded.vue'
-import type { HandleSaveItem, OwnerItem, ItemBody } from '@/typesAndUtils/types'
+import type { HandleSaveItem, Property, ItemBody } from '@/typesAndUtils/types'
 import { useAdminStore } from '@/store/adminStore'
 import DataTableSearch from './DataTableSearch.vue'
 
@@ -25,9 +25,9 @@ export default defineComponent({
   setup() {
     const adminStore = useAdminStore()
     const dialog = ref<boolean>(false)
-    const defaultItem = ref<OwnerItem>(Object.assign({}, getEmptyItem()))
-    const filteredProperties = ref<OwnerItem[]>([])
-    const allProperties = ref<OwnerItem[]>([])
+    const defaultItem = ref<Property>(Object.assign({}, getEmptyItem()))
+    const filteredProperties = ref<Property[]>([])
+    const allProperties = ref<Property[]>([])
     const setAllProperties = adminStore.setAllProperties
     const isLoading = ref<boolean>(true)
     const activeDisabled = ref<boolean>(false)
@@ -74,15 +74,15 @@ export default defineComponent({
         const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner == data.index)
         if (itemIndex !== -1) {
           if (data.picturesFormData) {
-            data.item.property.thumbnail = await updateImages(data.index, data.picturesFormData)
+            data.item.thumbnail = await updateImages(data.index, data.picturesFormData)
           }
           await updateProperty(item)
         }
       } else {
-        const newItem = await createProperty(item)
-        if (newItem) {
+        const newItemId = await createProperty(item)
+        if (newItemId > 0) {
           if (data.picturesFormData) {
-            newItem.property.thumbnail = await updateImages(newItem.idOwner, data.picturesFormData)
+            const newthumbnail = await updateImages(newItemId, data.picturesFormData)
           }
         }
       }
@@ -163,7 +163,7 @@ export default defineComponent({
     </template>
     <!-- Category -->
     <template v-slot:[`item.category`]="{ item }">
-      <div v-if="!item.property?.category">Iznajmljivanje</div>
+      <div v-if="!item?.category">Iznajmljivanje</div>
       <div v-else>Prodaja</div>
     </template>
     <!-- ACTION    -->
@@ -171,8 +171,8 @@ export default defineComponent({
       <v-row>
         <v-col>
           <v-icon
-            :color="item.property?.active ? 'light-green-darken-1' : 'red-lighten-2'"
-            :icon="item.property?.active ? 'mdi-toggle-switch' : 'mdi-toggle-switch-off'"
+            :color="item?.active ? 'light-green-darken-1' : 'red-lighten-2'"
+            :icon="item?.active ? 'mdi-toggle-switch' : 'mdi-toggle-switch-off'"
             size="default"
             class="me-2"
             :disabled="activeDisabled"
@@ -180,7 +180,7 @@ export default defineComponent({
           ></v-icon>
           <v-icon
             color="blue-darken-2"
-            :icon="item.property?.visible ? 'mdi-eye' : 'mdi-eye-off'"
+            :icon="item?.visible ? 'mdi-eye' : 'mdi-eye-off'"
             size="default"
             class="me-2"
             :disabled="visibleDisabled"
@@ -192,18 +192,16 @@ export default defineComponent({
     </template>
     <!-- Price-->
     <template v-slot:[`item.property.price`]="{ item }">
-      <v-chip color="blue" class="font-weight-black"> {{ item.property?.price }} € </v-chip>
+      <v-chip color="blue" class="font-weight-black"> {{ item?.price }} € </v-chip>
     </template>
     <!-- squareFootage-->
     <template v-slot:[`item.property.squareFootage`]="{ item }">
-      <v-chip color="green" class="font-weight-black">
-        {{ item.property?.squareFootage }} m²
-      </v-chip>
+      <v-chip color="green" class="font-weight-black"> {{ item?.squareFootage }} m² </v-chip>
     </template>
     <!-- id-->
     <template v-slot:[`item.property.idProperty`]="{ item }">
       <v-chip color="gray" class="font-weight-black">
-        {{ item.property?.idProperty }}
+        {{ item?.idProperty }}
       </v-chip>
     </template>
     <!-- NEW ITEM -->

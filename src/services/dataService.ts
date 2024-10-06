@@ -9,7 +9,7 @@ import {
   type Structure,
   type PictureDto,
   type SearchQueryParams,
-  type Property
+  type PropertyProjected
 } from '../typesAndUtils/types'
 
 export async function fetchTags(): Promise<Tag[]> {
@@ -91,7 +91,7 @@ export async function fetchTagsFromProperty(id: number): Promise<number[]> {
   return response.data ?? []
 }
 
-export async function fetchFilteredProperty(params: SearchQueryParams): Promise<Property[]> {
+export async function fetchFilteredProperty(params: SearchQueryParams): Promise<PropertyProjected[]> {
   const queryParams: string[] = [];
   if (params.idTy != undefined) queryParams.push(`idTy=${params.idTy}`);
   if (params.idBors != undefined && params.idBors.length > 0) queryParams.push(`idBors=${params.idBors.join(',')}`);
@@ -105,12 +105,12 @@ export async function fetchFilteredProperty(params: SearchQueryParams): Promise<
 
   const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
   const url = `${BACKEND_URL}/properties/filters${queryString}`;
-  const response = await get<Property[]>(url)
+  const response = await get<PropertyProjected[]>(url)
   return response.data ?? []
 }
 
-export async function fetchProperty(id: number): Promise<Property | null> {
+export async function fetchProperty(id: number): Promise<PropertyProjected | null> {
   const url = `${BACKEND_URL}/properties/property?id=${id}`
-  const response = await get<Property>(url)
+  const response = await get<PropertyProjected>(url)
   return response.data ?? null
 }
