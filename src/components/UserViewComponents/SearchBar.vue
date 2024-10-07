@@ -124,18 +124,16 @@ export default defineComponent({
         </v-row>
       </v-col>
     </v-row>
+    <v-dialog v-model="sortDialog" class="flex align-center justify-centers">
+      <SortDialog
+        :current-sort="localSortMethod"
+        @sort-changed="handleSortChange"
+        @close-dialog="closeSortDialog"
+      />
+    </v-dialog>
+    <v-dialog v-model="filterDialog">
+      <FilteringDialog :filter-params="localFilterParams" @close-dialog="closeFilterDialog" />
+    </v-dialog>
   </v-container>
-  <!-- SORT DIALOG -->
-  <v-dialog v-model="sortDialog">
-    <SortDialog
-      :current-sort="localSortMethod"
-      @sort-changed="handleSortChange"
-      @close-dialog="closeSortDialog"
-    />
-  </v-dialog>
-  <!-- FILTER DIALOG -->
-  <v-dialog v-model="filterDialog">
-    <FilteringDialog :filter-params="localFilterParams" @close-dialog="closeFilterDialog" />
-  </v-dialog>
 </template>
 <style scoped></style>

@@ -59,4 +59,7 @@ onMounted(() => {
   align-items: center;
   /* height: calc(100vh - 68px); */
 }
+.wrapper.dark-body .v-card {
+  background: linear-gradient(45deg, black 0%, rgb(56, 56, 56) 50%, black 100%) !important;
+}
 </style>

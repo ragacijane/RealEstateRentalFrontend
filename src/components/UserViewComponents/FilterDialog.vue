@@ -12,6 +12,7 @@ import { defineComponent, onMounted, ref, watchEffect, type PropType } from 'vue
 import { allCategories } from '@/constants/constant'
 import { useRouter } from 'vue-router'
 import { createQueryParams } from '@/typesAndUtils/utils'
+import { useTheme } from 'vuetify'
 
 export default defineComponent({
   name: 'FilteringDialog',
@@ -30,7 +31,7 @@ export default defineComponent({
     const allStructures = ref<Structure[]>(dataStore.allStructures)
     const allEquips = ref<Equipment[]>(dataStore.allEquips)
     const isLoading = ref(true)
-
+    const theme = useTheme()
     const router = useRouter()
 
     const applyFilters = (filters: SearchQueryParams) => {
@@ -76,16 +77,21 @@ export default defineComponent({
       allStructures,
       isLoading,
       applyFilters,
-      closeDialog
+      closeDialog,
+      theme
     }
   }
 })
 </script>
 
 <template>
-  <v-container fluid>
-    <div class="card-wrapper">
-      <v-card class="pa-4 card-content" elevation="20" width="600px">
+  <div class="d-flex align-center justify-center">
+    <v-card
+      :class="theme.current.value.dark ? 'pa-4 card-content-dark' : 'pa-4 card-content'"
+      elevation="20"
+      width="600px"
+    >
+      <v-card-title>
         <p class="font-weight-medium text-h5 s">&nbsp;</p>
         <v-btn
           icon
@@ -97,16 +103,21 @@ export default defineComponent({
           size="small"
           ><v-icon>mdi-close</v-icon></v-btn
         >
-        <div v-if="isLoading" class="text-center">
-          <v-progress-circular size="120" color="primary" indeterminate />
-        </div>
-        <div class="scrollable-content" v-else>
+      </v-card-title>
+      <v-card-text>
+        <v-progress-circular
+          v-if="isLoading"
+          class="text-center"
+          size="120"
+          color="primary"
+          indeterminate
+        />
+        <v-row v-else no-gutters>
           <v-row class="pa-2">
             <v-col cols="12" md="4">
               <v-select
                 focused
                 variant="outlined"
-                color="primary"
                 clearable
                 v-model="localFilterParams.cat"
                 label="Kategorija"
@@ -124,7 +135,6 @@ export default defineComponent({
               <v-select
                 focused
                 variant="outlined"
-                color="primary"
                 clearable
                 v-model="localFilterParams.idTy"
                 label="Vrsta"
@@ -142,7 +152,6 @@ export default defineComponent({
               <v-select
                 focused
                 variant="outlined"
-                color="primary"
                 clearable
                 multiple
                 v-model="localFilterParams.idBors"
@@ -163,7 +172,6 @@ export default defineComponent({
               <v-select
                 focused
                 variant="outlined"
-                color="primary"
                 clearable
                 v-model="localFilterParams.idSt"
                 label="Struktura"
@@ -181,7 +189,6 @@ export default defineComponent({
               <v-select
                 focused
                 variant="outlined"
-                color="primary"
                 clearable
                 v-model="localFilterParams.idEq"
                 label="Nameštenost"
@@ -202,7 +209,6 @@ export default defineComponent({
               <v-row class="pt-4" justify="space-evenly">
                 <v-col cols="6">
                   <v-text-field
-                    focused
                     variant="outlined"
                     v-model="localFilterParams.prMin"
                     density="compact"
@@ -210,13 +216,11 @@ export default defineComponent({
                     class="primary-input"
                     type="number"
                     hide-spin-buttons
-                    color="primary"
                     suffix="€"
                   />
                 </v-col>
                 <v-col cols="6"
                   ><v-text-field
-                    focused
                     variant="outlined"
                     v-model="localFilterParams.prMax"
                     density="compact"
@@ -224,7 +228,6 @@ export default defineComponent({
                     class="primary-input"
                     type="number"
                     hide-spin-buttons
-                    color="primary"
                     suffix="€"
                 /></v-col>
               </v-row>
@@ -234,7 +237,6 @@ export default defineComponent({
               <v-row class="pt-4" justify="space-evenly">
                 <v-col cols="6"
                   ><v-text-field
-                    focused
                     variant="outlined"
                     v-model="localFilterParams.sqMin"
                     density="compact"
@@ -242,12 +244,10 @@ export default defineComponent({
                     class="primary-input"
                     type="number"
                     hide-spin-buttons
-                    color="primary"
                     suffix="m²"
                 /></v-col>
                 <v-col cols="6">
                   <v-text-field
-                    focused
                     variant="outlined"
                     v-model="localFilterParams.sqMax"
                     density="compact"
@@ -255,7 +255,6 @@ export default defineComponent({
                     class="primary-input"
                     type="number"
                     hide-spin-buttons
-                    color="primary"
                     suffix="m²"
                   />
                 </v-col>
@@ -269,31 +268,30 @@ export default defineComponent({
               >
             </v-col>
           </v-row>
-        </div>
-      </v-card>
-    </div>
-  </v-container>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 <style scoped>
-.card-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 68px);
-}
 .card-content {
   position: relative;
   display: flex;
   flex-direction: column;
-  /* height: 80%; */
-  max-height: 80%;
-}
-
-.scrollable-content {
-  flex: 1; /* Allows content to grow and take up remaining space */
-  overflow-y: auto; /* Enable scrolling only for the content */
+  overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 16px; /* Provide some space at the bottom */
+  flex: 1;
+  max-height: 95vh;
+}
+.card-content-dark {
+  background: linear-gradient(45deg, black 0%, rgb(56, 56, 56) 50%, black 100%) !important;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  max-height: 95vh;
 }
 .close-btn {
   position: absolute;

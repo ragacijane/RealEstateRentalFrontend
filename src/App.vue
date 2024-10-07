@@ -28,19 +28,6 @@ const theme = useTheme()
   position: relative;
   z-index: 1;
 }
-
-.wrapper.light-body .v-card {
-  background: linear-gradient(
-    45deg,
-    white 0%,
-    rgba(238, 237, 237, 0.507) 50%,
-    white 100%
-  ) !important;
-}
-
-.wrapper.dark-body .v-card {
-  background: linear-gradient(45deg, black 0%, rgb(56, 56, 56) 50%, black 100%) !important;
-}
 body,
 * {
   font-family: 'Red Hat Display', sans-serif !important;

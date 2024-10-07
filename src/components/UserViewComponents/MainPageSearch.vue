@@ -98,7 +98,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-card class="pa-4" elevation="10" theme="light">
+  <v-card class="pa-4" width="600px" elevation="10" theme="light">
     <div v-if="isLoading" class="text-center">
       <v-progress-circular size="120" color="primary" indeterminate />
     </div>
@@ -326,12 +326,11 @@ export default defineComponent({
 </template>
 <style scoped>
 .v-card {
-  width: 600px;
-  background-color: rgba(255, 255, 255, 0.95);
-}
-.icon-bold {
-  font-weight: bold;
-  font-size: 1.5rem;
-  /* color: #3f0636;  */
+  background: linear-gradient(
+    135deg,
+    white 0%,
+    rgb(216, 216, 216, 0.97) 50%,
+    white 100%
+  ) !important;
 }
 </style>
