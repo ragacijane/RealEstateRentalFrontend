@@ -125,7 +125,7 @@ export default defineComponent({
           v-model="editedItem.structure"
           label="Struktura"
           :items="allStructures"
-          item-title="structureType"
+          item-title="structureName"
           item-value="idStructure"
           return-object
         />
@@ -150,7 +150,7 @@ export default defineComponent({
           v-model="editedItem.equipment"
           label="Nameštenost"
           :items="allEquips"
-          item-title="equipmentType"
+          item-title="equipmentName"
           item-value="id"
           return-object
         />

@@ -1,80 +1,36 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import TheHeader from './components/UserViewComponents/TheHeader.vue'
+import { useTheme } from 'vuetify'
+
+const theme = useTheme()
 </script>
 
 <template>
-  <TheHeader />
-  <RouterView />
+  <div :class="theme.global.current.value.dark ? 'wrapper dark-body' : 'wrapper light-body'">
+    <TheHeader />
+    <RouterView />
+  </div>
 </template>
 <style>
+.dark-body {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.452) 0%, silver 55%, black 100%);
+  min-height: 100vh;
+  margin: 0;
+}
+.light-body {
+  background: linear-gradient(135deg, white 0%, silver 55%, white 100%);
+  min-height: 100vh;
+  margin: 0;
+}
+
+.wrapper {
+  position: relative;
+  z-index: 1;
+}
 /* Apply global fonts here */
 body,
 * {
   font-family: 'Red Hat Display', sans-serif !important;
 }
 </style>
-
-<!-- <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style> -->

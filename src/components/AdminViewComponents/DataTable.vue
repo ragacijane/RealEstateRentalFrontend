@@ -71,7 +71,9 @@ export default defineComponent({
     const handleSave = async (data: HandleSaveItem) => {
       const item: ItemBody = { item: data.item, tagIds: data.selectedTags.join(',') }
       if (data.index) {
-        const itemIndex = allProperties.value.findIndex((item: any) => item.idOwner == data.index)
+        const itemIndex = allProperties.value.findIndex(
+          (item: any) => item.idProperty == data.index
+        )
         if (itemIndex !== -1) {
           if (data.picturesFormData) {
             data.item.thumbnail = await updateImages(data.index, data.picturesFormData)
@@ -86,9 +88,7 @@ export default defineComponent({
           }
         }
       }
-      await adminStore.fetchAndSetProperties()
-      setAllProperties(adminStore.allProperties)
-      filteredProperties.value = adminStore.allProperties
+      window.location.reload()
       closeDialog()
     }
 
@@ -147,7 +147,7 @@ export default defineComponent({
     :items="filteredProperties"
     show-expand
     hover
-    item-value="idOwner"
+    item-value="idProperty"
     :loading="isLoading"
   >
     <!-- LOADING -->

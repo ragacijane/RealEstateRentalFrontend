@@ -1,9 +1,10 @@
 <script lang="ts">
-import type { PropertyProjected, Tag } from '@/typesAndUtils/types'
+import type { PictureDto, PropertyProjected, Tag } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import { allCategories } from '@/constants/constant'
 import { useDataStore } from '@/store/dataStore'
-import { fetchTagsFromProperty } from '@/services/dataService'
+import { fetchImages, fetchTagsFromProperty } from '@/services/dataService'
+import ZoomedImageSlider from './ZoomedImageSlider.vue'
 
 export default defineComponent({
   name: 'PropertyPageData',
@@ -13,18 +14,21 @@ export default defineComponent({
       required: true
     }
   },
-
+  components: { ZoomedImageSlider },
   setup(props) {
     const dataStore = useDataStore()
     const allTags = ref<Tag[]>([])
     const propertyTags = ref<number[]>([])
     const isLoading = ref<boolean>(true)
+    const images = ref<PictureDto[]>([])
+    const imageSliderDialog = ref<boolean>(false)
 
     onMounted(async () => {
       isLoading.value = true
       await dataStore.fetchTagsDataStore()
       allTags.value = dataStore.allTags
       propertyTags.value = await fetchTagsFromProperty(props.property.idProperty)
+      images.value = await fetchImages(props.property.idProperty)
       isLoading.value = false
     })
 
@@ -32,7 +36,9 @@ export default defineComponent({
       allCategories,
       allTags,
       propertyTags,
-      isLoading
+      isLoading,
+      images,
+      imageSliderDialog
     }
   }
 })
@@ -43,6 +49,21 @@ export default defineComponent({
     <v-progress-circular size="120" color="primary" indeterminate />
   </div>
   <v-container v-else fluid>
+    <v-row @click="imageSliderDialog = true">
+      <v-col cols="12" sm="8" class="pa-1">
+        <v-img :src="images[0]?.pictureUrl" height="100%" cover />
+      </v-col>
+      <v-col v-if="$vuetify.display.smAndUp" cols="0" sm="4" class="pa-1">
+        <v-row>
+          <v-col cols="12" class="pb-1"
+            ><v-img :src="images[1]?.pictureUrl" height="100%" cover
+          /></v-col>
+          <v-col cols="12" class="pt-1"
+            ><v-img :src="images[2]?.pictureUrl" height="100%" cover
+          /></v-col>
+        </v-row>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col>
         <v-chip label variant="flat" color="primary" class="font-weight-medium"
@@ -151,9 +172,34 @@ export default defineComponent({
           color="primary"
           label
         >
-          {{ allTags[item]?.tagName || '' }}
+          {{ allTags[item - 1]?.tagName || '' }}
         </v-chip>
       </v-col>
     </v-row>
+    <v-dialog
+      v-model="imageSliderDialog"
+      opacity="0.8"
+      eager
+      theme="light"
+      class="pa-0 ma-0"
+      height="100vh"
+    >
+      <div class="pa-0 pt-1 ma-0">
+        <ZoomedImageSlider :property-id="property.idProperty" :images="images" />
+      </div>
+      <v-btn icon @click="imageSliderDialog = false" class="close-button" elevation="0">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-dialog>
   </v-container>
 </template>
+
+<style scoped>
+.close-button {
+  position: absolute;
+  top: 0px;
+  right: 1px;
+  background-color: transparent !important; /* Transparent background */
+  color: white !important; /* White icon color */
+}
+</style>

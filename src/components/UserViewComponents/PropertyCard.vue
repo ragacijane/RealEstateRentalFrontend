@@ -58,8 +58,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-card elevation="6">
-    <v-img :src="thumbURL" class="align-end" height="180px" cover @click="imageSliderDialog = true">
+  <v-card elevation="16">
+    <v-img :src="thumbURL" class="align-end" height="170px" cover @click="imageSliderDialog = true">
       <v-card-title class="text-white"
         ><v-chip label variant="flat" color="primary" class="font-weight-medium"
           ><v-icon class="text-white pa-0 pr-2"> mdi-fingerprint </v-icon>
@@ -67,7 +67,7 @@ export default defineComponent({
         ></v-card-title
       >
     </v-img>
-    <v-container class="pa-1" @click="() => router.push(`oglas/${property?.idProperty}`)">
+    <v-container class="pa-1 pt-3" @click="() => router.push(`oglas/${property?.idProperty}`)">
       <p class="font-weight-medium text-h5 single-line-text" color="primary">
         <v-icon class="text-h5">mdi-map-marker</v-icon>
         {{ property?.title.split(',')[1] }}
