@@ -170,6 +170,7 @@ export default defineComponent({
           :key="index"
           class="ma-2"
           color="primary"
+          variant="flat"
           label
         >
           {{ allTags[item - 1]?.tagName || '' }}
