@@ -60,8 +60,8 @@ export default defineComponent({
       if (
         editedItem.value.type.typeName.length <= 1 ||
         editedItem.value.borough.boroughName.length <= 1 ||
-        editedItem.value.equipment.equipmentType.length <= 1 ||
-        editedItem.value.structure.structureType.length <= 1
+        editedItem.value.equipment.equipmentName.length <= 1 ||
+        editedItem.value.structure.structureName.length <= 1
       ) {
         step.value -= 2
         return

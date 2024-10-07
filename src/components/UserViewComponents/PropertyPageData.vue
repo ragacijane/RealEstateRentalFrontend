@@ -92,7 +92,7 @@ export default defineComponent({
           readonly
           focused
           label="Struktura"
-          v-model="property.structure.structureType"
+          v-model="property.structure.structureName"
           variant="plain"
         >
           <template v-slot:prepend-inner>
@@ -105,7 +105,7 @@ export default defineComponent({
           readonly
           focused
           label="Nameštenost"
-          v-model="property.equipment.equipmentType"
+          v-model="property.equipment.equipmentName"
           variant="plain"
         >
           <template v-slot:prepend-inner>

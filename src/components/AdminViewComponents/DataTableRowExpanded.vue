@@ -115,7 +115,7 @@ export default defineComponent({
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Struktura:</p>
-              {{ propertyItem.structure.structureType }}
+              {{ propertyItem.structure.structureName }}
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Sprat:</p>
@@ -132,7 +132,7 @@ export default defineComponent({
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Nameštenost:</p>
-              {{ propertyItem.equipment.equipmentType }}
+              {{ propertyItem.equipment.equipmentName }}
             </v-col>
             <v-col cols="3"
               ><p class="font-weight-bold d-inline">Kvadratura:</p>

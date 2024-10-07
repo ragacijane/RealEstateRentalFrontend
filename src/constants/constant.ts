@@ -43,7 +43,7 @@ export const headersList: Array<TableHeader> = [
   {
     title: 'Struktura',
     align: 'start',
-    key: 'structure.structureType',
+    key: 'structure.structureName',
     sortable: false
   },
   {
@@ -61,7 +61,7 @@ export const headersList: Array<TableHeader> = [
   {
     title: 'Nameštenost',
     align: 'start',
-    key: 'equipment.equipmentType',
+    key: 'equipment.equipmentName',
     sortable: false
   },
   {

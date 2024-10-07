@@ -68,14 +68,14 @@ export const getEmptyItem = (): Property => {
     },
     structure: {
       idStructure: 0,
-      structureType: ''
+      structureName: ''
     },
     rooms: '',
     squareFootage: '',
     bathrooms: '',
     heating: '',
     equipment: {
-      equipmentType: '',
+      equipmentName: '',
       idEquipment: 0
     },
     borough: {

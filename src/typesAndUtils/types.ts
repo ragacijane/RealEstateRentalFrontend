@@ -65,7 +65,7 @@ export interface Types {
 
 export interface Structure {
   idStructure: number
-  structureType: string
+  structureName: string
 }
 
 export interface Tag {
@@ -75,7 +75,7 @@ export interface Tag {
 
 export interface Equipment {
   idEquipment: number
-  equipmentType: string
+  equipmentName: string
 }
 
 export interface PropertyProjected {

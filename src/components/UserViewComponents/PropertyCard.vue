@@ -80,7 +80,7 @@ export default defineComponent({
         <v-col cols="9">
           <p class="font-weight-medium text-body-1">
             <v-icon size="small">mdi-square-off-outline</v-icon>
-            {{ property?.structure.structureType }}
+            {{ property?.structure.structureName }}
           </p></v-col
         >
       </v-row>
@@ -94,7 +94,7 @@ export default defineComponent({
       <v-row no-gutters>
         <v-col>
           <p class="font-weight-medium text-body-1" color="primary">
-            <v-icon size="small">mdi-bed-king</v-icon> {{ property?.equipment.equipmentType }}
+            <v-icon size="small">mdi-bed-king</v-icon> {{ property?.equipment.equipmentName }}
           </p>
         </v-col>
       </v-row>
