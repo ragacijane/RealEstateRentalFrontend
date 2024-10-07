@@ -2,7 +2,7 @@
 import { fetchThumbnail } from '@/services/dataService'
 import type { Property } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
-import ZoomedImageSlider from '@/components/UserViewComponents/ZoomedImageSlider.vue'
+import ZoomedImageSlider from '@/components/shared/ZoomedImageSlider.vue'
 export default defineComponent({
   name: 'DataTableRowExpanded',
   props: {

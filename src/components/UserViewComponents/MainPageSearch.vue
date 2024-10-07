@@ -326,11 +326,6 @@ export default defineComponent({
 </template>
 <style scoped>
 .v-card {
-  background: linear-gradient(
-    135deg,
-    white 0%,
-    rgb(216, 216, 216, 0.97) 50%,
-    white 100%
-  ) !important;
+  background-color: rgb(255, 255, 255, 0.96);
 }
 </style>

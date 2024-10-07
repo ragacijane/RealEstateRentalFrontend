@@ -94,17 +94,13 @@ watch(
 </script>
 
 <template>
-  <v-container fluid class="pt-2">
+  <v-container fluid :key="sortOption" min-height="100vh">
     <SearchBar
       :filter-params="filterParams"
       :current-sort-method="sortOption"
       @sort="handleSortChange"
     />
-
-    <v-divider></v-divider>
-  </v-container>
-
-  <v-container fluid :key="sortOption">
+    <v-divider class="pa-4"></v-divider>
     <div v-if="isLoading" class="text-center">
       <v-row align="center" justify="center">
         <v-col

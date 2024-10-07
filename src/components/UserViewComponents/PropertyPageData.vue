@@ -4,7 +4,7 @@ import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import { allCategories } from '@/constants/constant'
 import { useDataStore } from '@/store/dataStore'
 import { fetchImages, fetchTagsFromProperty } from '@/services/dataService'
-import ZoomedImageSlider from './ZoomedImageSlider.vue'
+import ZoomedImageSlider from '../shared/ZoomedImageSlider.vue'
 
 export default defineComponent({
   name: 'PropertyPageData',
@@ -134,27 +134,27 @@ export default defineComponent({
           </template></v-text-field
         ></v-col
       >
-      <v-col cols="6" md="4" lg="2">
-        <v-text-field
-          readonly
-          focused
-          label="Sprat"
-          v-model="property.floor"
-          variant="plain"
-          width="130px"
-        >
-          <template v-slot:prepend-inner>
-            <v-icon> mdi-elevator-passenger-outline </v-icon>
-          </template></v-text-field
-        ></v-col
-      >
-      <v-col cols="6" md="4" lg="2">
+      <v-col cols="6" md="4" lg="3">
         <v-text-field readonly focused label="Grejanje" v-model="property.heating" variant="plain">
           <template v-slot:prepend-inner>
             <v-icon> mdi-heating-coil</v-icon>
           </template></v-text-field
         >
       </v-col>
+      <v-col cols="6" md="4" lg="1">
+        <v-text-field
+          readonly
+          focused
+          label="Sprat"
+          v-model="property.floor"
+          variant="plain"
+          width="40px"
+        >
+          <template v-slot:prepend-inner>
+            <v-icon> mdi-elevator-passenger-outline </v-icon>
+          </template></v-text-field
+        ></v-col
+      >
     </v-row>
     <v-row>
       <v-col cols="12"><p class="font-weight-medium text-h6">Opis:</p></v-col>

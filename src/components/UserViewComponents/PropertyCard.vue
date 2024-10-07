@@ -4,7 +4,7 @@ import Image from '@/assets/backgroundImage.jpg'
 import type { PropertyProjected } from '@/typesAndUtils/types'
 import { useRouter } from 'vue-router'
 import { fetchThumbnail } from '@/services/dataService'
-import ZoomedImageSlider from '@/components/UserViewComponents/ZoomedImageSlider.vue'
+import ZoomedImageSlider from '@/components/shared/ZoomedImageSlider.vue'
 
 export default defineComponent({
   name: 'PropertyCard',

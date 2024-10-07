@@ -92,7 +92,7 @@ export default defineComponent({
       width="600px"
     >
       <v-card-title>
-        <p class="font-weight-medium text-h5 s">&nbsp;</p>
+        <p class="font-weight-medium text-h5">&nbsp;</p>
         <v-btn
           icon
           @click="closeDialog"
