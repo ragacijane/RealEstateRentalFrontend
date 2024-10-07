@@ -97,19 +97,17 @@ export default defineComponent({
       defaultItem.value = Object.assign({}, getEmptyItem())
     }
 
-    const changeStatusActive = async (item: any) => {
+    const changeStatusActive = async (item: Property) => {
       activeDisabled.value = true
-      const success = await toggleActive(item.idOwner)
-      if (success)
-        item.property.active === 0 ? (item.property.active = 1) : (item.property.active = 0)
+      const success = await toggleActive(item.idProperty)
+      if (success) item.active === 0 ? (item.active = 1) : (item.active = 0)
       activeDisabled.value = false
     }
 
-    const changeStatusVisible = async (item: any) => {
+    const changeStatusVisible = async (item: Property) => {
       visibleDisabled.value = true
-      const success = await toggleVisible(item.idOwner)
-      if (success)
-        item.property.visible === 0 ? (item.property.visible = 1) : (item.property.visible = 0)
+      const success = await toggleVisible(item.idProperty)
+      if (success) item.visible === 0 ? (item.visible = 1) : (item.visible = 0)
       visibleDisabled.value = false
     }
 

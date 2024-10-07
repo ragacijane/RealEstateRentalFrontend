@@ -46,10 +46,10 @@ export default defineComponent({
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-radio-group v-model="selectedSortMethod">
-          <v-radio label="Cena - Rastuce" value="priceAsc" color="primary"></v-radio>
-          <v-radio label="Cena - Opadajuce" value="priceDesc" color="primary"></v-radio>
-          <v-radio label="Kvadratura - Rastuce" value="sqFtAsc" color="primary"></v-radio>
-          <v-radio label="Kvadratura - Opadajuce" value="sqFtDesc" color="primary"></v-radio>
+          <v-radio label="Cena - Rastuće" value="priceAsc" color="primary"></v-radio>
+          <v-radio label="Cena - Opadajuće" value="priceDesc" color="primary"></v-radio>
+          <v-radio label="Kvadratura - Rastuće" value="sqFtAsc" color="primary"></v-radio>
+          <v-radio label="Kvadratura - Opadajuće" value="sqFtDesc" color="primary"></v-radio>
         </v-radio-group>
         <v-card-actions>
           <v-spacer></v-spacer>

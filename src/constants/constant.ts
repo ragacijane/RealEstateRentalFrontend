@@ -37,19 +37,19 @@ export const headersList: Array<TableHeader> = [
   {
     title: 'Tip',
     align: 'center',
-    key: 'property.type.typeName',
+    key: 'type.typeName',
     sortable: false
   },
   {
     title: 'Struktura',
     align: 'start',
-    key: 'property.structure.structureType',
+    key: 'structure.structureType',
     sortable: false
   },
   {
     title: 'Opština',
     align: 'center',
-    key: 'property.borough.boroughName',
+    key: 'borough.boroughName',
     sortable: false
   },
   {
@@ -61,18 +61,18 @@ export const headersList: Array<TableHeader> = [
   {
     title: 'Nameštenost',
     align: 'start',
-    key: 'property.equipment.equipmentType',
+    key: 'equipment.equipmentType',
     sortable: false
   },
   {
     title: 'Površina',
     align: 'center',
-    key: 'property.squareFootage'
+    key: 'squareFootage'
   },
   {
     title: 'Cena',
     align: 'center',
-    key: 'property.price'
+    key: 'price'
   },
   {
     title: 'Opcije',
