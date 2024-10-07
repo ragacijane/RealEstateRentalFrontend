@@ -51,8 +51,22 @@ export default defineComponent({
           <v-row>
             <v-col cols="12" class="d-flex justify-center"> <strong>MREŽE</strong> </v-col>
             <v-col cols="12" class="d-flex justify-space-around">
-              <v-btn icon="mdi-instagram" color="white" elevation="20" />
-              <v-btn icon="mdi-linkedin" color="white" elevation="20" />
+              <v-btn
+                icon="mdi-instagram"
+                href="https://www.instagram.com/apolo.nekretnine?igsh=MTRxZ2FhaDMxZHAxOQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                color="white"
+                elevation="20"
+              />
+              <v-btn
+                href="https://www.linkedin.com/in/apolo-nekretnine/"
+                target="_blank"
+                rel="noopener noreferrer"
+                icon="mdi-linkedin"
+                color="white"
+                elevation="20"
+              />
             </v-col>
           </v-row>
         </v-col>

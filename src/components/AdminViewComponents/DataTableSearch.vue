@@ -270,7 +270,7 @@ export default defineComponent({
         clearable
         label="Struktura"
         :items="allStructures"
-        item-title="structureType"
+        item-title="structureName"
         item-value="idStructure"
         return-object
         @update:modelValue="setStructure"
@@ -286,7 +286,7 @@ export default defineComponent({
         clearable
         label="Nameštenost"
         :items="allEquips"
-        item-title="equipmentType"
+        item-title="equipmentName"
         item-value="id"
         return-object
         @update:modelValue="setEquip"

@@ -176,7 +176,7 @@ export default defineComponent({
                 v-model="localFilterParams.idSt"
                 label="Struktura"
                 :items="allStructures"
-                item-title="structureType"
+                item-title="structureName"
                 item-value="idStructure"
                 ><template v-slot:selection="{ item, index }">
                   <v-chip variant="flat" color="primary" v-if="index < 2">
@@ -193,7 +193,7 @@ export default defineComponent({
                 v-model="localFilterParams.idEq"
                 label="Nameštenost"
                 :items="allEquips"
-                item-title="equipmentType"
+                item-title="equipmentName"
                 item-value="idEquipment"
                 ><template v-slot:selection="{ item, index }">
                   <v-chip variant="flat" color="primary" v-if="index < 2">

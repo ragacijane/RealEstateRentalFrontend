@@ -48,8 +48,24 @@
             <v-row>
               <v-col cols="12" class="d-flex justify-center"> <strong>MREŽE</strong> </v-col>
               <v-col cols="12" class="d-flex justify-center">
-                <v-btn icon="mdi-instagram" color="white" elevation="20" class="mr-5" />
-                <v-btn icon="mdi-linkedin" color="white" elevation="20" class="ml-5" />
+                <v-btn
+                  href="https://www.instagram.com/apolo.nekretnine?igsh=MTRxZ2FhaDMxZHAxOQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  icon="mdi-instagram"
+                  color="white"
+                  elevation="20"
+                  class="mr-5"
+                />
+                <v-btn
+                  icon="mdi-linkedin"
+                  href="https://www.linkedin.com/in/apolo-nekretnine/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  color="white"
+                  elevation="20"
+                  class="ml-5"
+                />
               </v-col>
             </v-row>
           </v-col>

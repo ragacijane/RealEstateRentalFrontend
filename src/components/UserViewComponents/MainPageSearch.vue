@@ -191,14 +191,13 @@ export default defineComponent({
             <v-row class="pt-4">
               <v-col cols="12" md="6">
                 <v-select
-                  focused
                   variant="outlined"
                   color="primary"
                   clearable
                   v-model="filterParams.idSt"
                   label="Struktura"
                   :items="allStructures"
-                  item-title="structureType"
+                  item-title="structureName"
                   item-value="idStructure"
                   ><template v-slot:selection="{ item, index }">
                     <v-chip variant="flat" color="primary" v-if="index < 2">
@@ -209,14 +208,13 @@ export default defineComponent({
               </v-col>
               <v-col cols="12" md="6">
                 <v-select
-                  focused
                   variant="outlined"
                   color="primary"
                   clearable
                   v-model="filterParams.idEq"
                   label="Nameštenost"
                   :items="allEquips"
-                  item-title="equipmentType"
+                  item-title="equipmentName"
                   item-value="idEquipment"
                   ><template v-slot:selection="{ item, index }">
                     <v-chip variant="flat" color="primary" v-if="index < 2">
@@ -234,7 +232,6 @@ export default defineComponent({
                 <v-row class="pt-4" justify="space-evenly">
                   <v-col cols="6">
                     <v-text-field
-                      focused
                       variant="outlined"
                       v-model="filterParams.prMin"
                       density="compact"
@@ -248,7 +245,6 @@ export default defineComponent({
                   </v-col>
                   <v-col cols="6"
                     ><v-text-field
-                      focused
                       variant="outlined"
                       v-model="filterParams.prMax"
                       density="compact"
@@ -266,7 +262,6 @@ export default defineComponent({
                 <v-row class="pt-4" justify="space-evenly">
                   <v-col cols="6"
                     ><v-text-field
-                      focused
                       variant="outlined"
                       v-model="filterParams.sqMin"
                       density="compact"
@@ -279,7 +274,6 @@ export default defineComponent({
                   /></v-col>
                   <v-col cols="6">
                     <v-text-field
-                      focused
                       variant="outlined"
                       v-model="filterParams.sqMax"
                       density="compact"
