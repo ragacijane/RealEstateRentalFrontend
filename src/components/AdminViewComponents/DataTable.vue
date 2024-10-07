@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { getEmptyItem } from '@/typesAndUtils/utils'
-import { headersList } from '@/constants/constant'
+import { allCategories, headersList } from '@/constants/constant'
 import {
   createProperty,
   toggleActive,
@@ -120,6 +120,7 @@ export default defineComponent({
       isLoading,
       activeDisabled,
       visibleDisabled,
+      allCategories,
       // functions
       setAllProperties,
       handleFilter,
@@ -161,8 +162,7 @@ export default defineComponent({
     </template>
     <!-- Category -->
     <template v-slot:[`item.category`]="{ item }">
-      <div v-if="!item?.category">Iznajmljivanje</div>
-      <div v-else>Prodaja</div>
+      {{ allCategories[item.category].value }}
     </template>
     <!-- ACTION    -->
     <template v-slot:[`item.edit`]="{ item }">
@@ -189,15 +189,15 @@ export default defineComponent({
       </v-row>
     </template>
     <!-- Price-->
-    <template v-slot:[`item.property.price`]="{ item }">
+    <template v-slot:[`item.price`]="{ item }">
       <v-chip color="blue" class="font-weight-black"> {{ item?.price }} € </v-chip>
     </template>
     <!-- squareFootage-->
-    <template v-slot:[`item.property.squareFootage`]="{ item }">
+    <template v-slot:[`item.squareFootage`]="{ item }">
       <v-chip color="green" class="font-weight-black"> {{ item?.squareFootage }} m² </v-chip>
     </template>
     <!-- id-->
-    <template v-slot:[`item.property.idProperty`]="{ item }">
+    <template v-slot:[`item.idProperty`]="{ item }">
       <v-chip color="gray" class="font-weight-black">
         {{ item?.idProperty }}
       </v-chip>

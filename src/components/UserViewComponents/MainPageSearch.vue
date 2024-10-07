@@ -3,13 +3,12 @@ import { useDataStore } from '@/store/dataStore'
 import type {
   Borough,
   Equipment,
-  SearchPropertyParams,
   SearchQueryParams,
   Structure,
   Tag,
   Types
 } from '@/typesAndUtils/types'
-import { createQueryParams, getEmptyParams } from '@/typesAndUtils/utils'
+import { createQueryParams } from '@/typesAndUtils/utils'
 import { defineComponent, ref, watchEffect } from 'vue'
 import { allCategories } from '@/constants/constant'
 import { useRoute, useRouter } from 'vue-router'
