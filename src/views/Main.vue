@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import TheHeader from '@/components/UserViewComponents/TheHeader.vue'
 import Image from '@/assets/backgroundImage.jpg'
 import { onMounted, ref } from 'vue'
 import MainPageSearch from '@/components/UserViewComponents/MainPageSearch.vue'
@@ -13,7 +12,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <TheHeader />
   <!-- Background Image Container -->
   <v-container fluid class="pa-0 pt-2 background-container">
     <v-img :src="Image" alt="Responsive Image" class="background-image" cover />

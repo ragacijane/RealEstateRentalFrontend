@@ -1,7 +1,7 @@
 <script lang="ts">
 import { fetchImages } from '@/services/dataService'
 import type { PictureDto } from '@/typesAndUtils/types'
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, type PropType } from 'vue'
 
 export default defineComponent({
   name: 'ZoomedImageSlider',
@@ -9,6 +9,10 @@ export default defineComponent({
     propertyId: {
       type: Number,
       required: true
+    },
+    images: {
+      type: Array as PropType<PictureDto[]>,
+      required: false
     }
   },
   setup(props) {
@@ -16,7 +20,11 @@ export default defineComponent({
     const isLoading = ref<boolean>(false)
     onMounted(async () => {
       isLoading.value = true
-      images.value = await fetchImages(props.propertyId)
+      if (props.images && props.images.length > 0) {
+        images.value = props.images
+      } else {
+        images.value = await fetchImages(props.propertyId)
+      }
       isLoading.value = false
     })
     return {

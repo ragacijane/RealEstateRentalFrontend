@@ -2,7 +2,7 @@
 import { allCategories, yesOrNo } from '@/constants/constant'
 import { fetchTagsFromProperty } from '@/services/dataService'
 import { useDataStore } from '@/store/dataStore'
-import { type OwnerItem } from '@/typesAndUtils/types'
+import { type Property } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import EditPicturesForm from './DataTableRowEditForms/EditPicturesForm.vue'
 import EditDataForm from './DataTableRowEditForms/EditDataForm.vue'
@@ -15,7 +15,7 @@ export default defineComponent({
   },
   props: {
     defaultItem: {
-      type: Object as PropType<OwnerItem>,
+      type: Object as PropType<Property>,
       required: true
     }
   },
@@ -26,13 +26,13 @@ export default defineComponent({
     const step = ref<number>(0)
     const index = ref<number>(-1)
     const selectedTags = ref<number[]>([])
-    const editedItem = ref<OwnerItem>(props.defaultItem)
+    const editedItem = ref<Property>(props.defaultItem)
     const picturesFormData = ref<FormData | null>(null)
     const editDataForm = ref<any>(null)
     const savePressed = ref<boolean>(false)
 
     onMounted(async () => {
-      index.value = editedItem.value.idOwner
+      index.value = editedItem.value.idProperty
       if (index.value > 0) {
         selectedTags.value = await fetchTagsFromProperty(index.value)
       }
@@ -58,10 +58,10 @@ export default defineComponent({
 
     const save = () => {
       if (
-        editedItem.value.property.type.typeName.length <= 1 ||
-        editedItem.value.property.borough.boroughName.length <= 1 ||
-        editedItem.value.property.equipment.equipmentType.length <= 1 ||
-        editedItem.value.property.structure.structureType.length <= 1
+        editedItem.value.type.typeName.length <= 1 ||
+        editedItem.value.borough.boroughName.length <= 1 ||
+        editedItem.value.equipment.equipmentType.length <= 1 ||
+        editedItem.value.structure.structureType.length <= 1
       ) {
         step.value -= 2
         return
@@ -176,8 +176,8 @@ export default defineComponent({
 
           <EditPicturesForm
             v-else
-            :propertyId="editedItem.idOwner"
-            :thumbnail="editedItem.property.thumbnail"
+            :propertyId="editedItem.idProperty"
+            :thumbnail="editedItem.thumbnail"
             @updated-pictures="saveImages"
           />
           <v-row class="mt-4"

@@ -1,4 +1,4 @@
-import type { OwnerItem, ItemBody, PicturesBody, SearchPropertyParams, SearchQueryParams } from './types'
+import type { Property, ItemBody, PicturesBody, SearchPropertyParams, SearchQueryParams } from './types'
 
 export const createFormData = (body: PicturesBody) => {
   const formData = new FormData()
@@ -51,9 +51,9 @@ export const getEmptyParams = (): SearchPropertyParams => {
   return emptyItem
 }
 
-export const getEmptyItem = (): OwnerItem => {
+export const getEmptyItem = (): Property => {
   const emptyItem = {
-    idOwner: 0,
+    idProperty: 0,
     name: '',
     phone: '',
     street: '',
@@ -61,38 +61,35 @@ export const getEmptyItem = (): OwnerItem => {
     email: '',
     contract: '',
     moreInfo: '',
-    property: {
-      idProperty: 0,
-      category: 0,
-      type: {
-        idType: 0,
-        typeName: ''
-      },
-      structure: {
-        idStructure: 0,
-        structureType: ''
-      },
-      rooms: '',
-      squareFootage: '',
-      bathrooms: '',
-      heating: '',
-      equipment: {
-        equipmentType: '',
-        idEquipment: 0
-      },
-      borough: {
-        boroughName: '',
-        idBorough: 0
-      },
-      floor: '',
-      active: 0,
-      visible: 0,
-      deposit: 0,
-      price: '',
-      title: '',
-      description: '',
-      thumbnail: ''
-    }
+    category: 0,
+    type: {
+      idType: 0,
+      typeName: ''
+    },
+    structure: {
+      idStructure: 0,
+      structureType: ''
+    },
+    rooms: '',
+    squareFootage: '',
+    bathrooms: '',
+    heating: '',
+    equipment: {
+      equipmentType: '',
+      idEquipment: 0
+    },
+    borough: {
+      boroughName: '',
+      idBorough: 0
+    },
+    floor: '',
+    active: 0,
+    visible: 0,
+    deposit: 0,
+    price: '',
+    title: '',
+    description: '',
+    thumbnail: ''
   }
   return emptyItem
 }

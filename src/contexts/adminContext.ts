@@ -1,11 +1,11 @@
 // src/context/MyContext.ts
-import type { OwnerItem } from '@/typesAndUtils/types'
+import type { Property } from '@/typesAndUtils/types'
 import type { InjectionKey } from 'vue'
 import { reactive, provide, inject } from 'vue'
 
 interface AdminContextType {
-  allProperties: OwnerItem[]
-  setAllProperties: (newData: OwnerItem[]) => void
+  allProperties: Property[]
+  setAllProperties: (newData: Property[]) => void
 }
 
 // Define the injection key
@@ -17,8 +17,8 @@ export function provideAdminContext() {
   const parsedProperties = storedProperties ? JSON.parse(storedProperties) : []
 
   const state = reactive<AdminContextType>({
-    allProperties: parsedProperties as OwnerItem[],
-    setAllProperties(newData: OwnerItem[]) {
+    allProperties: parsedProperties as Property[],
+    setAllProperties(newData: Property[]) {
       state.allProperties = newData
       localStorage.setItem('allProperties', JSON.stringify(newData))
     }

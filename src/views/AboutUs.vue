@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import TheHeader from '@/components/UserViewComponents/TheHeader.vue'
 import apoloneImage from '@/assets/colorLogoTextVer.svg'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 </script>
 
 <template>
-  <TheHeader />
   <v-container fluid>
     <v-empty-state
       headline="&nbsp;"

@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { fetchProperties } from '@/services/adminService'
-import type { OwnerItem } from '@/typesAndUtils/types'
+import type { Property } from '@/typesAndUtils/types'
 
 export const useAdminStore = defineStore('admin', () => {
-  const allProperties = ref<OwnerItem[]>([])
+  const allProperties = ref<Property[]>([])
   const isLoading = ref<boolean>(false)
 
-  const setAllProperties = (newData: OwnerItem[]) => {
+  const setAllProperties = (newData: Property[]) => {
     allProperties.value = newData
   }
 

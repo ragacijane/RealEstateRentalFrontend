@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import Image from '@/assets/backgroundImage.jpg'
-import type { Property } from '@/typesAndUtils/types'
+import type { PropertyProjected } from '@/typesAndUtils/types'
 import { useRouter } from 'vue-router'
 import { fetchThumbnail } from '@/services/dataService'
 import ZoomedImageSlider from '@/components/UserViewComponents/ZoomedImageSlider.vue'
@@ -10,7 +10,7 @@ export default defineComponent({
   name: 'PropertyCard',
   props: {
     property: {
-      type: Object as PropType<Property>
+      type: Object as PropType<PropertyProjected>
     }
   },
   components: {
@@ -61,15 +61,15 @@ export default defineComponent({
   <v-card elevation="6">
     <v-img :src="thumbURL" class="align-end" height="180px" cover @click="imageSliderDialog = true">
       <v-card-title class="text-white"
-        ><v-chip label variant="flat" color="primary"
-          ><v-icon class="text-white pa-0 pr-2"> mdi-fingerprint </v-icon
-          >{{ property?.idProperty }}</v-chip
+        ><v-chip label variant="flat" color="primary" class="font-weight-medium"
+          ><v-icon class="text-white pa-0 pr-2"> mdi-fingerprint </v-icon>
+          {{ property?.idProperty }}</v-chip
         ></v-card-title
       >
     </v-img>
     <v-container class="pa-1" @click="() => router.push(`oglas/${property?.idProperty}`)">
       <p class="font-weight-medium text-h5 single-line-text" color="primary">
-        <v-icon class="text-h5" color="primary">mdi-map-marker</v-icon>
+        <v-icon class="text-h5">mdi-map-marker</v-icon>
         {{ property?.title.split(',')[1] }}
       </p>
       <p class="font-weight-medium text-h6 single-line-text" color="primary">
@@ -86,7 +86,7 @@ export default defineComponent({
       </v-row>
       <v-row no-gutters>
         <v-col cols>
-          <p class="font-weight-bold text-body-1">
+          <p class="font-weight-medium text-body-1">
             <v-icon size="small">mdi-set-square</v-icon>{{ property?.squareFootage }} m²
           </p>
         </v-col>
@@ -100,7 +100,9 @@ export default defineComponent({
       </v-row>
       <v-row no-gutters>
         <v-col cols="12" class="d-flex align-center justify-end"
-          ><v-chip label variant="flat" color="primary"> {{ property?.price }} € </v-chip></v-col
+          ><v-chip label variant="flat" color="primary"
+            ><p class="font-weight-medium">{{ property?.price }} €</p>
+          </v-chip></v-col
         >
       </v-row>
     </v-container>
