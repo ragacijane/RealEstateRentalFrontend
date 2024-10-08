@@ -24,7 +24,6 @@ export default defineComponent({
             </v-col>
             <v-col cols="12" class="d-flex justify-center"> 066/27-27-47 </v-col>
             <v-col cols="12" class="d-flex justify-center"> 066/27-27-97 </v-col>
-            <v-col cols="12" class="d-flex justify-center"> 064/50-87-995 </v-col>
           </v-row>
         </v-col>
         <v-col cols="12" sm="6" md="3" class="pt-5">

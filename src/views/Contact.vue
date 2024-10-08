@@ -2,12 +2,12 @@
 
 <template>
   <v-container fluid min-height="100vh" class="d-flex align-center justify-center mt-0">
-    <v-card width="900px" elevation="20">
+    <v-card width="900px" elevation="20" class="mr-0">
       <v-card-text>
         <v-row no-gutters class="sm:ml-5">
           <v-col cols="0" md="2" />
           <v-col cols="12" md="8" class="pt-5 d-flex justify-center">
-            <p class="text-h6">
+            <p class="text-h6 text-center">
               Za više informacija, potencijalnu saradnju i bilo kakve nedoumice, možete nas
               kontaktirati putem email-a ili telefonom.
             </p>
@@ -32,7 +32,6 @@
               </v-col>
               <v-col cols="12" class="d-flex justify-center"> 066/27-27-47 </v-col>
               <v-col cols="12" class="d-flex justify-center"> 066/27-27-97 </v-col>
-              <v-col cols="12" class="d-flex justify-center"> 064/50-87-995 </v-col>
             </v-row>
           </v-col>
           <v-col cols="12" sm="6" class="pt-5">
