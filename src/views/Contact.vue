@@ -30,8 +30,12 @@
               <v-col cols="12" class="d-flex justify-center"
                 ><v-icon class="pr-6">mdi-phone-outline</v-icon> <strong>TELEFONI</strong>
               </v-col>
-              <v-col cols="12" class="d-flex justify-center"> 066/27-27-47 </v-col>
-              <v-col cols="12" class="d-flex justify-center"> 066/27-27-97 </v-col>
+              <v-col cols="12" class="d-flex justify-center">
+                <a :href="`tel:066/27-27-47`" class="phone-link">066/27-27-47</a>
+              </v-col>
+              <v-col cols="12" class="d-flex justify-center">
+                <a :href="`tel:066/27-27-97`" class="phone-link">066/27-27-97</a>
+              </v-col>
             </v-row>
           </v-col>
           <v-col cols="12" sm="6" class="pt-5">
@@ -76,5 +80,9 @@
 <style scoped>
 .wrapper.dark-body .v-card {
   background: linear-gradient(45deg, black 0%, rgb(56, 56, 56) 50%, black 100%) !important;
+}
+.phone-link {
+  color: white;
+  text-decoration: none;
 }
 </style>

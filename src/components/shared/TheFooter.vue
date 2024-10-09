@@ -22,8 +22,12 @@ export default defineComponent({
             <v-col cols="12" class="d-flex justify-center"
               ><v-icon class="pr-6">mdi-phone-outline</v-icon> <strong>TELEFONI</strong>
             </v-col>
-            <v-col cols="12" class="d-flex justify-center"> 066/27-27-47 </v-col>
-            <v-col cols="12" class="d-flex justify-center"> 066/27-27-97 </v-col>
+            <v-col cols="12" class="d-flex justify-center"
+              ><a :href="`tel:066/27-27-47`" class="phone-link">066/27-27-47</a>
+            </v-col>
+            <v-col cols="12" class="d-flex justify-center">
+              <a :href="`tel:066/27-27-97 `" class="phone-link">066/27-27-97 </a>
+            </v-col>
           </v-row>
         </v-col>
         <v-col cols="12" sm="6" md="3" class="pt-5">
@@ -82,3 +86,9 @@ export default defineComponent({
     </div>
   </v-footer>
 </template>
+<style scoped>
+.phone-link {
+  color: white; /* Set text color to white */
+  text-decoration: none; /* Remove underline */
+}
+</style>
