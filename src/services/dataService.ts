@@ -59,7 +59,6 @@ export async function fetchStructures(): Promise<Structure[]> {
 export async function fetchImages(id: number) {
   const url = BACKEND_URL + '/pictures/' + id
   const response = await get<Pictures[]>(url)
-  console.log(response.data)
   return response.data ?? []
 }
 

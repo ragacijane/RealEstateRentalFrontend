@@ -70,7 +70,6 @@ export default defineComponent({
 
     const handleSave = async (data: HandleSaveItem) => {
       const item: ItemBody = { item: data.item, tagIds: data.selectedTags.join(',') }
-      console.log([...data.picturesFormData.entries()])
       if (data.index) {
         const itemIndex = allProperties.value.findIndex(
           (item: any) => item.idProperty == data.index
