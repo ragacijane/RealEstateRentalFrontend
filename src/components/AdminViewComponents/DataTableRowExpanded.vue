@@ -1,5 +1,4 @@
 <script lang="ts">
-import { fetchThumbnail } from '@/services/dataService'
 import type { Property } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import ZoomedImageSlider from '@/components/shared/ZoomedImageSlider.vue'
@@ -30,7 +29,7 @@ export default defineComponent({
 
       if (temp !== null && temp.length > 0) {
         try {
-          thumbURL.value = await fetchThumbnail(temp)
+          thumbURL.value = props.propertyItem.thumbnail
           if (!thumbURL.value) {
             thumbURL.value = '/noImage.jpg'
           }
@@ -154,7 +153,7 @@ export default defineComponent({
             <!-- Sesti red-->
             <v-col cols="6">
               <p class="font-weight-bold d-inline">Opis:</p>
-              {{ propertyItem.description }}
+              <p style="white-space: pre-line">{{ propertyItem.description }}</p>
             </v-col>
             <v-col cols="6">
               <p class="font-weight-bold d-inline">Dodatne informacije:</p>

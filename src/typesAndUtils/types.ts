@@ -3,9 +3,11 @@ export interface LoginForm {
   password: string
 }
 
-export interface PictureDto {
-  pictureUrl: string
-  pictureName: string
+export interface Pictures {
+  id?: number
+  pictureName: string,
+  picturePath: string,
+  thumbnailPath: string,
 }
 
 export interface HandleSaveItem {
@@ -16,10 +18,9 @@ export interface HandleSaveItem {
 }
 
 export interface PicturesBody {
-  isThumbInNew: string
-  thumbnailPhoto: string
   deletedPhotos: string[]
   newImages: File[]
+  sequenceArray: string[]
 }
 
 export interface SearchPropertyParams {

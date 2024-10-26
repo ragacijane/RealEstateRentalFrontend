@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { PictureDto, PropertyProjected, Tag } from '@/typesAndUtils/types'
+import type { Pictures, PropertyProjected, Tag } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import { allCategories } from '@/constants/constant'
 import { useDataStore } from '@/store/dataStore'
@@ -20,7 +20,7 @@ export default defineComponent({
     const allTags = ref<Tag[]>([])
     const propertyTags = ref<number[]>([])
     const isLoading = ref<boolean>(true)
-    const images = ref<PictureDto[]>([])
+    const images = ref<Pictures[]>([])
     const imageSliderDialog = ref<boolean>(false)
 
     onMounted(async () => {
@@ -51,15 +51,15 @@ export default defineComponent({
   <v-container v-else fluid>
     <v-row @click="imageSliderDialog = true">
       <v-col cols="12" sm="8" class="pa-1">
-        <v-img :src="images[0]?.pictureUrl" height="100%" cover />
+        <v-img :src="images[0]?.picturePath" height="100%" cover />
       </v-col>
       <v-col v-if="$vuetify.display.smAndUp" cols="0" sm="4" class="pa-1">
         <v-row>
           <v-col cols="12" class="pb-1"
-            ><v-img :src="images[1]?.pictureUrl" height="100%" cover
+            ><v-img :src="images[1]?.picturePath" height="100%" cover
           /></v-col>
           <v-col cols="12" class="pt-1"
-            ><v-img :src="images[2]?.pictureUrl" height="100%" cover
+            ><v-img :src="images[2]?.picturePath" height="100%" cover
           /></v-col>
         </v-row>
       </v-col>
@@ -159,7 +159,7 @@ export default defineComponent({
     <v-row>
       <v-col cols="12"><p class="font-weight-medium text-h6">Opis:</p></v-col>
       <v-col cols="12"
-        ><p class="font-weight-medium text-body-1">
+        ><p class="font-weight-medium text-body-1" style="white-space: pre-line">
           {{ property.description }}
         </p></v-col
       >
