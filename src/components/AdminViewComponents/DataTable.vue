@@ -84,7 +84,7 @@ export default defineComponent({
         const newItemId = await createProperty(item)
         if (newItemId > 0) {
           if (data.picturesFormData) {
-            const newthumbnail = await updateImages(newItemId, data.picturesFormData)
+            await updateImages(newItemId, data.picturesFormData)
           }
         }
       }

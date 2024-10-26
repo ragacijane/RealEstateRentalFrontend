@@ -11,7 +11,7 @@ export const yesOrNo = [
   { id: 1, value: 'DA' }
 ]
 
-interface TableHeader {
+export interface TableHeader {
   title: any
   key: any
   align?: any
