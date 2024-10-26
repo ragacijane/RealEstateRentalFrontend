@@ -1,6 +1,6 @@
 <script lang="ts">
 import { fetchImages } from '@/services/dataService'
-import type { PictureDto } from '@/typesAndUtils/types'
+import type { Pictures } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 
 export default defineComponent({
@@ -11,12 +11,12 @@ export default defineComponent({
       required: true
     },
     images: {
-      type: Array as PropType<PictureDto[]>,
+      type: Array as PropType<Pictures[]>,
       required: false
     }
   },
   setup(props) {
-    const images = ref<PictureDto[]>([])
+    const images = ref<Pictures[]>([])
     const isLoading = ref<boolean>(false)
     onMounted(async () => {
       isLoading.value = true
@@ -42,7 +42,7 @@ export default defineComponent({
     <v-carousel-item
       v-for="(img, index) in images"
       :key="index"
-      :src="img.pictureUrl"
+      :src="img.picturePath"
       height="90vh"
     >
     </v-carousel-item>

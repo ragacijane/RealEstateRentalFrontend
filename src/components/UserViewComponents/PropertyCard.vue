@@ -3,7 +3,6 @@ import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import Image from '@/assets/backgroundImage.jpg'
 import type { PropertyProjected } from '@/typesAndUtils/types'
 import { useRouter } from 'vue-router'
-import { fetchThumbnail } from '@/services/dataService'
 import ZoomedImageSlider from '@/components/shared/ZoomedImageSlider.vue'
 
 export default defineComponent({
@@ -27,7 +26,7 @@ export default defineComponent({
 
       if (temp !== undefined && temp.length > 0) {
         try {
-          thumbURL.value = await fetchThumbnail(temp)
+          thumbURL.value = props.property?.thumbnail || '/noImage.jpg'
           if (!thumbURL.value) {
             thumbURL.value = '/noImage.jpg'
           }

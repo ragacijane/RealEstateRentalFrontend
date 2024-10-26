@@ -177,7 +177,6 @@ export default defineComponent({
           <EditPicturesForm
             v-else
             :propertyId="editedItem.idProperty"
-            :thumbnail="editedItem.thumbnail"
             @updated-pictures="saveImages"
           />
           <v-row class="mt-4"

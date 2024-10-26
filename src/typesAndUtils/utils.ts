@@ -18,15 +18,19 @@ export const createFormData = (body: PicturesBody) => {
     formData.append('deletedPhotos', '')
   }
 
-  formData.append('thumbnailPhoto', body.thumbnailPhoto)
-  formData.append('isThumbInNew', body.isThumbInNew)
+  if (body.sequenceArray.length > 0) {
+    body.sequenceArray.forEach((photo) => {
+      formData.append('sequenceArray', photo)
+    })
+  } else {
+    formData.append('sequenceArray', '')
+  }
   return formData
 }
 
-export const getEmptyPicturesBody = (thumbnail: string): PicturesBody => {
+export const getEmptyPicturesBody = (): PicturesBody => {
   const emptyItem = {
-    isThumbInNew: 'false',
-    thumbnailPhoto: thumbnail,
+    sequenceArray: [],
     deletedPhotos: [],
     newImages: []
   }
