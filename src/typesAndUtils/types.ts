@@ -4,6 +4,7 @@ export interface LoginForm {
 }
 
 export interface Pictures {
+  id?: number
   pictureName: string,
   picturePath: string,
   thumbnailPath: string,

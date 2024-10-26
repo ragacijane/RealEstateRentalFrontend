@@ -1,5 +1,53 @@
 import type { Property, ItemBody, PicturesBody, SearchPropertyParams, SearchQueryParams } from './types'
 
+export const resizeImage = (file: File): Promise<string> => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+
+      img.onload = () => {
+        const originalWidth = img.width;
+        const originalHeight = img.height;
+        let newWidth = originalWidth;
+        let newHeight = originalHeight;
+
+        // Resize only if larger than 1900
+        if (originalWidth > 1500 || originalHeight > 1500) {
+          const aspectRatio = originalWidth / originalHeight;
+
+          if (aspectRatio > 1) { // Wider than tall
+            newWidth = 1500;
+            newHeight = 1500 / aspectRatio;
+          } else { // Taller than wide or square
+            newHeight = 1500;
+            newWidth = 1500 * aspectRatio;
+          }
+        }
+
+        // Create a canvas to draw the resized image
+        const canvas = document.createElement('canvas');
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        const ctx = canvas.getContext('2d');
+
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        }
+
+        // Resolve with the resized image data URL
+        const resizedDataUrl = canvas.toDataURL(file.type);
+        resolve(resizedDataUrl);
+      };
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+
+
 export const createFormData = (body: PicturesBody) => {
   const formData = new FormData()
   if (body.newImages.length > 0) {

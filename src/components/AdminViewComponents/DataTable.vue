@@ -89,7 +89,7 @@ export default defineComponent({
           }
         }
       }
-      // window.location.reload()
+      window.location.reload()
       closeDialog()
     }
 

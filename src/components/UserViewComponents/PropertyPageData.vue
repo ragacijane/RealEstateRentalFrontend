@@ -159,8 +159,8 @@ export default defineComponent({
     <v-row>
       <v-col cols="12"><p class="font-weight-medium text-h6">Opis:</p></v-col>
       <v-col cols="12"
-        ><p class="font-weight-medium text-body-1">
-            <p style="white-space: pre-line;">{{ property.description }}</p>
+        ><p class="font-weight-medium text-body-1" style="white-space: pre-line">
+          {{ property.description }}
         </p></v-col
       >
       <v-col cols="12"><p class="font-weight-medium text-h6">Posebne pogodnosti:</p></v-col>
