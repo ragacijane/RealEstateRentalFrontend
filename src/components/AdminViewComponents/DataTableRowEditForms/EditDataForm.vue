@@ -16,19 +16,25 @@ export default defineComponent({
     const dataStore = useDataStore()
     const { allTags, allEquips, allTypes, allBoroughs, allStructures } = dataStore
     const editedItem = ref<Property>({ ...props.inputItem })
+    const customBorough = ref<string>('')
 
     onMounted(() => {
       editedItem.value = { ...props.inputItem }
+      customBorough.value = editedItem.value.title.split(',')[1]
     })
 
     const getData = () => {
       return editedItem.value
     }
     watch(
-      () => [editedItem.value.street, editedItem.value.borough?.boroughName],
+      () => [editedItem.value.street, editedItem.value.borough?.boroughName, customBorough.value],
       ([street, borough]) => {
         if (borough && street) {
-          editedItem.value.title = `${street}, ${borough}`
+          if (editedItem.value.borough.idBorough == 18) {
+            editedItem.value.title = `${street}, ${customBorough.value}`
+          } else {
+            editedItem.value.title = `${street}, ${borough}`
+          }
         }
       },
       { immediate: true } // Apply the initial value
@@ -43,6 +49,7 @@ export default defineComponent({
       yesOrNo,
       allCategories,
       editedItem,
+      customBorough,
       //functions
       getData
     }
@@ -177,6 +184,9 @@ export default defineComponent({
       </v-col>
       <v-col cols="12" md="3" sm="6">
         <v-text-field readonly v-model="editedItem.title" label="Naslov"></v-text-field>
+      </v-col>
+      <v-col v-if="editedItem.borough.idBorough == 18" cols="12" md="3" sm="6">
+        <v-text-field v-model="customBorough" label="Mesto"></v-text-field>
       </v-col>
       <v-col cols="12" md="6" sm="6"> </v-col>
       <v-col cols="12" md="7" sm="12">

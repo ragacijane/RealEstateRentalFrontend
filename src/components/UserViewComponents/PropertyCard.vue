@@ -57,7 +57,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <v-card elevation="16">
+  <v-card elevation="16" style="cursor: pointer">
     <v-img :src="thumbURL" class="align-end" height="170px" cover @click="imageSliderDialog = true">
       <v-card-title class="text-white"
         ><v-chip label variant="flat" color="primary" class="font-weight-medium"

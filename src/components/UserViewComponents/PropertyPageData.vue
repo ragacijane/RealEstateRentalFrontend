@@ -22,6 +22,8 @@ export default defineComponent({
     const isLoading = ref<boolean>(true)
     const images = ref<Pictures[]>([])
     const imageSliderDialog = ref<boolean>(false)
+    const snackbar = ref(false)
+    const snackbarMessage = ref('')
 
     onMounted(async () => {
       isLoading.value = true
@@ -32,13 +34,46 @@ export default defineComponent({
       isLoading.value = false
     })
 
+    const shareContent = async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Check this out!',
+            text: 'Here’s something interesting I found.',
+            url: window.location.href // Current page URL or any URL you'd like to share
+          })
+        } catch (error) {
+          console.error('Error sharing:', error)
+        }
+      } else {
+        alert('Sharing is not supported on this browser.')
+      }
+    }
+
+    const copyLink = async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href)
+        snackbarMessage.value = 'Link uspešno kopiran!'
+        snackbar.value = true
+        setTimeout(() => {
+          snackbar.value = false
+        }, 1000)
+      } catch (error) {
+        console.error('Failed to copy:', error)
+      }
+    }
+
     return {
       allCategories,
       allTags,
       propertyTags,
       isLoading,
       images,
-      imageSliderDialog
+      imageSliderDialog,
+      snackbar,
+      snackbarMessage,
+      shareContent,
+      copyLink
     }
   }
 })
@@ -86,10 +121,14 @@ export default defineComponent({
       >
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="9" class="mt-2">
         <p class="font-weight-medium text-h6">
           {{ allCategories[property.category].value }} - {{ property.type.typeName }}
         </p>
+      </v-col>
+      <v-col cols="3" class="d-flex align-center justify-end">
+        <v-btn class="mr-2" @click="copyLink" icon="mdi-content-copy" />
+        <v-btn @click="shareContent" icon="mdi-share" />
       </v-col>
     </v-row>
     <v-row>
@@ -192,6 +231,9 @@ export default defineComponent({
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-dialog>
+    <v-snackbar v-model="snackbar" width="80" color="primary">
+      <p class="text-center">{{ snackbarMessage }}</p>
+    </v-snackbar>
   </v-container>
 </template>
 

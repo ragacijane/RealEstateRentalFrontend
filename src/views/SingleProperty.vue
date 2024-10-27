@@ -30,7 +30,7 @@ onMounted(() => {
 
 <template>
   <v-container fluid class="bacground-container" min-height="100vh">
-    <div v-if="property != null && property != undefined" class="card-wrapper pr-1">
+    <div v-if="property != null && property != undefined" class="card-wrapper">
       <v-card width="900px" elevation="20">
         <PropertyPageData :property="property" />
       </v-card>
