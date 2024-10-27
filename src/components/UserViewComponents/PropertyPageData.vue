@@ -121,14 +121,14 @@ export default defineComponent({
       >
     </v-row>
     <v-row>
-      <v-col cols="9" class="mt-2">
+      <v-col cols="9" class="mt-1">
         <p class="font-weight-medium text-h6">
           {{ allCategories[property.category].value }} - {{ property.type.typeName }}
         </p>
       </v-col>
       <v-col cols="3" class="d-flex align-center justify-end">
-        <v-btn class="mr-2" @click="copyLink" icon="mdi-content-copy" />
-        <v-btn @click="shareContent" icon="mdi-share" />
+        <v-btn size="small" class="mr-3" @click="copyLink" icon="mdi-content-copy" />
+        <v-btn size="small" @click="shareContent" icon="mdi-share" />
       </v-col>
     </v-row>
     <v-row>
