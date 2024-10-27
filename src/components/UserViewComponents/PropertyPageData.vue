@@ -128,7 +128,7 @@ export default defineComponent({
       </v-col>
       <v-col cols="3" class="d-flex align-center justify-end">
         <v-btn size="small" class="mr-3" @click="copyLink" icon="mdi-content-copy" />
-        <v-btn size="small" @click="shareContent" icon="mdi-share" />
+        <v-btn size="small" @click="shareContent" icon="mdi-share-variant" />
       </v-col>
     </v-row>
     <v-row>
