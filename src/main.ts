@@ -10,7 +10,7 @@ import * as directives from 'vuetify/directives'
 // Import the icon styles
 import '@mdi/font/css/materialdesignicons.css'
 import { createPinia } from 'pinia'
-import './assets/main.css';
+import './assets/main.css'
 
 // Create Vuetify instance with icon configuration
 const vuetify = createVuetify({
@@ -20,15 +20,14 @@ const vuetify = createVuetify({
       light: {
         colors: {
           primary: '#400636'
-        },
+        }
       },
       dark: {
         colors: {
           primary: '#400636'
-        },
+        }
       }
-    },
-
+    }
   },
   components,
   directives,
@@ -36,19 +35,27 @@ const vuetify = createVuetify({
     defaultSet: 'mdi' // Use Material Design Icons
   },
   display: {
-    mobileBreakpoint: 'sm',  // Define mobile breakpoint
-    thresholds: {  // Custom breakpoints
+    mobileBreakpoint: 'sm', // Define mobile breakpoint
+    thresholds: {
+      // Custom breakpoints
       xs: 0,
       sm: 600,
       md: 980,
       lg: 1000,
-      xl: 1280,
-    },
-  },
+      xl: 1280
+    }
+  }
 })
 const pinia = createPinia()
 const app = createApp(App)
 
+// app.use(VueGoogleMaps, {
+//   load: {
+//     key: 'AIzaSyCjIQvGimRCyXQK8cU7Q4JSrLDH8B62fWI'
+//   }
+// })
+//
+//AIzaSyArxLnDVXk-kwtB_uhCnbYcgUdVant_5F0
 app.use(router)
 app.use(pinia)
 app.use(vuetify)

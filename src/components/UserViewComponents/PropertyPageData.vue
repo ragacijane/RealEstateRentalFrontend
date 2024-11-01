@@ -5,6 +5,8 @@ import { allCategories } from '@/constants/constant'
 import { useDataStore } from '@/store/dataStore'
 import { fetchImages, fetchTagsFromProperty } from '@/services/dataService'
 import ZoomedImageSlider from '../shared/ZoomedImageSlider.vue'
+import { GoogleMap, Marker } from 'vue3-google-map'
+import axios from 'axios' // Import Axios
 
 export default defineComponent({
   name: 'PropertyPageData',
@@ -14,7 +16,11 @@ export default defineComponent({
       required: true
     }
   },
-  components: { ZoomedImageSlider },
+  components: {
+    ZoomedImageSlider,
+    GoogleMap,
+    Marker
+  },
   setup(props) {
     const dataStore = useDataStore()
     const allTags = ref<Tag[]>([])
@@ -24,6 +30,26 @@ export default defineComponent({
     const imageSliderDialog = ref<boolean>(false)
     const snackbar = ref(false)
     const snackbarMessage = ref('')
+    const latitude = ref<number | null>(null)
+    const longitude = ref<number | null>(null)
+
+    const getCoordinates = async (address: string) => {
+      const apiKey = 'AIzaSyDFuInuyXsCD3db8M0I1TwRgsseD6cmq4E' // Replace with your Google Maps API key
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`
+
+      try {
+        const response = await axios.get(url)
+        if (response.data.status === 'OK') {
+          const location = response.data.results[0].geometry.location
+          latitude.value = location.lat
+          longitude.value = location.lng
+        } else {
+          console.error('Geocoding error:', response.data.status)
+        }
+      } catch (error) {
+        console.error('Error fetching coordinates:', error)
+      }
+    }
 
     onMounted(async () => {
       isLoading.value = true
@@ -31,6 +57,9 @@ export default defineComponent({
       allTags.value = dataStore.allTags
       propertyTags.value = await fetchTagsFromProperty(props.property.idProperty)
       images.value = await fetchImages(props.property.idProperty)
+
+      await getCoordinates(props.property.title)
+
       isLoading.value = false
     })
 
@@ -73,7 +102,9 @@ export default defineComponent({
       snackbar,
       snackbarMessage,
       shareContent,
-      copyLink
+      copyLink,
+      latitude,
+      longitude
     }
   }
 })
@@ -214,6 +245,17 @@ export default defineComponent({
         >
           {{ allTags[item - 1]?.tagName || '' }}
         </v-chip>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <google-map
+          :center="{ lat: latitude, lng: longitude }"
+          :zoom="12"
+          style="width: 100%; height: 400px"
+        >
+          <marker v-if="latitude && longitude" :position="{ lat: latitude, lng: longitude }" />
+        </google-map>
       </v-col>
     </v-row>
     <v-dialog

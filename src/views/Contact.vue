@@ -82,7 +82,7 @@
   background: linear-gradient(45deg, black 0%, rgb(56, 56, 56) 50%, black 100%) !important;
 }
 .phone-link {
-  color: white;
+  color: black;
   text-decoration: none;
 }
 </style>

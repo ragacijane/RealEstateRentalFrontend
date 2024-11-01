@@ -258,7 +258,7 @@ export default defineComponent({
                 </v-row>
               </v-col>
               <v-col cols="12" md="6">
-                <v-chip label variant="flat" color="primary">POVRSINA</v-chip>
+                <v-chip label variant="flat" color="primary">POVRŠINA</v-chip>
                 <v-row class="pt-4" justify="space-evenly">
                   <v-col cols="6"
                     ><v-text-field
