@@ -32,10 +32,10 @@ export default defineComponent({
     const snackbarMessage = ref('')
     const latitude = ref<number | null>(null)
     const longitude = ref<number | null>(null)
+    const googleKey = ref<string>('AIzaSyDFuInuyXsCD3db8M0I1TwRgsseD6cmq4E')
 
     const getCoordinates = async (address: string) => {
-      const apiKey = 'AIzaSyDFuInuyXsCD3db8M0I1TwRgsseD6cmq4E' // Replace with your Google Maps API key
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${googleKey.value}`
 
       try {
         const response = await axios.get(url)
@@ -104,7 +104,8 @@ export default defineComponent({
       shareContent,
       copyLink,
       latitude,
-      longitude
+      longitude,
+      googleKey
     }
   }
 })
@@ -250,11 +251,12 @@ export default defineComponent({
     <v-row>
       <v-col cols="12">
         <google-map
+          :api-key="googleKey"
           :center="{ lat: latitude, lng: longitude }"
           :zoom="12"
           style="width: 100%; height: 400px"
         >
-          <marker v-if="latitude && longitude" :position="{ lat: latitude, lng: longitude }" />
+          <Marker :options="{ position: { lat: latitude, lng: longitude } }" />
         </google-map>
       </v-col>
     </v-row>
