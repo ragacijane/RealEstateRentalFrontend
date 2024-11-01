@@ -32,7 +32,7 @@ export default defineComponent({
     const snackbarMessage = ref('')
     const latitude = ref<number | null>(null)
     const longitude = ref<number | null>(null)
-    const googleKey = ref<string>('AIzaSyDFuInuyXsCD3db8M0I1TwRgsseD6cmq4E')
+    const googleKey = ref<string>(import.meta.env.VITE_MAP_KEY)
 
     const getCoordinates = async (address: string) => {
       const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${googleKey.value}`
