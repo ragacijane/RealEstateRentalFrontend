@@ -1,52 +1,78 @@
-import type { Property, ItemBody, PicturesBody, SearchPropertyParams, SearchQueryParams } from './types'
+import type {
+  Property,
+  ItemBody,
+  PicturesBody,
+  SearchPropertyParams,
+  SearchQueryParams
+} from './types'
 
-export const resizeImage = (file: File): Promise<string> => {
+export const resizeImage = (file: File): Promise<{ file: File; dataUrl: string }> => {
   return new Promise((resolve) => {
-    const reader = new FileReader();
+    const reader = new FileReader()
 
     reader.onload = (event) => {
-      const img = new Image();
-      img.src = event.target?.result as string;
+      const img = new Image()
+      img.src = event.target?.result as string
 
       img.onload = () => {
-        const originalWidth = img.width;
-        const originalHeight = img.height;
-        let newWidth = originalWidth;
-        let newHeight = originalHeight;
+        const originalWidth = img.width
+        const originalHeight = img.height
+        let newWidth = originalWidth
+        let newHeight = originalHeight
 
-        // Resize only if larger than 1900
+        // Resize only if larger than 1500
         if (originalWidth > 1500 || originalHeight > 1500) {
-          const aspectRatio = originalWidth / originalHeight;
-
-          if (aspectRatio > 1) { // Wider than tall
-            newWidth = 1500;
-            newHeight = 1500 / aspectRatio;
-          } else { // Taller than wide or square
-            newHeight = 1500;
-            newWidth = 1500 * aspectRatio;
+          const aspectRatio = originalWidth / originalHeight
+          if (aspectRatio > 1) {
+            // Wider than tall
+            newWidth = 1500
+            newHeight = 1500 / aspectRatio
+          } else {
+            // Taller than wide or square
+            newHeight = 1500
+            newWidth = 1500 * aspectRatio
           }
         }
 
         // Create a canvas to draw the resized image
-        const canvas = document.createElement('canvas');
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        const ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas')
+        canvas.width = newWidth
+        canvas.height = newHeight
+        const ctx = canvas.getContext('2d')
 
         if (ctx) {
-          ctx.drawImage(img, 0, 0, newWidth, newHeight);
+          ctx.drawImage(img, 0, 0, newWidth, newHeight)
         }
 
-        // Resolve with the resized image data URL
-        const resizedDataUrl = canvas.toDataURL(file.type);
-        resolve(resizedDataUrl);
-      };
-    };
+        // Generate the data URL
+        const resizedDataUrl = canvas.toDataURL(file.type)
 
-    reader.readAsDataURL(file);
-  });
-};
+        // Convert the data URL back to a File object
+        const resizedFile = dataUrlToFile(resizedDataUrl, file.name)
 
+        // Resolve with both the resized File and data URL
+        resolve({ file: resizedFile, dataUrl: resizedDataUrl })
+      }
+    }
+
+    reader.readAsDataURL(file)
+  })
+}
+
+// Helper function to convert a data URL to a File object
+const dataUrlToFile = (dataUrl: string, fileName: string): File => {
+  const arr = dataUrl.split(',')
+  const mime = arr[0].match(/:(.*?);/)![1]
+  const bstr = atob(arr[1])
+  let n = bstr.length
+  const u8arr = new Uint8Array(n)
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n)
+  }
+
+  return new File([u8arr], fileName, { type: mime })
+}
 
 export const createFormData = (body: PicturesBody) => {
   const formData = new FormData()

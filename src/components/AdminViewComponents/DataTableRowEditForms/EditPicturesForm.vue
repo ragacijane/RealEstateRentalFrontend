@@ -45,14 +45,15 @@ export default defineComponent({
       const currFiles = Array.from(fileList)
 
       const fileReadPromises = currFiles.map(async (file) => {
-        const resizedDataUrl = await resizeImage(file) // Resize the image
+        const { file: resizedFile, dataUrl } = await resizeImage(file) // Resize the image and get both formats
 
         images.value.push({
-          picturePath: resizedDataUrl,
+          picturePath: dataUrl,
           pictureName: file.name,
           thumbnailPath: ''
         })
-        body.value.newImages.push(file) // You can choose to push the original file or the resized one
+
+        body.value.newImages.push(resizedFile) // Push the resized File object
       })
 
       await Promise.all(fileReadPromises)
