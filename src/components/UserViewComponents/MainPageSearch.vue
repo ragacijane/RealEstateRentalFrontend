@@ -43,7 +43,11 @@ export default defineComponent({
         idSt: route.query.idSt !== undefined ? parseInt(route.query.idSt as string) : null,
         idEq: route.query.idEq !== undefined ? parseInt(route.query.idEq as string) : null,
         prMin: (route.query.prMin as string) || null,
-        prMax: (route.query.prMax as string) || null
+        prMax: (route.query.prMax as string) || null,
+        page: 0,
+        size: 20,
+        sort: 'price',
+        ascending: true
       }
     }
     const filterParams = ref<SearchQueryParams>(parseQueryParams())
