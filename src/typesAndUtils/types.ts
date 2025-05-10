@@ -5,9 +5,9 @@ export interface LoginForm {
 
 export interface Pictures {
   id?: number
-  pictureName: string,
-  picturePath: string,
-  thumbnailPath: string,
+  pictureName: string
+  picturePath: string
+  thumbnailPath: string
 }
 
 export interface HandleSaveItem {
@@ -47,6 +47,10 @@ export interface SearchQueryParams {
   idEq: number | null | undefined
   prMin: string | null | undefined
   prMax: string | null | undefined
+  page: number
+  size: number
+  sort: string
+  ascending: boolean
 }
 
 export interface ItemBody {

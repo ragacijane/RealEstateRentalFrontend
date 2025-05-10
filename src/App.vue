@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 import TheHeader from './components/shared/TheHeader.vue'
 import { useTheme } from 'vuetify'
 import TheFooter from './components/shared/TheFooter.vue'
+import HorizontalPropertyScroll from '@/components/shared/HorizontalPropertyScroll.vue'
 
 const theme = useTheme()
 </script>
@@ -11,6 +12,7 @@ const theme = useTheme()
   <div :class="theme.global.current.value.dark ? 'wrapper dark-body' : 'wrapper light-body'">
     <TheHeader />
     <RouterView />
+    <HorizontalPropertyScroll />
     <TheFooter />
   </div>
 </template>

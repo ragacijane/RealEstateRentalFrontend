@@ -80,6 +80,7 @@ export default defineComponent({
 
     <div class="pt-5 text-center">
       <v-img :src="apoloneImage" height="80" contain style="z-index: 10" />
+      <div class="pt-5"><strong>Obilićev venac 18 Beograd</strong></div>
       <div class="pt-5">
         <strong>Copyright © - {{ new Date().getFullYear() }} </strong>- Sva prava su zadržana!
       </div>

@@ -66,7 +66,15 @@ export default defineComponent({
         ></v-card-title
       >
     </v-img>
-    <v-container class="pa-1 pt-3" @click="() => router.push(`oglas/${property?.idProperty}`)">
+    <v-container
+      class="pa-1 pt-3"
+      @click="
+        () =>
+          router.replace({ path: '/' }).then(() => {
+            router.replace(`/oglas/${property?.idProperty}`)
+          })
+      "
+    >
       <p class="font-weight-medium text-h5 single-line-text" color="primary">
         <v-icon class="text-h5">mdi-map-marker</v-icon>
         {{ property?.title.split(',')[1] }}

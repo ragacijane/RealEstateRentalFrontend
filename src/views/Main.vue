@@ -3,7 +3,7 @@ import Image from '@/assets/backgroundImage.jpg'
 import { onMounted, ref } from 'vue'
 import MainPageSearch from '@/components/UserViewComponents/MainPageSearch.vue'
 import { useDataStore } from '@/store/dataStore'
-
+import Categories from '@/components/UserViewComponents/Categories.vue'
 const dataStore = useDataStore()
 
 onMounted(async () => {
@@ -19,6 +19,8 @@ onMounted(async () => {
       <MainPageSearch />
     </div>
   </v-container>
+
+  <Categories />
 </template>
 
 <style scoped>

@@ -42,7 +42,10 @@ const router = createRouter({
       name: 'contact',
       component: Contact
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  }
 })
 
 export default router

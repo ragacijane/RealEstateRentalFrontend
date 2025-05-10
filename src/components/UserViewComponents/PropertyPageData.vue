@@ -164,7 +164,7 @@ export default defineComponent({
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" sm="6" lg="2">
+      <v-col cols="6" md="4">
         <v-text-field
           readonly
           focused
@@ -179,7 +179,7 @@ export default defineComponent({
           </template></v-text-field
         ></v-col
       >
-      <v-col cols="12" sm="6" lg="3"
+      <v-col cols="6" md="4"
         ><v-text-field
           readonly
           focused
@@ -192,7 +192,7 @@ export default defineComponent({
           </template></v-text-field
         ></v-col
       >
-      <v-col cols="12" md="4" lg="3">
+      <v-col cols="6" md="4">
         <v-text-field
           readonly
           focused
@@ -205,24 +205,30 @@ export default defineComponent({
           </template></v-text-field
         ></v-col
       >
-      <v-col cols="6" md="4" lg="3">
+      <v-col cols="6" md="4">
         <v-text-field readonly focused label="Grejanje" v-model="property.heating" variant="plain">
           <template v-slot:prepend-inner>
             <v-icon> mdi-heating-coil</v-icon>
           </template></v-text-field
         >
       </v-col>
-      <v-col cols="6" md="4" lg="1">
+      <v-col cols="6" md="4">
+        <v-text-field readonly focused label="Sprat" v-model="property.floor" variant="plain">
+          <template v-slot:prepend-inner>
+            <v-icon> mdi-elevator-passenger-outline </v-icon>
+          </template></v-text-field
+        ></v-col
+      >
+      <v-col cols="6" md="4">
         <v-text-field
           readonly
           focused
-          label="Sprat"
-          v-model="property.floor"
+          label="Kupatila"
+          v-model="property.bathrooms"
           variant="plain"
-          width="40px"
         >
           <template v-slot:prepend-inner>
-            <v-icon> mdi-elevator-passenger-outline </v-icon>
+            <v-icon> mdi-shower</v-icon>
           </template></v-text-field
         ></v-col
       >

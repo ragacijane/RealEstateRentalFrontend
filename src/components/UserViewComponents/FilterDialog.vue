@@ -89,7 +89,12 @@ export default defineComponent({
     <v-card
       :class="theme.current.value.dark ? 'pa-4 card-content-dark' : 'pa-4 card-content'"
       elevation="20"
-      width="600px"
+      width="80vw"
+      :style="{
+        maxWidth: '540px',
+        maxHeight: $vuetify.display.mdAndUp ? '800px' : 'none'
+      }"
+      height="85lvh"
     >
       <v-card-title>
         <p class="font-weight-medium text-h5">&nbsp;</p>
@@ -114,7 +119,7 @@ export default defineComponent({
         />
         <v-row v-else no-gutters>
           <v-row class="pa-2">
-            <v-col cols="12" md="4">
+            <v-col cols="12">
               <v-select
                 focused
                 variant="outlined"
@@ -131,7 +136,7 @@ export default defineComponent({
                 >
               </v-select>
             </v-col>
-            <v-col cols="12" md="4">
+            <v-col cols="12">
               <v-select
                 focused
                 variant="outlined"
@@ -148,7 +153,7 @@ export default defineComponent({
                 >
               </v-select>
             </v-col>
-            <v-col cols="12" md="4">
+            <v-col cols="12">
               <v-select
                 focused
                 variant="outlined"

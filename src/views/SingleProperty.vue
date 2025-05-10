@@ -5,12 +5,10 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import apoloneImage from '@/assets/colorLogoTextVer.svg'
 import PropertyPageData from '@/components/UserViewComponents/PropertyPageData.vue'
-import { useTheme } from 'vuetify'
 
 const property = ref<PropertyProjected | null>(null)
 const route = useRoute()
 const router = useRouter()
-const theme = useTheme()
 
 const getProperty = async () => {
   const id = route.params.id ? parseInt(route.params.id as string) : 0

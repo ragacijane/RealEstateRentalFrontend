@@ -62,27 +62,34 @@ export async function fetchImages(id: number) {
   return response.data ?? []
 }
 
-
 export async function fetchTagsFromProperty(id: number): Promise<number[]> {
   const url = BACKEND_URL + '/properties/tags/' + id
   const response = await get<number[]>(url)
   return response.data ?? []
 }
 
-export async function fetchFilteredProperty(params: SearchQueryParams): Promise<PropertyProjected[]> {
-  const queryParams: string[] = [];
-  if (params.idTy != undefined) queryParams.push(`idTy=${params.idTy}`);
-  if (params.idBors != undefined && params.idBors.length > 0) queryParams.push(`idBors=${params.idBors.join(',')}`);
-  if (params.sqMin) queryParams.push(`sqMin=${params.sqMin}`);
-  if (params.sqMax) queryParams.push(`sqMax=${params.sqMax}`);
-  if (params.cat != undefined) queryParams.push(`cat=${params.cat}`);
-  if (params.idSt != undefined) queryParams.push(`idSt=${params.idSt}`);
-  if (params.idEq != undefined) queryParams.push(`idEq=${params.idEq}`);
-  if (params.prMin) queryParams.push(`prMin=${params.prMin}`);
-  if (params.prMax) queryParams.push(`prMax=${params.prMax}`);
+export async function fetchFilteredProperty(
+  params: SearchQueryParams
+): Promise<PropertyProjected[]> {
+  const queryParams: string[] = []
+  if (params.idTy != undefined) queryParams.push(`idTy=${params.idTy}`)
+  if (params.idBors != undefined && params.idBors.length > 0)
+    queryParams.push(`idBors=${params.idBors.join(',')}`)
+  if (params.sqMin) queryParams.push(`sqMin=${params.sqMin}`)
+  if (params.sqMax) queryParams.push(`sqMax=${params.sqMax}`)
+  if (params.cat != undefined) queryParams.push(`cat=${params.cat}`)
+  if (params.idSt != undefined) queryParams.push(`idSt=${params.idSt}`)
+  if (params.idEq != undefined) queryParams.push(`idEq=${params.idEq}`)
+  if (params.prMin) queryParams.push(`prMin=${params.prMin}`)
+  if (params.prMax) queryParams.push(`prMax=${params.prMax}`)
 
-  const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-  const url = `${BACKEND_URL}/properties/filters${queryString}`;
+  queryParams.push(`page=${params.page}`)
+  queryParams.push(`size=${params.size}`)
+  queryParams.push(`sort=${params.sort}`)
+  queryParams.push(`asc=${params.ascending}`)
+
+  const queryString = `?${queryParams.join('&')}`
+  const url = `${BACKEND_URL}/properties/filters${queryString}`
   const response = await get<PropertyProjected[]>(url)
   return response.data ?? []
 }
