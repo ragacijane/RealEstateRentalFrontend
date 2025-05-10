@@ -38,11 +38,11 @@ export default defineComponent({
       >
         <v-card
           elevation="16"
-          style="cursor: pointer; max-width: 400px; width: 100%; margin: 0"
+          style="cursor: pointer; max-width: 400px; width: 100%; max-height: 400px; margin: 0"
           @click="() => router.push(`/pretraga?idTy=${idTypes[index]}`)"
         >
           <!-- Image inside the card -->
-          <v-img :src="image" height="100%" max-height="380px" cover />
+          <v-img :src="image" height="350px" cover />
 
           <!-- Text under the image -->
           <v-card-text class="text-center">
