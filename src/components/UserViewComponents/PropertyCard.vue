@@ -4,6 +4,7 @@ import Image from '@/assets/backgroundImage.jpg'
 import type { PropertyProjected } from '@/typesAndUtils/types'
 import { useRouter } from 'vue-router'
 import ZoomedImageSlider from '@/components/shared/ZoomedImageSlider.vue'
+import { formatNumberWithDots } from '@/typesAndUtils/utils'
 
 export default defineComponent({
   name: 'PropertyCard',
@@ -50,7 +51,8 @@ export default defineComponent({
       property: props.property,
       imageSliderDialog,
       router,
-      thumbURL
+      thumbURL,
+      formatNumberWithDots
     }
   }
 })
@@ -108,7 +110,7 @@ export default defineComponent({
       <v-row no-gutters>
         <v-col cols="12" class="d-flex align-center justify-end"
           ><v-chip label variant="flat" color="primary"
-            ><p class="font-weight-medium">{{ property?.price }} €</p>
+            ><p class="font-weight-medium">{{ formatNumberWithDots(property?.price ?? '') }} €</p>
           </v-chip></v-col
         >
       </v-row>

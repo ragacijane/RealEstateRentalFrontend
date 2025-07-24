@@ -2,6 +2,8 @@
 import type { Property } from '@/typesAndUtils/types'
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import ZoomedImageSlider from '@/components/shared/ZoomedImageSlider.vue'
+import { formatNumberWithDots } from '@/typesAndUtils/utils'
+
 export default defineComponent({
   name: 'DataTableRowExpanded',
   props: {
@@ -49,7 +51,8 @@ export default defineComponent({
       isLoading,
       thumbURL,
       toggleZoom,
-      getPicUrl
+      getPicUrl,
+      formatNumberWithDots
     }
   }
 })
@@ -87,7 +90,7 @@ export default defineComponent({
             </v-col>
             <v-col cols="3">
               <p class="font-weight-bold d-inline">Cena:</p>
-              {{ propertyItem.price }} €
+              {{ formatNumberWithDots(propertyItem.price) }} €
             </v-col>
             <!-- Drugi red-->
             <v-col cols="3">

@@ -7,6 +7,7 @@ import { fetchImages, fetchTagsFromProperty } from '@/services/dataService'
 import ZoomedImageSlider from '../shared/ZoomedImageSlider.vue'
 import { GoogleMap, Marker } from 'vue3-google-map'
 import axios from 'axios' // Import Axios
+import { formatNumberWithDots } from '@/typesAndUtils/utils'
 
 export default defineComponent({
   name: 'PropertyPageData',
@@ -105,7 +106,8 @@ export default defineComponent({
       copyLink,
       latitude,
       longitude,
-      googleKey
+      googleKey,
+      formatNumberWithDots
     }
   }
 })
@@ -140,7 +142,7 @@ export default defineComponent({
       </v-col>
       <v-col class="d-flex align-center justify-end">
         <v-chip label variant="flat" color="primary"
-          ><p class="font-weight-medium">{{ property.price }} €</p>
+          ><p class="font-weight-medium">{{ formatNumberWithDots(property.price) }} €</p>
         </v-chip>
       </v-col>
     </v-row>

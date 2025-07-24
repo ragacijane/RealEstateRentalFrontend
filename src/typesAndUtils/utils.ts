@@ -102,6 +102,13 @@ export const createFormData = (body: PicturesBody) => {
   return formData
 }
 
+export function formatNumberWithDots(value: number | string): string {
+  const num = Number(value)
+  if (isNaN(num)) return ''
+
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
 export const getEmptyPicturesBody = (): PicturesBody => {
   const emptyItem = {
     sequenceArray: [],

@@ -14,6 +14,7 @@ import DataTableRowExpanded from './DataTableRowExpanded.vue'
 import type { HandleSaveItem, Property, ItemBody } from '@/typesAndUtils/types'
 import { useAdminStore } from '@/store/adminStore'
 import DataTableSearch from './DataTableSearch.vue'
+import { formatNumberWithDots } from '@/typesAndUtils/utils'
 
 export default defineComponent({
   name: 'DataTable',
@@ -129,7 +130,8 @@ export default defineComponent({
       handleSave,
       changeStatusActive,
       changeStatusVisible,
-      closeDialog
+      closeDialog,
+      formatNumberWithDots
     }
   },
   watch: {
@@ -190,7 +192,9 @@ export default defineComponent({
     </template>
     <!-- Price-->
     <template v-slot:[`item.price`]="{ item }">
-      <v-chip color="blue" class="font-weight-black"> {{ item?.price }} € </v-chip>
+      <v-chip color="blue" class="font-weight-black">
+        {{ formatNumberWithDots(item?.price) }} €
+      </v-chip>
     </template>
     <!-- squareFootage-->
     <template v-slot:[`item.squareFootage`]="{ item }">
