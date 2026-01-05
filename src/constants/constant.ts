@@ -1,4 +1,4 @@
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 // export const BACKEND_URL = 'https://test-rental-1e845c8834a8.herokuapp.com'
 export const allCategories = [
   { id: 0, value: 'Izdavanje' },
@@ -78,6 +78,36 @@ export const headersList: Array<TableHeader> = [
     title: 'Opcije',
     align: 'center',
     key: 'edit',
+    sortable: false
+  }
+]
+
+export const customerHeadersList: Array<TableHeader> = [
+  {
+    title: '',
+    key: 'data-table-expand'
+  },
+  {
+    title: 'ID',
+    align: 'start',
+    key: 'idCustomer'
+  },
+  {
+    title: 'Ime',
+    align: 'center',
+    key: 'firstName',
+    sortable: false
+  },
+  {
+    title: 'Prezime',
+    align: 'center',
+    key: 'secondName',
+    sortable: false
+  },
+  {
+    title: 'Telefon',
+    align: 'start',
+    key: 'phoneNumber',
     sortable: false
   }
 ]

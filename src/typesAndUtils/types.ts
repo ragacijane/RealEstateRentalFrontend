@@ -132,3 +132,11 @@ export interface Property {
   description: string
   thumbnail: string
 }
+
+export interface Customer {
+  idCustomer: number
+  firstName: string
+  secondName: string
+  phoneNumber: string
+  description: string
+}
