@@ -50,7 +50,7 @@ watch(
       class="mx-1"
       @click="isPropertiesView = false"
     >
-      Kupci
+      Klijenti
     </v-btn>
   </v-container>
 

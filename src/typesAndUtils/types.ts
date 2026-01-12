@@ -137,6 +137,15 @@ export interface Customer {
   idCustomer: number
   firstName: string
   secondName: string
+  email: string
   phoneNumber: string
-  description: string
+  clientType: string // kupac/zakupac
+  demand: string // big text
+  offers: string // big text
+  showed: string //
+  pros: string // zasto da
+  cons: string // zasto ne
+  contract: string // ugovor o zakupu
+  description: string // napomena
+  isActive: boolean
 }

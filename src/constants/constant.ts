@@ -105,9 +105,20 @@ export const customerHeadersList: Array<TableHeader> = [
     sortable: false
   },
   {
+    title: 'Tip',
+    align: 'center',
+    key: 'clientType'
+  },
+  {
     title: 'Telefon',
-    align: 'start',
+    align: 'center',
     key: 'phoneNumber',
+    sortable: false
+  },
+  {
+    title: 'Status',
+    align: 'center',
+    key: 'edit',
     sortable: false
   }
 ]
