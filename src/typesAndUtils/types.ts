@@ -133,8 +133,7 @@ export interface Property {
   thumbnail: string
 }
 
-export interface Customer {
-  idCustomer: number
+export type CreateCustomerDTO = {
   firstName: string
   secondName: string
   email: string
@@ -148,4 +147,22 @@ export interface Customer {
   contract: string // ugovor o zakupu
   description: string // napomena
   isActive: boolean
+}
+
+export type Customer = CreateCustomerDTO & {
+  idCustomer: number
+}
+
+export interface SearchCustomerParams {
+  idCustomer?: number
+  firstName?: string
+  secondName?: string
+  email?: string
+  phoneNumber?: string
+  clientType?: string
+
+  page: number
+  size: number
+  sort: string
+  ascending: boolean
 }
