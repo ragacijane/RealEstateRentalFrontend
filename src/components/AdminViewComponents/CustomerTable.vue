@@ -1,8 +1,14 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { customerHeadersList } from '@/constants/constant'
-import type { Customer } from '@/typesAndUtils/types'
-import { fetchCustomers, toggleActive } from '@/services/adminService'
+import type { Customer, GetCustomersResponse } from '@/typesAndUtils/types'
+import {
+  createCustomer,
+  fetchCustomers,
+  toggleActive,
+  toggleCustomerActive,
+  updateCustomer
+} from '@/services/adminService'
 import EditCustomerDialog from './EditCustomerDialog.vue'
 
 type SortBy = { key: string; order?: 'asc' | 'desc' }
@@ -12,8 +18,13 @@ export default defineComponent({
   components: { EditCustomerDialog },
   setup() {
     const customers = ref<Customer[]>([])
+    const totalCount = ref(0)
+
+    const firstName = ref<string>('')
+    const secondName = ref<string>('')
+    const phoneNumber = ref<string>('')
+
     const loading = ref(false)
-    const activeDisabled = ref(false)
 
     const search = ref('')
     const page = ref(1)
@@ -29,29 +40,25 @@ export default defineComponent({
         const sortKey = sortBy.value?.[0]?.key ?? 'idCustomer'
         const sortOrder = sortBy.value?.[0]?.order ?? 'asc'
 
-        const data = await fetchCustomers({
+        const res = (await fetchCustomers({
           page: page.value - 1,
           size: itemsPerPage.value,
           sort: sortKey,
           ascending: sortOrder !== 'desc',
-          firstName: search.value || undefined
-        })
-
-        customers.value = data
+          firstName: firstName.value || undefined,
+          secondName: secondName.value || undefined,
+          phoneNumber: phoneNumber.value || undefined
+        })) as GetCustomersResponse
+        customers.value = res.customers ?? []
+        totalCount.value = res.totalCount ?? 0
       } finally {
         loading.value = false
       }
     }
 
     const changeStatusActive = async (item: Customer) => {
-      if (activeDisabled.value) return
-      activeDisabled.value = true
-      try {
-        const success = await toggleActive(item.idCustomer)
-        if (success) item.isActive = !item.isActive
-      } finally {
-        activeDisabled.value = false
-      }
+      await toggleCustomerActive(item.idCustomer)
+      await loadCustomers()
     }
 
     const openCreate = () => {
@@ -69,21 +76,27 @@ export default defineComponent({
       selectedCustomerId.value = undefined
     }
 
-    const handleSave = async () => {
-      // ovde pozovi update/create u parentu ili u wrapperu kako već radiš
-      // posle save osveži tabelu
+    const handleSave = async (payload: { customer: Customer; customerId?: number }) => {
+      if (!payload.customerId) {
+        await createCustomer(payload.customer)
+      } else {
+        await updateCustomer(payload.customer)
+      }
       await loadCustomers()
       handleClose()
     }
 
     onMounted(loadCustomers)
 
-    watch([page, itemsPerPage, sortBy], () => loadCustomers())
+    // kad menjaš page/size/sort -> reload
+    watch([page, itemsPerPage, sortBy], loadCustomers)
 
-    let t: number | undefined
-    watch(search, () => {
-      window.clearTimeout(t)
-      t = window.setTimeout(() => {
+    // debounce search
+    let debounceTimer: number | undefined
+    watch([firstName, secondName, phoneNumber], () => {
+      window.clearTimeout(debounceTimer)
+
+      debounceTimer = window.setTimeout(() => {
         page.value = 1
         loadCustomers()
       }, 300)
@@ -91,10 +104,10 @@ export default defineComponent({
 
     return {
       customers,
+      totalCount,
       headers: customerHeadersList,
 
       loading,
-      activeDisabled,
 
       search,
       page,
@@ -103,6 +116,10 @@ export default defineComponent({
 
       dialog,
       selectedCustomerId,
+
+      firstName,
+      secondName,
+      phoneNumber,
 
       changeStatusActive,
       editItem,
@@ -115,10 +132,26 @@ export default defineComponent({
 </script>
 
 <template>
+  <v-container class="max-width-600">
+    <v-row dense>
+      <v-col cols="12" md="4">
+        <v-text-field v-model="firstName" label="Ime" required />
+      </v-col>
+
+      <v-col cols="12" md="4">
+        <v-text-field v-model="secondName" label="Prezime" required />
+      </v-col>
+
+      <v-col cols="12" md="4">
+        <v-text-field v-model="phoneNumber" label="Telefon" required />
+      </v-col>
+    </v-row>
+  </v-container>
   <v-container class="d-flex justify-center">
-    <v-data-table
+    <v-data-table-server
       class="custom-table"
       :items="customers"
+      :items-length="totalCount"
       :headers="headers"
       :loading="loading"
       show-expand
@@ -128,26 +161,24 @@ export default defineComponent({
       v-model:items-per-page="itemsPerPage"
       v-model:sort-by="sortBy"
     >
-      <template v-slot:top>
+      <template #top>
         <v-toolbar>
           <v-btn color="primary" @click="openCreate">Novi korisnik</v-btn>
         </v-toolbar>
       </template>
 
-      <template v-slot:[`item.edit`]="{ item }">
+      <template #[`item.edit`]="{ item }">
         <v-icon
           :color="item?.isActive ? 'light-green-darken-1' : 'red-lighten-2'"
           :icon="item?.isActive ? 'mdi-toggle-switch' : 'mdi-toggle-switch-off'"
           size="x-large"
           class="me-2"
-          :disabled="activeDisabled"
           @click="changeStatusActive(item)"
         />
         <v-icon class="me-2" size="default" @click="editItem(item)">mdi-pencil</v-icon>
       </template>
-    </v-data-table>
+    </v-data-table-server>
 
-    <!-- Dialog se otvara samo na edit -->
     <EditCustomerDialog
       v-model="dialog"
       :customer-id="selectedCustomerId"
@@ -161,5 +192,8 @@ export default defineComponent({
 .custom-table {
   max-width: 1200px;
   width: 100%;
+}
+.max-width-600 {
+  max-width: 1000px;
 }
 </style>

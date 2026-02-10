@@ -3,7 +3,8 @@ import type {
   ItemBody,
   Customer,
   CreateCustomerDTO,
-  SearchCustomerParams
+  SearchCustomerParams,
+  GetCustomersResponse
 } from '@/typesAndUtils/types'
 import { get, post, postImages, put, toggle } from './apiService'
 import { BACKEND_URL } from '@/constants/constant'
@@ -95,7 +96,7 @@ export async function fetchCustomerById(id: string): Promise<Customer> {
   return response.data
 }
 
-export async function fetchCustomers(params: SearchCustomerParams): Promise<Customer[]> {
+export async function fetchCustomers(params: SearchCustomerParams): Promise<GetCustomersResponse> {
   const queryParams: string[] = []
 
   if (params.idCustomer !== undefined)
@@ -116,9 +117,17 @@ export async function fetchCustomers(params: SearchCustomerParams): Promise<Cust
   if (!checkTokenExpiration()) throw new Error('Token expired')
 
   const url = `${BACKEND_URL}/admin/customers${queryString}`
-  const response = await get<Customer[]>(url, getAuthHeaders())
+  const response = await get<GetCustomersResponse>(url, getAuthHeaders())
 
   if (response.error) throw new Error(response.error)
-  // nemoj bacati error kad je prazno, tabela treba da pokaže "nema podataka"
-  return response.data ?? []
+  const empty: GetCustomersResponse = { customers: [] as Customer[], totalCount: 0 }
+  return response.data ?? empty
+}
+
+export async function toggleCustomerActive(id: number) {
+  if (!checkTokenExpiration()) {
+    throw new Error('Token expired')
+  }
+  const url = `${BACKEND_URL}/admin/customers/${id}/toggle-active`
+  return await toggle(url, getAuthHeaders())
 }

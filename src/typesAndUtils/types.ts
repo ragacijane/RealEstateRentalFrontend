@@ -166,3 +166,8 @@ export interface SearchCustomerParams {
   sort: string
   ascending: boolean
 }
+
+export type GetCustomersResponse = {
+  customers: Customer[]
+  totalCount: number
+}
