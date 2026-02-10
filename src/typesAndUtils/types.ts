@@ -132,3 +132,42 @@ export interface Property {
   description: string
   thumbnail: string
 }
+
+export type CreateCustomerDTO = {
+  firstName: string
+  secondName: string
+  email: string
+  phoneNumber: string
+  clientType: string // kupac/zakupac
+  demand: string // big text
+  offers: string // big text
+  showed: string //
+  pros: string // zasto da
+  cons: string // zasto ne
+  contract: string // ugovor o zakupu
+  description: string // napomena
+  isActive: boolean
+}
+
+export type Customer = CreateCustomerDTO & {
+  idCustomer: number
+}
+
+export interface SearchCustomerParams {
+  idCustomer?: number
+  firstName?: string
+  secondName?: string
+  email?: string
+  phoneNumber?: string
+  clientType?: string
+
+  page: number
+  size: number
+  sort: string
+  ascending: boolean
+}
+
+export type GetCustomersResponse = {
+  customers: Customer[]
+  totalCount: number
+}

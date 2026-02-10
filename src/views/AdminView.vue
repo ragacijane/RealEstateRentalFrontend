@@ -4,12 +4,14 @@ import { useAdminStore } from '@/store/adminStore'
 import { onMounted, ref, watch } from 'vue'
 import AdminLogin from '@/components/AdminViewComponents/AdminLogin.vue'
 import { useAuthStore } from '@/store/authStore'
+import CustomerTable from '@/components/AdminViewComponents/CustomerTable.vue'
 
 const adminStore = useAdminStore()
 const authStore = useAuthStore()
 
 // Reactive reference to manage login state
 const isNotLoggedIn = ref<boolean>(!authStore.authToken)
+const isPropertiesView = ref<boolean>(false)
 
 // On component mount, check if the user is logged in
 onMounted(async () => {
@@ -30,7 +32,32 @@ watch(
 </script>
 
 <template>
-  <v-container v-if="!isNotLoggedIn" fluid class="mt-5"><DataTable /></v-container>
+  <v-container class="d-flex justify-center">
+    <v-btn
+      :color="isPropertiesView ? 'primary' : 'grey-darken-3'"
+      :variant="isPropertiesView ? 'flat' : 'outlined'"
+      rounded="lg"
+      class="mx-1"
+      @click="isPropertiesView = true"
+    >
+      Oglasi
+    </v-btn>
+
+    <v-btn
+      :color="!isPropertiesView ? 'primary' : 'grey-darken-3'"
+      :variant="!isPropertiesView ? 'flat' : 'outlined'"
+      rounded="lg"
+      class="mx-1"
+      @click="isPropertiesView = false"
+    >
+      Klijenti
+    </v-btn>
+  </v-container>
+
+  <v-container v-if="!isNotLoggedIn" fluid class="mt-5">
+    <DataTable v-if="isPropertiesView" />
+    <CustomerTable v-else />
+  </v-container>
   <v-dialog v-model="isNotLoggedIn" persistent>
     <AdminLogin />
   </v-dialog>
