@@ -11,7 +11,7 @@ const authStore = useAuthStore()
 
 // Reactive reference to manage login state
 const isNotLoggedIn = ref<boolean>(!authStore.authToken)
-const isPropertiesView = ref<boolean>(false)
+const isPropertiesView = ref<boolean>(true)
 
 // On component mount, check if the user is logged in
 onMounted(async () => {
